@@ -1,6 +1,6 @@
 'use strict';
 
-//data.js
+// data.js
 var DataPicture = {
   COUNT_PHOTOS: 25,
   MIN_LIKES: 15,
@@ -9,9 +9,6 @@ var DataPicture = {
   USER_NAMES: ['Артем', 'Игорь', 'Марина', 'Динара', 'Вадим', 'Сергей']
 };
 
-var listNotes = generateNotes();
-console.log(listNotes);
-
 // Функция, возвращающаая массив объектов записей в блоге
 function generateNotes() {
   var notes = [];
@@ -19,7 +16,8 @@ function generateNotes() {
     notes.push({
       url: 'photos/' + i + '.jpg',
       likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
-      messages: generateMessages()
+      messages: generateMessages(),
+      description: getRandomElement(DataPicture.MESSAGES)
     });
   }
   return notes;
@@ -35,7 +33,7 @@ function generateMessages() {
 
   for (var i = 0; i < listComments.length; i++) {
     messages.push({
-      avatars: 'img/avatar-' + listNumbersAvatars[i] + '.jpg',
+      avatar: 'img/avatar-' + listNumbersAvatars[i] + '.svg',
       name: listNames[i],
       message: listComments[i]
     });
@@ -47,12 +45,10 @@ function generateMessages() {
 function generateArray(arrayLength) {
   var array = [];
   for (var i = 1; i < arrayLength + 1; i++) {
-    array.push(i)
+    array.push(i);
   }
-  return array
+  return array;
 }
-
-console.log(generateArray(10));
 
 // Функция, возвращающая случайное число в диапазоне
 function getRandomNumber(min, max) {
@@ -76,3 +72,106 @@ function shuffleArray(array) {
   }
   return array;
 }
+
+// Функция, возвращающая случайный элемемент массива
+function getRandomElement(array) {
+  for (var i = 0; i < array.length; i++) {
+    var randomIndex = Math.floor(Math.random() * array.length);
+  }
+  var randomElement = array[randomIndex];
+  return randomElement;
+}
+
+var listNotes = generateNotes();
+
+// pictures.js
+var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
+var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+
+// Генерируем наш шаблон в документ
+function renderPicture(image) {
+  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
+  var picturesElement = picturesTemplate.cloneNode(true);
+
+  picturesElement.querySelector('.picture__img').src = image.url;
+  picturesElement.querySelector('.picture__likes').textContent = image.likes;
+  picturesElement.querySelector('.picture__comments').textContent = image.messages;
+  return picturesElement;
+}
+
+// Клонируем фотографии
+function renderPicturesList() {
+  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < listNotes.length; i++) {
+    fragment.appendChild(renderPicture(listNotes[i]));
+  }
+  picturesList.appendChild(fragment);
+}
+
+// Генерируем комментарий к фото
+function createMessage(comment) {
+  var userMessage = document.createElement('li');
+  userMessage.classList.add('social__comment');
+
+  var userMessageText = document.createElement('p');
+  userMessageText.classList.add('social__text');
+  userMessageText.textContent = comment.message;
+
+  var userMessagePicture = document.createElement('img');
+  userMessagePicture.classList.add('social__picture');
+  userMessagePicture.width = 35;
+  userMessagePicture.height = 35;
+  userMessagePicture.alt = 'Аватар автора фотографии';
+  userMessagePicture.src = comment.avatar;
+
+  userMessage.appendChild(userMessagePicture);
+  userMessage.appendChild(userMessageText);
+
+  return userMessage;
+}
+
+function hideInvisibleElement(element) {
+  element.classList.add('visually-hidden');
+}
+
+function showElement(element) {
+  element.classList.remove('hidden');
+}
+
+// Генерируем комментарии
+function renderMessagesList(array) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(createMessage(array[i]));
+  }
+
+  usersMessages.appendChild(fragment);
+}
+
+// Открываем первую фотографию
+function openBigPicture(picture) {
+  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+
+  hideInvisibleElement(messagesCounter);
+  hideInvisibleElement(messagesLoader);
+  removeChilds(usersMessages);
+  renderMessagesList(picture.messages);
+
+  bigPicture.querySelector('.big-picture__img img').src = picture.url;
+  bigPicture.querySelector('.likes-count').textContent = picture.likes;
+  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
+  bigPicture.querySelector('.social__caption').textContent = picture.description;
+  showElement(bigPicture);
+
+  function removeChilds(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
+
+renderPicturesList();
+openBigPicture(listNotes[0]);
