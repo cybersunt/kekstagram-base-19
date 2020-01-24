@@ -84,10 +84,7 @@ function getRandomElement(array) {
 
 var listNotes = generateNotes();
 
-// pictures.js
-var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
-var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
-
+// gallery.js
 // Генерируем наш шаблон в документ
 function renderPicture(image) {
   var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
@@ -95,7 +92,7 @@ function renderPicture(image) {
 
   picturesElement.querySelector('.picture__img').src = image.url;
   picturesElement.querySelector('.picture__likes').textContent = image.likes;
-  picturesElement.querySelector('.picture__comments').textContent = image.messages;
+  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
   return picturesElement;
 }
 
@@ -108,6 +105,12 @@ function renderPicturesList() {
   }
   picturesList.appendChild(fragment);
 }
+
+renderPicturesList();
+
+// preview.js
+var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
+var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
@@ -173,5 +176,4 @@ function openBigPicture(picture) {
   }
 }
 
-renderPicturesList();
 openBigPicture(listNotes[0]);
