@@ -65,7 +65,7 @@ function getArrayLength(array) {
 // Функция, возвращающая массив в случайном порядке
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {
-    var randomIndex = Math.floor(Math.random() * (i + 1));
+    var randomIndex = getRandomNumber(1, array.length);
     var tempValue = array[i];
     array[i] = array[randomIndex];
     array[randomIndex] = tempValue;
@@ -76,7 +76,7 @@ function shuffleArray(array) {
 // Функция, возвращающая случайный элемемент массива
 function getRandomElement(array) {
   for (var i = 0; i < array.length; i++) {
-    var randomIndex = Math.floor(Math.random() * array.length);
+    var randomIndex =getRandomNumber(1, array.length);
   }
   var randomElement = array[randomIndex];
   return randomElement;
