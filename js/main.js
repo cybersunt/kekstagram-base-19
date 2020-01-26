@@ -5,6 +5,8 @@ var DataPicture = {
   COUNT_PHOTOS: 25,
   MIN_LIKES: 15,
   MAX_LIKES: 200,
+  MIN_AVATAR_NUM: 1,
+  MAX_AVATAR_NUM: 6,
   MESSAGES: ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'],
   USER_NAMES: ['Артем', 'Игорь', 'Марина', 'Динара', 'Вадим', 'Сергей']
 };
@@ -27,9 +29,9 @@ function generateNotes() {
 function generateMessages() {
   var messages = [];
 
-  var listComments = getArrayLength(shuffleArray(DataPicture.MESSAGES));
-  var listNames = shuffleArray(DataPicture.USER_NAMES);
-  var listNumbersAvatars = shuffleArray(generateArray(DataPicture.USER_NAMES.length));
+  var listComments = getRandomElement(DataPicture.MESSAGES);
+  var listNames = getRandomElement(DataPicture.USER_NAMES);
+  var listNumbersAvatars = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
 
   for (var i = 0; i < listComments.length; i++) {
     messages.push({
@@ -41,43 +43,14 @@ function generateMessages() {
   return messages;
 }
 
-// Функция, возвращающаая массив произвольной длины из чисел
-function generateArray(arrayLength) {
-  var array = [];
-  for (var i = 1; i < arrayLength + 1; i++) {
-    array.push(i);
-  }
-  return array;
-}
-
 // Функция, возвращающая случайное число в диапазоне
 function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Функция, создающая массив произвольной длины
-function getArrayLength(array) {
-  var clone = array.slice();
-  clone.length = getRandomNumber(1, array.length - 1);
-  return clone;
-}
-
-// Функция, возвращающая массив в случайном порядке
-function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var randomIndex = getRandomNumber(1, array.length);
-    var tempValue = array[i];
-    array[i] = array[randomIndex];
-    array[randomIndex] = tempValue;
-  }
-  return array;
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 // Функция, возвращающая случайный элемемент массива
 function getRandomElement(array) {
-  for (var i = 0; i < array.length; i++) {
-    var randomIndex =getRandomNumber(1, array.length);
-  }
+  var randomIndex =getRandomNumber(1, array.length - 1);
   var randomElement = array[randomIndex];
   return randomElement;
 }
@@ -97,13 +70,13 @@ function renderPicture(image) {
 }
 
 // Клонируем фотографии
-function renderPicturesList() {
+function renderPicturesList(arrayPictures) {
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < listNotes.length; i++) {
-    fragment.appendChild(renderPicture(listNotes[i]));
+  for (var i = 0; i < arrayPictures.length; i++) {
+    fragment.appendChild(renderPicture(arrayPictures[i]));
   }
   picturesList.appendChild(fragment);
 }
 
-renderPicturesList();
+renderPicturesList(listNotes);
