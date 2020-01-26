@@ -45,12 +45,12 @@ function generateMessages() {
 
 // Функция, возвращающая случайное число в диапазоне
 function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // Функция, возвращающая случайный элемемент массива
 function getRandomElement(array) {
-  var randomIndex =getRandomNumber(1, array.length - 1);
+  var randomIndex = getRandomNumber(1, array.length - 1);
   var randomElement = array[randomIndex];
   return randomElement;
 }
