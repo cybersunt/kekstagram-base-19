@@ -80,3 +80,73 @@ function renderPicturesList(arrayPictures) {
 }
 
 renderPicturesList(listNotes);
+
+// preview.js
+var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
+var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+
+// Генерируем комментарий к фото
+function createMessage(comment) {
+  var userMessage = document.createElement('li');
+  userMessage.classList.add('social__comment');
+
+  var userMessageText = document.createElement('p');
+  userMessageText.classList.add('social__text');
+  userMessageText.textContent = comment.message;
+
+  var userMessagePicture = document.createElement('img');
+  userMessagePicture.classList.add('social__picture');
+  userMessagePicture.width = 35;
+  userMessagePicture.height = 35;
+  userMessagePicture.alt = 'Аватар автора фотографии';
+  userMessagePicture.src = comment.avatar;
+
+  userMessage.appendChild(userMessagePicture);
+  userMessage.appendChild(userMessageText);
+
+  return userMessage;
+}
+
+function hideInvisibleElement(element) {
+  element.classList.add('visually-hidden');
+}
+
+function showElement(element) {
+  element.classList.remove('hidden');
+}
+
+// Генерируем комментарии
+function renderMessagesList(array) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(createMessage(array[i]));
+  }
+
+  usersMessages.appendChild(fragment);
+}
+
+// Открываем первую фотографию
+function openBigPicture(picture) {
+  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+
+  hideInvisibleElement(messagesCounter);
+  hideInvisibleElement(messagesLoader);
+  removeChilds(usersMessages);
+  renderMessagesList(picture.messages);
+
+  bigPicture.querySelector('.big-picture__img img').src = picture.url;
+  bigPicture.querySelector('.likes-count').textContent = picture.likes;
+  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
+  bigPicture.querySelector('.social__caption').textContent = picture.description;
+  showElement(bigPicture);
+
+  function removeChilds(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
+
+openBigPicture(listNotes[0]);
