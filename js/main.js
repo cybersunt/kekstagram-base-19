@@ -23,31 +23,31 @@ function generateNotes() {
     });
   }
   return notes;
-}
 
-// Функция, возвращающаая массив объектов записей в блоге
-function generateMessages() {
-  var messages = [];
+  // Функция, возвращающаая массив объектов записей в блоге
+  function generateMessages() {
+    var messages = [];
 
-  var listComments = getRandomElement(DataPicture.MESSAGES);
-  var listNames = getRandomElement(DataPicture.USER_NAMES);
-  var listNumbersAvatars = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
+    var listComments = getRandomElement(DataPicture.MESSAGES);
+    var listNames = getRandomElement(DataPicture.USER_NAMES);
+    var listNumbersAvatars = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
 
-  for (var i = 0; i < listComments.length; i++) {
-    messages.push({
-      avatar: 'img/avatar-' + listNumbersAvatars[i] + '.svg',
-      name: listNames[i],
-      message: listComments[i]
-    });
+    for (var i = 0; i < listComments.length; i++) {
+      messages.push({
+        avatar: 'img/avatar-' + listNumbersAvatars[i] + '.svg',
+        name: listNames[i],
+        message: listComments[i]
+      });
+    }
+    return messages;
   }
-  return messages;
 
   // Функция, возвращающая случайное число в диапазоне
   function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-// Функция, возвращающая случайный элемемент массива
+  // Функция, возвращающая случайный элемемент массива
   function getRandomElement(array) {
     var randomIndex = getRandomNumber(1, array.length - 1);
     var randomElement = array[randomIndex];
