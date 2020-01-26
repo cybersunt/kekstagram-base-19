@@ -41,34 +41,23 @@ function generateMessages() {
     });
   }
   return messages;
-}
 
-// Функция, возвращающая случайное число в диапазоне
-function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  // Функция, возвращающая случайное число в диапазоне
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
 // Функция, возвращающая случайный элемемент массива
-function getRandomElement(array) {
-  var randomIndex = getRandomNumber(1, array.length - 1);
-  var randomElement = array[randomIndex];
-  return randomElement;
+  function getRandomElement(array) {
+    var randomIndex = getRandomNumber(1, array.length - 1);
+    var randomElement = array[randomIndex];
+    return randomElement;
+  }
 }
 
 var listNotes = generateNotes();
 
-// gallery.js
-// Генерируем наш шаблон в документ
-function renderPicture(image) {
-  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
-  var picturesElement = picturesTemplate.cloneNode(true);
-
-  picturesElement.querySelector('.picture__img').src = image.url;
-  picturesElement.querySelector('.picture__likes').textContent = image.likes;
-  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
-  return picturesElement;
-}
-
+// gallery.
 // Клонируем фотографии
 function renderPicturesList(arrayPictures) {
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
@@ -77,6 +66,17 @@ function renderPicturesList(arrayPictures) {
     fragment.appendChild(renderPicture(arrayPictures[i]));
   }
   picturesList.appendChild(fragment);
+
+  // Генерируем наш шаблон в документ
+  function renderPicture(image) {
+    var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
+    var picturesElement = picturesTemplate.cloneNode(true);
+
+    picturesElement.querySelector('.picture__img').src = image.url;
+    picturesElement.querySelector('.picture__likes').textContent = image.likes;
+    picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
+    return picturesElement;
+  }
 }
 
 renderPicturesList(listNotes);
