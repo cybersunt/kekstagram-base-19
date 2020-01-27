@@ -28,18 +28,20 @@ function generateNotes() {
   function generateMessages() {
     var messages = [];
 
-    var listComments = getRandomElement(DataPicture.MESSAGES);
-    var listNames = getRandomElement(DataPicture.USER_NAMES);
-    var listNumbersAvatars = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
+    var countComments = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM - 1);
 
-    for (var i = 0; i < listComments.length; i++) {
+    for (var j = 0; j < countComments; j++) {
       messages.push({
-        avatar: 'img/avatar-' + listNumbersAvatars[i] + '.svg',
-        name: listNames[i],
-        message: listComments[i]
+        avatar: generateSrcImage(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM),
+        name: getRandomElement(DataPicture.USER_NAMES),
+        message: getRandomElement(DataPicture.MESSAGES)
       });
     }
     return messages;
+  }
+  // Функция, возвращающая url аватара
+  function generateSrcImage(min, max) {
+   return 'img/avatar-' + getRandomNumber(min, max) + '.svg';
   }
 
   // Функция, возвращающая случайное число в диапазоне
@@ -56,6 +58,7 @@ function generateNotes() {
 }
 
 var listNotes = generateNotes();
+console.log(listNotes);
 
 // gallery.
 // Клонируем фотографии
