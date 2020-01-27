@@ -41,7 +41,7 @@ function generateNotes() {
   }
   // Функция, возвращающая url аватара
   function generateSrcImage(min, max) {
-   return 'img/avatar-' + getRandomNumber(min, max) + '.svg';
+    return 'img/avatar-' + getRandomNumber(min, max) + '.svg';
   }
 
   // Функция, возвращающая случайное число в диапазоне
@@ -58,7 +58,6 @@ function generateNotes() {
 }
 
 var listNotes = generateNotes();
-console.log(listNotes);
 
 // gallery.
 // Клонируем фотографии
