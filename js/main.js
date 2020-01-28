@@ -23,38 +23,39 @@ function generateNotes() {
     });
   }
   return notes;
+}
 
-  // Функция, возвращающаая массив объектов записей в блоге
-  function generateMessages() {
-    var messages = [];
+// Функция, возвращающаая массив объектов записей в блоге
+function generateMessages() {
+  var messages = [];
 
-    var countComments = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM - 1);
+  var countComments = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM - 1);
 
-    for (var j = 0; j < countComments; j++) {
-      messages.push({
-        avatar: generateSrcImage(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM),
-        name: getRandomElement(DataPicture.USER_NAMES),
-        message: getRandomElement(DataPicture.MESSAGES)
-      });
-    }
-    return messages;
+  for (var i = 0; i < countComments; i++) {
+    messages.push({
+      avatar: generateSrcImage(),
+      name: getRandomElement(DataPicture.USER_NAMES),
+      message: getRandomElement(DataPicture.MESSAGES)
+    });
   }
-  // Функция, возвращающая url аватара
-  function generateSrcImage(min, max) {
-    return 'img/avatar-' + getRandomNumber(min, max) + '.svg';
-  }
+  return messages;
+}
+// Функция, возвращающая url аватара
+function generateSrcImage() {
+  var numberImage = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
+  return 'img/avatar-' + numberImage + '.svg';
+}
 
-  // Функция, возвращающая случайное число в диапазоне
-  function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+// Функция, возвращающая случайное число в диапазоне
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-  // Функция, возвращающая случайный элемемент массива
-  function getRandomElement(array) {
-    var randomIndex = getRandomNumber(1, array.length - 1);
-    var randomElement = array[randomIndex];
-    return randomElement;
-  }
+// Функция, возвращающая случайный элемемент массива
+function getRandomElement(array) {
+  var randomIndex = getRandomNumber(0, array.length - 1);
+  var randomElement = array[randomIndex];
+  return randomElement;
 }
 
 var listNotes = generateNotes();
@@ -89,15 +90,12 @@ var usersMessages = bigPicture.querySelector('.social__comments'); // Найде
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
-  var userMessage = document.createElement('li');
-  userMessage.classList.add('social__comment');
+  var userMessage = makeElement('li', 'social__comment');
+  var userMessageText = makeElement( 'p', 'social__text');
+  var userMessagePicture = makeElement('img', 'social__picture');
 
-  var userMessageText = document.createElement('p');
-  userMessageText.classList.add('social__text');
   userMessageText.textContent = comment.message;
 
-  var userMessagePicture = document.createElement('img');
-  userMessagePicture.classList.add('social__picture');
   userMessagePicture.width = 35;
   userMessagePicture.height = 35;
   userMessagePicture.alt = 'Аватар автора фотографии';
@@ -107,6 +105,13 @@ function createMessage(comment) {
   userMessage.appendChild(userMessageText);
 
   return userMessage;
+}
+
+function makeElement(tagName, className) {
+  var element = document.createElement(tagName);
+  element.classList.add(className);
+
+  return element;
 }
 
 function hideInvisibleElement(element) {
@@ -143,11 +148,11 @@ function openBigPicture(picture) {
   bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
   bigPicture.querySelector('.social__caption').textContent = picture.description;
   showElement(bigPicture);
+}
 
-  function removeChilds(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
+function removeChilds(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 }
 
