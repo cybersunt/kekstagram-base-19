@@ -91,7 +91,7 @@ var usersMessages = bigPicture.querySelector('.social__comments'); // Найде
 // Генерируем комментарий к фото
 function createMessage(comment) {
   var userMessage = createDOMElement('li', 'social__comment');
-  var userMessageText = createDOMElement( 'p', 'social__text');
+  var userMessageText = createDOMElement('p', 'social__text');
   var userMessagePicture = createDOMElement('img', 'social__picture');
 
   userMessageText.textContent = comment.message;
