@@ -62,6 +62,17 @@ var listNotes = generateNotes();
 
 // gallery.
 // Клонируем фотографии
+// Генерируем наш шаблон в документ
+function renderPicture(image) {
+  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
+  var picturesElement = picturesTemplate.cloneNode(true);
+
+  picturesElement.querySelector('.picture__img').src = image.url;
+  picturesElement.querySelector('.picture__likes').textContent = image.likes;
+  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
+  return picturesElement;
+}
+
 function renderPicturesList(arrayPictures) {
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var fragment = document.createDocumentFragment();
@@ -69,17 +80,6 @@ function renderPicturesList(arrayPictures) {
     fragment.appendChild(renderPicture(arrayPictures[i]));
   }
   picturesList.appendChild(fragment);
-
-  // Генерируем наш шаблон в документ
-  function renderPicture(image) {
-    var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
-    var picturesElement = picturesTemplate.cloneNode(true);
-
-    picturesElement.querySelector('.picture__img').src = image.url;
-    picturesElement.querySelector('.picture__likes').textContent = image.likes;
-    picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
-    return picturesElement;
-  }
 }
 
 renderPicturesList(listNotes);
@@ -90,9 +90,9 @@ var usersMessages = bigPicture.querySelector('.social__comments'); // Найде
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
-  var userMessage = makeElement('li', 'social__comment');
-  var userMessageText = makeElement( 'p', 'social__text');
-  var userMessagePicture = makeElement('img', 'social__picture');
+  var userMessage = createDOMElement('li', 'social__comment');
+  var userMessageText = createDOMElement( 'p', 'social__text');
+  var userMessagePicture = createDOMElement('img', 'social__picture');
 
   userMessageText.textContent = comment.message;
 
@@ -107,7 +107,7 @@ function createMessage(comment) {
   return userMessage;
 }
 
-function makeElement(tagName, className) {
+function createDOMElement(tagName, className) {
   var element = document.createElement(tagName);
   element.classList.add(className);
 
