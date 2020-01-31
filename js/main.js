@@ -61,32 +61,13 @@ function getRandomElement(array) {
 var listNotes = generateNotes();
 
 // gallery.
-// Клонируем фотографии
-// Генерируем наш шаблон в документ
-function renderPicture(image) {
-  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
-  var picturesElement = picturesTemplate.cloneNode(true);
 
-  picturesElement.querySelector('.picture__img').src = image.url;
-  picturesElement.querySelector('.picture__likes').textContent = image.likes;
-  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
-  return picturesElement;
-}
-
-function renderPicturesList(arrayPictures) {
-  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < arrayPictures.length; i++) {
-    fragment.appendChild(renderPicture(arrayPictures[i]));
-  }
-  picturesList.appendChild(fragment);
-}
-
-renderPicturesList(listNotes);
 
 // preview.js
 var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+
+var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
@@ -122,6 +103,10 @@ function showElement(element) {
   element.classList.remove('hidden');
 }
 
+function hideElement(element) {
+  element.classList.add('hidden');
+}
+
 // Генерируем комментарии
 function renderMessagesList(array) {
   var fragment = document.createDocumentFragment();
@@ -133,21 +118,62 @@ function renderMessagesList(array) {
   usersMessages.appendChild(fragment);
 }
 
+// Клонируем фотографии
+var KEY_CODE = {
+  ENTER: 13,
+  ESC: 27
+};
+
+// Генерируем наш шаблон в документ
+function renderPicture(image, pictureIndex) {
+  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
+  var picturesElement = picturesTemplate.cloneNode(true);
+
+  picturesElement.querySelector('.picture__img').src = image.url;
+  picturesElement.querySelector('.picture__likes').textContent = image.likes;
+  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
+  picturesElement.querySelector('.picture img').setAttribute('data-id', pictureIndex);
+
+  return picturesElement;
+}
+
+function renderPicturesList(arrayPictures) {
+  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < arrayPictures.length; i++) {
+    fragment.appendChild(renderPicture(arrayPictures[i], i));
+  }
+
+  picturesList.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    var pictureNumber =  evt.target.dataset.id;
+    openBigPicture(arrayPictures, pictureNumber);
+  });
+
+  picturesList.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === KEY_CODE.ENTER) {
+      var pictureNumber = evt.target.querySelector('img').dataset.id;
+      openBigPicture(arrayPictures, pictureNumber);
+    }
+  });
+
+  picturesList.appendChild(fragment);
+}
+
+renderPicturesList(listNotes);
+
 // Открываем первую фотографию
-function openBigPicture(picture) {
-  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
-  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+function getActivePicture(arrayPictures, pictureIndex) {
+  var pictureUrl = bigPicture.querySelector('.big-picture__img img');
+  var pictureLikes = bigPicture.querySelector('.likes-count');
+  var pictureMessagesCount = bigPicture.querySelector('.comments-count');
+  var pictureDescription = bigPicture.querySelector('.social__caption');
 
-  hideInvisibleElement(messagesCounter);
-  hideInvisibleElement(messagesLoader);
-  removeChilds(usersMessages);
-  renderMessagesList(picture.messages);
-
-  bigPicture.querySelector('.big-picture__img img').src = picture.url;
-  bigPicture.querySelector('.likes-count').textContent = picture.likes;
-  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
-  bigPicture.querySelector('.social__caption').textContent = picture.description;
-  showElement(bigPicture);
+  renderMessagesList(arrayPictures[pictureIndex].messages);
+  pictureUrl.src = arrayPictures[pictureIndex].url;
+  pictureLikes.textContent = arrayPictures[pictureIndex].likes;
+  pictureMessagesCount.textContent = arrayPictures[pictureIndex].messages.length;
+  pictureDescription.textContent = arrayPictures[pictureIndex].description;
 }
 
 function removeChilds(element) {
@@ -156,4 +182,43 @@ function removeChilds(element) {
   }
 }
 
-openBigPicture(listNotes[0]);
+function openBigPicture(arrayPictures, pictureIndex) {
+  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+
+  hideInvisibleElement(messagesCounter);
+  hideInvisibleElement(messagesLoader);
+  removeChilds(usersMessages);
+
+  getActivePicture(arrayPictures, pictureIndex);
+
+  showElement(bigPicture);
+
+  // добавление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.addEventListener('click', onPictureCloseBtnClick);
+  // добавление обработчика нажатия на enter по кнопке закрытия галереи
+  closeBigPictureBtn.addEventListener('keydown', onPictureCloseKeyDown);
+  // добавление обработчика нажатия на enter по кнопке закрытия галереи
+  document.addEventListener('keydown', onPictureCloseKeyDown);
+}
+
+function closeBigPicture() {
+  hideElement(bigPicture);
+  // удаление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
+  // удаление обработчика нажатия на enter по кнопке закрытия галереи
+  closeBigPictureBtn.removeEventListener('keydown', onPictureCloseKeyDown);
+  // удаление обработчика нажатия на enter по кнопке закрытия галереи
+  document.removeEventListener('keydown', onPictureCloseKeyDown);
+}
+
+function onPictureCloseBtnClick() {
+  closeBigPicture();
+}
+
+//Нажатие на клавишу enter и esc
+function onPictureCloseKeyDown (evt) {
+  if (evt.keyCode === KEY_CODE.ENTER && KEY_CODE.ESC) {
+    closeBigPicture();
+  }
+}
