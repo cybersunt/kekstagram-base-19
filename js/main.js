@@ -23,44 +23,56 @@ function generateNotes() {
     });
   }
   return notes;
+}
 
-  // Функция, возвращающаая массив объектов записей в блоге
-  function generateMessages() {
-    var messages = [];
+// Функция, возвращающаая массив объектов записей в блоге
+function generateMessages() {
+  var messages = [];
 
-    var countComments = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM - 1);
+  var countComments = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM - 1);
 
-    for (var j = 0; j < countComments; j++) {
-      messages.push({
-        avatar: generateSrcImage(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM),
-        name: getRandomElement(DataPicture.USER_NAMES),
-        message: getRandomElement(DataPicture.MESSAGES)
-      });
-    }
-    return messages;
+  for (var i = 0; i < countComments; i++) {
+    messages.push({
+      avatar: generateSrcImage(),
+      name: getRandomElement(DataPicture.USER_NAMES),
+      message: getRandomElement(DataPicture.MESSAGES)
+    });
   }
-  // Функция, возвращающая url аватара
-  function generateSrcImage(min, max) {
-    return 'img/avatar-' + getRandomNumber(min, max) + '.svg';
-  }
+  return messages;
+}
+// Функция, возвращающая url аватара
+function generateSrcImage() {
+  var numberImage = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
+  return 'img/avatar-' + numberImage + '.svg';
+}
 
-  // Функция, возвращающая случайное число в диапазоне
-  function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+// Функция, возвращающая случайное число в диапазоне
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-  // Функция, возвращающая случайный элемемент массива
-  function getRandomElement(array) {
-    var randomIndex = getRandomNumber(1, array.length - 1);
-    var randomElement = array[randomIndex];
-    return randomElement;
-  }
+// Функция, возвращающая случайный элемемент массива
+function getRandomElement(array) {
+  var randomIndex = getRandomNumber(0, array.length - 1);
+  var randomElement = array[randomIndex];
+  return randomElement;
 }
 
 var listNotes = generateNotes();
 
 // gallery.
 // Клонируем фотографии
+// Генерируем наш шаблон в документ
+function renderPicture(image) {
+  var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
+  var picturesElement = picturesTemplate.cloneNode(true);
+
+  picturesElement.querySelector('.picture__img').src = image.url;
+  picturesElement.querySelector('.picture__likes').textContent = image.likes;
+  picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
+  return picturesElement;
+}
+
 function renderPicturesList(arrayPictures) {
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var fragment = document.createDocumentFragment();
@@ -68,17 +80,86 @@ function renderPicturesList(arrayPictures) {
     fragment.appendChild(renderPicture(arrayPictures[i]));
   }
   picturesList.appendChild(fragment);
-
-  // Генерируем наш шаблон в документ
-  function renderPicture(image) {
-    var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
-    var picturesElement = picturesTemplate.cloneNode(true);
-
-    picturesElement.querySelector('.picture__img').src = image.url;
-    picturesElement.querySelector('.picture__likes').textContent = image.likes;
-    picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
-    return picturesElement;
-  }
 }
 
 renderPicturesList(listNotes);
+
+// preview.js
+var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
+var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+var galleryOverlay = document.querySelector('body');
+
+// Генерируем комментарий к фото
+function createMessage(comment) {
+  var userMessage = createDOMElement('li', 'social__comment');
+  var userMessageText = createDOMElement('p', 'social__text');
+  var userMessagePicture = createDOMElement('img', 'social__picture');
+
+  userMessageText.textContent = comment.message;
+
+  userMessagePicture.width = 35;
+  userMessagePicture.height = 35;
+  userMessagePicture.alt = 'Аватар автора фотографии';
+  userMessagePicture.src = comment.avatar;
+
+  userMessage.appendChild(userMessagePicture);
+  userMessage.appendChild(userMessageText);
+
+  return userMessage;
+}
+
+function createDOMElement(tagName, className) {
+  var element = document.createElement(tagName);
+  element.classList.add(className);
+
+  return element;
+}
+
+function hideElement(element) {
+  element.classList.add('hidden');
+}
+
+function showElement(element) {
+  element.classList.remove('hidden');
+}
+
+function showPreview() {
+  galleryOverlay.classList.add('modal-open');
+}
+
+// Генерируем комментарии
+function renderMessagesList(array) {
+  removeChilds(usersMessages);
+
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(createMessage(array[i]));
+  }
+
+  usersMessages.appendChild(fragment);
+}
+
+// Открываем первую фотографию
+function openBigPicture(picture) {
+  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+
+  hideElement(messagesCounter);
+  hideElement(messagesLoader);
+
+  renderMessagesList(picture.messages);
+
+  bigPicture.querySelector('.big-picture__img img').src = picture.url;
+  bigPicture.querySelector('.likes-count').textContent = picture.likes;
+  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
+  bigPicture.querySelector('.social__caption').textContent = picture.description;
+  showPreview();
+  showElement(bigPicture);
+}
+
+function removeChilds(element) {
+  element.innerHTML = '';
+}
+
+openBigPicture(listNotes[0]);
