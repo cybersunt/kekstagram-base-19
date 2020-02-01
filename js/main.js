@@ -60,12 +60,10 @@ function getRandomElement(array) {
 
 var listNotes = generateNotes();
 
-// gallery.
-
-
 // preview.js
 var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+var galleryOverlay = document.querySelector('body');
 
 var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
@@ -95,20 +93,22 @@ function createDOMElement(tagName, className) {
   return element;
 }
 
-function hideInvisibleElement(element) {
-  element.classList.add('visually-hidden');
+function hideElement(element) {
+  element.classList.add('hidden');
 }
 
 function showElement(element) {
   element.classList.remove('hidden');
 }
 
-function hideElement(element) {
-  element.classList.add('hidden');
+function showPreview() {
+  galleryOverlay.classList.add('modal-open');
 }
 
 // Генерируем комментарии
 function renderMessagesList(array) {
+  removeChilds(usersMessages);
+
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
@@ -176,22 +176,21 @@ function getActivePicture(arrayPictures, pictureIndex) {
   pictureDescription.textContent = arrayPictures[pictureIndex].description;
 }
 
-function removeChilds(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-}
-
 function openBigPicture(arrayPictures, pictureIndex) {
   var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
   var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
 
-  hideInvisibleElement(messagesCounter);
-  hideInvisibleElement(messagesLoader);
-  removeChilds(usersMessages);
-
+  hideElement(messagesCounter);
+  hideElement(messagesLoader);
   getActivePicture(arrayPictures, pictureIndex);
 
+  renderMessagesList(picture.messages);
+
+  bigPicture.querySelector('.big-picture__img img').src = picture.url;
+  bigPicture.querySelector('.likes-count').textContent = picture.likes;
+  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
+  bigPicture.querySelector('.social__caption').textContent = picture.description;
+  showPreview();
   showElement(bigPicture);
 
   // добавление обработчика клика по кнопке закрытия галереи
@@ -210,6 +209,10 @@ function closeBigPicture() {
   closeBigPictureBtn.removeEventListener('keydown', onPictureCloseKeyDown);
   // удаление обработчика нажатия на enter по кнопке закрытия галереи
   document.removeEventListener('keydown', onPictureCloseKeyDown);
+}
+
+function removeChilds(element) {
+  element.innerHTML = '';
 }
 
 function onPictureCloseBtnClick() {
