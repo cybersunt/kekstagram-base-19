@@ -87,6 +87,7 @@ renderPicturesList(listNotes);
 // preview.js
 var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+var galleryOverlay = document.querySelector('body');
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
@@ -122,8 +123,14 @@ function showElement(element) {
   element.classList.remove('hidden');
 }
 
+function showPreview() {
+  galleryOverlay.classList.add('modal-open');
+}
+
 // Генерируем комментарии
 function renderMessagesList(array) {
+  removeChilds(usersMessages);
+
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
@@ -140,20 +147,19 @@ function openBigPicture(picture) {
 
   hideElement(messagesCounter);
   hideElement(messagesLoader);
-  removeChilds(usersMessages);
+
   renderMessagesList(picture.messages);
 
   bigPicture.querySelector('.big-picture__img img').src = picture.url;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
   bigPicture.querySelector('.social__caption').textContent = picture.description;
+  showPreview();
   showElement(bigPicture);
 }
 
 function removeChilds(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
+  element.innerHTML = '';
 }
 
 openBigPicture(listNotes[0]);
