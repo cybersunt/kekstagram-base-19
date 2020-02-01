@@ -119,11 +119,6 @@ function renderMessagesList(array) {
 }
 
 // Клонируем фотографии
-var KEY_CODE = {
-  ENTER: 13,
-  ESC: 27
-};
-
 // Генерируем наш шаблон в документ
 function renderPicture(image, pictureIndex) {
   var picturesTemplate = document.querySelector('#picture').content; // Найдем шаблон который мы будем копировать.
@@ -143,19 +138,6 @@ function renderPicturesList(arrayPictures) {
   for (var i = 0; i < arrayPictures.length; i++) {
     fragment.appendChild(renderPicture(arrayPictures[i], i));
   }
-
-  picturesList.addEventListener('click', function(evt) {
-    evt.preventDefault();
-    var pictureNumber =  evt.target.dataset.id;
-    openBigPicture(arrayPictures, pictureNumber);
-  });
-
-  picturesList.addEventListener('keydown', function(evt) {
-    if (evt.keyCode === KEY_CODE.ENTER) {
-      var pictureNumber = evt.target.querySelector('img').dataset.id;
-      openBigPicture(arrayPictures, pictureNumber);
-    }
-  });
 
   picturesList.appendChild(fragment);
 }
@@ -201,27 +183,10 @@ function openBigPicture(arrayPictures, pictureIndex) {
   document.addEventListener('keydown', onPictureCloseKeyDown);
 }
 
-function closeBigPicture() {
-  hideElement(bigPicture);
-  // удаление обработчика клика по кнопке закрытия галереи
-  closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
-  // удаление обработчика нажатия на enter по кнопке закрытия галереи
-  closeBigPictureBtn.removeEventListener('keydown', onPictureCloseKeyDown);
-  // удаление обработчика нажатия на enter по кнопке закрытия галереи
-  document.removeEventListener('keydown', onPictureCloseKeyDown);
-}
+
 
 function removeChilds(element) {
   element.innerHTML = '';
 }
 
-function onPictureCloseBtnClick() {
-  closeBigPicture();
-}
 
-//Нажатие на клавишу enter и esc
-function onPictureCloseKeyDown (evt) {
-  if (evt.keyCode === KEY_CODE.ENTER && KEY_CODE.ESC) {
-    closeBigPicture();
-  }
-}
