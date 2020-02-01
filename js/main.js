@@ -114,8 +114,8 @@ function createDOMElement(tagName, className) {
   return element;
 }
 
-function hideInvisibleElement(element) {
-  element.classList.add('visually-hidden');
+function hideElement(element) {
+  element.classList.add('hidden');
 }
 
 function showElement(element) {
@@ -138,8 +138,8 @@ function openBigPicture(picture) {
   var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
   var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
 
-  hideInvisibleElement(messagesCounter);
-  hideInvisibleElement(messagesLoader);
+  hideElement(messagesCounter);
+  hideElement(messagesLoader);
   removeChilds(usersMessages);
   renderMessagesList(picture.messages);
 
