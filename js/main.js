@@ -105,6 +105,10 @@ function showPreview() {
   galleryOverlay.classList.add('modal-open');
 }
 
+function hidePreview() {
+  galleryOverlay.classList.remove('modal-open');
+}
+
 // Код клавиш для обработки событий
 var KEY_CODE = {
   ENTER: 13,
@@ -195,50 +199,67 @@ function removeChilds(element) {
 
 // editor.js
 // Для формы редактирования загруженной фотографии
-var uploadForm = document.querySelector('.img-upload__form');
-var uploadFile = uploadForm.querySelector('.img-upload__input');
-var uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
+// Открываем и закрываем форму
+var editingWindow = document.querySelector('.img-upload');
+var fileUploadButton = editingWindow.querySelector('.img-upload__input');
+var previewWindow = editingWindow.querySelector('.img-upload__overlay');
 
-var closeUploadBtn = uploadForm.querySelector('.img-upload__cancel');
-var submitUploadBtn = uploadForm.querySelector('.img-upload__submit');
-var uploadFormComment = uploadForm.querySelector('.text__description');
-var uploadFormHashtags = uploadForm.querySelector('.text__hashtags');
+var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
+var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
 
-
-uploadFile.addEventListener('change', openUploadOverlay);
+fileUploadButton.addEventListener('change', openEditingWindow);
 
 // Функция закрытия окна редактирования фото по клику на ESC
-function onUploadOverlayKeyDown(evt) {
+function onEditingWindowKeyDown(evt) {
   if (evt.keyCode === KEY_CODE.ESC) {
-    closeUploadOverlay();
+    closeEditingWindow();
   }
 }
 
 // Закрываем окно загрузки фотографий
-function closeUploadOverlay() {
-  if (document.activeElement !== uploadFormComment) {
-    hideElement(uploadOverlay);
+function closeEditingWindow() {
+  if (document.activeElement !== editingWindowComment) {
+    hideElement(previewWindow);
+    hidePreview();
       // удаляем обработчик закрытия окна
-    closeUploadBtn.removeEventListener('click', closeUploadOverlay);
+    closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
     // удаляем обработчик закрытия окна по кноаке отправить
-    submitUploadBtn.addEventListener('click', closeUploadOverlay);
-    // eдаляем обработчик закрытия окна по клавише ESC
-    document.removeEventListener('keydown', onUploadOverlayKeyDown);
+    submitPhotoBtn.addEventListener('click', closeEditingWindow);
+    // удаляем обработчик закрытия окна по клавише ESC
+    document.removeEventListener('keydown', onEditingWindowKeyDown);
     // скрываем форму загрузки изображения
-    uploadFile.addEventListener('change', openUploadOverlay);
+    fileUploadButton.addEventListener('change', openEditingWindow);
   }
 }
 
 // Открываем окно загрузки фотографий
-function openUploadOverlay() {
-  showElement(uploadOverlay);
+function openEditingWindow() {
+  showElement(previewWindow);
   showPreview();
   // добавляем обработчик закрытия окна
-  closeUploadBtn.addEventListener('click', closeUploadOverlay);
+  closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по кноаке отправить
-  submitUploadBtn.addEventListener('click', closeUploadOverlay);
+  submitPhotoBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по клавише ESC
-  document.addEventListener('keydown', onUploadOverlayKeyDown);
+  document.addEventListener('keydown', onEditingWindowKeyDown);
   // скрываем форму загрузки изображения
-  uploadFile.removeEventListener('change', openUploadOverlay);
+  uploadFile.removeEventListener('change', openEditingWindow);
+}
+
+showElement(previewWindow);
+showPreview();
+// Работаем с изображениями на форме
+
+var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
+var previewPictureComment = editingWindow.querySelector('.text__description');
+var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
+var filtersList = editingWindow.querySelector('.effects');
+
+// Добавление фильтра к картинке по клику
+  filtersList.addEventListener('click', setFilter);
+
+function setFilter(evt) {
+  if (evt.target.checked) {
+    previewPictureFilters.className ='effects__preview--' + evt.target.value;
+  }
 }
