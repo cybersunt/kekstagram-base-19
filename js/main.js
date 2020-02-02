@@ -105,6 +105,12 @@ function showPreview() {
   galleryOverlay.classList.add('modal-open');
 }
 
+// Код клавиш для обработки событий
+var KEY_CODE = {
+  ENTER: 13,
+  ESC: 27
+};
+
 // Генерируем комментарии
 function renderMessagesList(array) {
   removeChilds(usersMessages);
@@ -183,10 +189,56 @@ function openBigPicture(arrayPictures, pictureIndex) {
   document.addEventListener('keydown', onPictureCloseKeyDown);
 }
 
-
-
 function removeChilds(element) {
   element.innerHTML = '';
 }
 
+// editor.js
+// Для формы редактирования загруженной фотографии
+var uploadForm = document.querySelector('.img-upload__form');
+var uploadFile = uploadForm.querySelector('.img-upload__input');
+var uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 
+var closeUploadBtn = uploadForm.querySelector('.img-upload__cancel');
+var submitUploadBtn = uploadForm.querySelector('.img-upload__submit');
+var uploadFormComment = uploadForm.querySelector('.text__description');
+var uploadFormHashtags = uploadForm.querySelector('.text__hashtags');
+
+
+uploadFile.addEventListener('change', openUploadOverlay);
+
+// Функция закрытия окна редактирования фото по клику на ESC
+function onUploadOverlayKeyDown(evt) {
+  if (evt.keyCode === KEY_CODE.ESC) {
+    closeUploadOverlay();
+  }
+}
+
+// Закрываем окно загрузки фотографий
+function closeUploadOverlay() {
+  if (document.activeElement !== uploadFormComment) {
+    hideElement(uploadOverlay);
+      // удаляем обработчик закрытия окна
+    closeUploadBtn.removeEventListener('click', closeUploadOverlay);
+    // удаляем обработчик закрытия окна по кноаке отправить
+    submitUploadBtn.addEventListener('click', closeUploadOverlay);
+    // eдаляем обработчик закрытия окна по клавише ESC
+    document.removeEventListener('keydown', onUploadOverlayKeyDown);
+    // скрываем форму загрузки изображения
+    uploadFile.addEventListener('change', openUploadOverlay);
+  }
+}
+
+// Открываем окно загрузки фотографий
+function openUploadOverlay() {
+  showElement(uploadOverlay);
+  showPreview();
+  // добавляем обработчик закрытия окна
+  closeUploadBtn.addEventListener('click', closeUploadOverlay);
+  // добавляем обработчик закрытия окна по кноаке отправить
+  submitUploadBtn.addEventListener('click', closeUploadOverlay);
+  // добавляем обработчик закрытия окна по клавише ESC
+  document.addEventListener('keydown', onUploadOverlayKeyDown);
+  // скрываем форму загрузки изображения
+  uploadFile.removeEventListener('change', openUploadOverlay);
+}
