@@ -240,8 +240,8 @@ function openEditingWindow() {
   fileUploadButton.removeEventListener('change', openEditingWindow);
 }
 
-showElement(previewWindow);
-showPreview();
+// showElement(previewWindow);
+// showPreview();
 
 // Работаем с изображениями на форме
 var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
