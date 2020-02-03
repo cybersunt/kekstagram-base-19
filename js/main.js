@@ -65,7 +65,7 @@ var bigPicture = document.querySelector('.big-picture'); // Найдем окн�
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
 var galleryOverlay = document.querySelector('body');
 
-var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
+// var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
@@ -184,13 +184,6 @@ function openBigPicture(arrayPictures, pictureIndex) {
   bigPicture.querySelector('.social__caption').textContent = picture.description;
   showPreview();
   showElement(bigPicture);
-
-  // добавление обработчика клика по кнопке закрытия галереи
-  closeBigPictureBtn.addEventListener('click', onPictureCloseBtnClick);
-  // добавление обработчика нажатия на enter по кнопке закрытия галереи
-  closeBigPictureBtn.addEventListener('keydown', onPictureCloseKeyDown);
-  // добавление обработчика нажатия на enter по кнопке закрытия галереи
-  document.addEventListener('keydown', onPictureCloseKeyDown);
 }
 
 function removeChilds(element) {
@@ -201,6 +194,7 @@ function removeChilds(element) {
 // Для формы редактирования загруженной фотографии
 // Открываем и закрываем форму
 var editingWindow = document.querySelector('.img-upload');
+var editingWindowComment = editingWindow.querySelector('.text-description');
 var fileUploadButton = editingWindow.querySelector('.img-upload__input');
 var previewWindow = editingWindow.querySelector('.img-upload__overlay');
 
@@ -221,7 +215,7 @@ function closeEditingWindow() {
   if (document.activeElement !== editingWindowComment) {
     hideElement(previewWindow);
     hidePreview();
-      // удаляем обработчик закрытия окна
+    // удаляем обработчик закрытия окна
     closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
     // удаляем обработчик закрытия окна по кноаке отправить
     submitPhotoBtn.addEventListener('click', closeEditingWindow);
@@ -243,16 +237,14 @@ function openEditingWindow() {
   // добавляем обработчик закрытия окна по клавише ESC
   document.addEventListener('keydown', onEditingWindowKeyDown);
   // скрываем форму загрузки изображения
-  uploadFile.removeEventListener('change', openEditingWindow);
+  fileUploadButton.removeEventListener('change', openEditingWindow);
 }
 
 showElement(previewWindow);
 showPreview();
-// Работаем с изображениями на форме
 
+// Работаем с изображениями на форме
 var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
-var previewPictureComment = editingWindow.querySelector('.text__description');
-var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
 var filtersList = editingWindow.querySelector('.effects');
 
 // Добавление фильтра к картинке по клику
@@ -260,7 +252,7 @@ filtersList.addEventListener('click', setFilter);
 
 function setFilter(evt) {
   if (evt.target.checked) {
-    previewPictureFilters.className ='effects__preview--' + evt.target.value;
+    previewPictureFilters.className = 'effects__preview--' + evt.target.value;
   }
 }
 
@@ -279,7 +271,7 @@ enlargePictureBtn.addEventListener('click', setScale);
 reducePictureBtn.addEventListener('click', setScale);
 
 function zoomPicture(zoomValue) {
-  if (ZOOM_LIMIT < zoomValue && ZOOM_LIMIT >= MIN_ZOOM ) {
+  if (ZOOM_LIMIT < zoomValue && ZOOM_LIMIT >= MIN_ZOOM) {
     return ZOOM_LIMIT += STEP_RESIZE;
   }
   if (ZOOM_LIMIT > zoomValue && ZOOM_LIMIT <= MAX_ZOOM) {
@@ -300,4 +292,22 @@ function setScale(evt) {
 
   pictureZoomingValue.value = valueZoom * 100 + '%';
   previewPictureFilters.style.transform = 'scale(' + valueZoom + ')';
+}
+
+// Валидация формы
+// Добавление обработчика валидации хэштегов
+var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
+
+previewPictureHashtags.addEventListener('input', validationHashtags);
+
+// Валидация хэштегов
+function validationHashtags(evt) {
+  var arrayHashtags = splitString(evt.target.value);
+  for (var i = 0; i < arrayHashtags.length; i++) {
+    var element = arrayHashtags[i];
+  }
+}
+
+function splitString(stringToSplit) {
+  return stringToSplit.split(' ');
 }
