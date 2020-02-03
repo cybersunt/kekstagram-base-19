@@ -256,10 +256,48 @@ var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
 var filtersList = editingWindow.querySelector('.effects');
 
 // Добавление фильтра к картинке по клику
-  filtersList.addEventListener('click', setFilter);
+filtersList.addEventListener('click', setFilter);
 
 function setFilter(evt) {
   if (evt.target.checked) {
     previewPictureFilters.className ='effects__preview--' + evt.target.value;
   }
+}
+
+// Добавление зума
+var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
+var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
+var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
+
+var ZOOM_LIMIT = 1;
+var STEP_RESIZE = 0.25;
+
+var MIN_ZOOM = 0.25;
+var MAX_ZOOM = 1;
+
+enlargePictureBtn.addEventListener('click', setScale);
+reducePictureBtn.addEventListener('click', setScale);
+
+function zoomPicture(zoomValue) {
+  if (ZOOM_LIMIT < zoomValue && ZOOM_LIMIT >= MIN_ZOOM ) {
+    return ZOOM_LIMIT += STEP_RESIZE;
+  }
+  if (ZOOM_LIMIT > zoomValue && ZOOM_LIMIT <= MAX_ZOOM) {
+    return ZOOM_LIMIT -= STEP_RESIZE;
+  }
+
+  return ZOOM_LIMIT = zoomValue;
+}
+
+function setScale(evt) {
+  if (evt.target.classList.contains('scale__control--smaller')) {
+    var valueZoom = zoomPicture(MIN_ZOOM);
+  }
+
+  if (evt.target.classList.contains('scale__control--bigger')) {
+    var valueZoom = zoomPicture(MAX_ZOOM);
+  }
+
+  pictureZoomingValue.value = valueZoom * 100 + '%';
+  previewPictureFilters.style.transform = 'scale(' + valueZoom + ')';
 }
