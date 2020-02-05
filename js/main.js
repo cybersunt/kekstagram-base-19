@@ -155,7 +155,7 @@ function renderPicturesList(arrayPictures) {
 renderPicturesList(listNotes);
 
 // Открываем первую фотографию
-function getActivePicture(arrayPictures, pictureIndex) {
+function renderPreviewPicture(arrayPictures, pictureIndex) {
   var pictureUrl = bigPicture.querySelector('.big-picture__img img');
   var pictureLikes = bigPicture.querySelector('.likes-count');
   var pictureMessagesCount = bigPicture.querySelector('.comments-count');
@@ -174,14 +174,7 @@ function openBigPicture(arrayPictures, pictureIndex) {
 
   hideElement(messagesCounter);
   hideElement(messagesLoader);
-  getActivePicture(arrayPictures, pictureIndex);
-
-  renderMessagesList(picture.messages);
-
-  bigPicture.querySelector('.big-picture__img img').src = picture.url;
-  bigPicture.querySelector('.likes-count').textContent = picture.likes;
-  bigPicture.querySelector('.comments-count').textContent = picture.messages.length;
-  bigPicture.querySelector('.social__caption').textContent = picture.description;
+  renderPreviewPicture(arrayPictures, pictureIndex);
   showPreview();
   showElement(bigPicture);
 }
@@ -240,8 +233,8 @@ function openEditingWindow() {
   fileUploadButton.removeEventListener('change', openEditingWindow);
 }
 
-// showElement(previewWindow);
-// showPreview();
+showElement(previewWindow);
+showPreview();
 
 // Работаем с изображениями на форме
 var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
@@ -277,7 +270,6 @@ function zoomPicture(zoomValue) {
   if (ZOOM_LIMIT > zoomValue && ZOOM_LIMIT <= MAX_ZOOM) {
     return ZOOM_LIMIT -= STEP_RESIZE;
   }
-
   return ZOOM_LIMIT = zoomValue;
 }
 
@@ -298,16 +290,27 @@ function setScale(evt) {
 // Добавление обработчика валидации хэштегов
 var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
 
-previewPictureHashtags.addEventListener('input', validationHashtags);
+previewPictureHashtags.addEventListener('input', getHashtags);
 
 // Валидация хэштегов
-function validationHashtags(evt) {
-  var arrayHashtags = splitString(evt.target.value);
-  for (var i = 0; i < arrayHashtags.length; i++) {
-    var element = arrayHashtags[i];
-  }
-}
 
 function splitString(stringToSplit) {
   return stringToSplit.split(' ');
+}
+function getHashtags(evt) {
+  var arrayHashtags = splitString(evt.target.value);
+  // for (var i = 0; i < arrayHashtags.length; i++) {
+  // }
+
+  // var element = evt.target;
+  // console.log(element);
+  // if (element.validity.tooShort) {
+  //   element.setCustomValidity('Комментарий должен быть не меньше 30-ти символов' );
+  // } else if (element.validity.tooLong) {
+  //   element.setCustomValidity('Комментарий не должен превышать 100 символов');
+  // } else if (element.validity.valueMissing) {
+  //   element.setCustomValidity('Введите, пожалуйста, комментарий. Это обязательно поле для заполнения');
+  // } else {
+  //   element.setCustomValidity('');
+  // }
 }
