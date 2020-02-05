@@ -203,7 +203,7 @@ function onEditingWindowKeyDown(evt) {
   }
 }
 
-// Закрываем окно загрузки фотографий
+// Закрываем окно редактирования фотографий
 function closeEditingWindow() {
   hideElement(previewWindow);
   hidePreview();
@@ -216,9 +216,28 @@ function closeEditingWindow() {
   // скрываем форму загрузки изображения
   fileUploadButton.addEventListener('change', openEditingWindow);
 }
+var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
+var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
+var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
 
-// Открываем окно загрузки фотографий
+var currentZoomValue = 1;
+var STEP_RESIZE = 0.25;
+
+var MIN_ZOOM = 0.25;
+var MAX_ZOOM = 1;
+
+// Работаем с изображениями на форме
+var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
+var filtersList = editingWindow.querySelector('.effects');
+
+function resetFilters() {
+  previewPictureFilters.className = 'effects__preview--none';
+  pictureZoomingValue.value = currentZoomValue * 100 + '%';
+}
+
+// Открываем окно редактирования фотографий
 function openEditingWindow() {
+  resetFilters();
   showElement(previewWindow);
   showPreview();
   // добавляем обработчик закрытия окна
@@ -235,9 +254,6 @@ showElement(previewWindow);
 showPreview();
 
 // Работаем с изображениями на форме
-var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
-var filtersList = editingWindow.querySelector('.effects');
-
 // Добавление фильтра к картинке по клику
 filtersList.addEventListener('click', setFilter);
 
@@ -248,15 +264,6 @@ function setFilter(evt) {
 }
 
 // Добавление зума
-var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
-var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
-var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
-
-var currentZoomValue = 1;
-var STEP_RESIZE = 0.25;
-
-var MIN_ZOOM = 0.25;
-var MAX_ZOOM = 1;
 
 enlargePictureBtn.addEventListener('click', setScale);
 reducePictureBtn.addEventListener('click', setScale);
