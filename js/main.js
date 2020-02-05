@@ -198,25 +198,23 @@ fileUploadButton.addEventListener('change', openEditingWindow);
 
 // Функция закрытия окна редактирования фото по клику на ESC
 function onEditingWindowKeyDown(evt) {
-  if (evt.keyCode === KEY_CODE.ESC) {
+  if (evt.keyCode === KEY_CODE.ESC && document.activeElement !== editingWindowComment) {
     closeEditingWindow();
   }
 }
 
 // Закрываем окно загрузки фотографий
 function closeEditingWindow() {
-  if (document.activeElement !== editingWindowComment) {
-    hideElement(previewWindow);
-    hidePreview();
-    // удаляем обработчик закрытия окна
-    closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
-    // удаляем обработчик закрытия окна по кноаке отправить
-    submitPhotoBtn.addEventListener('click', closeEditingWindow);
-    // удаляем обработчик закрытия окна по клавише ESC
-    document.removeEventListener('keydown', onEditingWindowKeyDown);
-    // скрываем форму загрузки изображения
-    fileUploadButton.addEventListener('change', openEditingWindow);
-  }
+  hideElement(previewWindow);
+  hidePreview();
+  // удаляем обработчик закрытия окна
+  closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
+  // удаляем обработчик закрытия окна по кноаке отправить
+  submitPhotoBtn.addEventListener('click', closeEditingWindow);
+  // удаляем обработчик закрытия окна по клавише ESC
+  document.removeEventListener('keydown', onEditingWindowKeyDown);
+  // скрываем форму загрузки изображения
+  fileUploadButton.addEventListener('change', openEditingWindow);
 }
 
 // Открываем окно загрузки фотографий
@@ -254,7 +252,7 @@ var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
 var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
 var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
 
-var ZOOM_LIMIT = 1;
+var currentZoomValue = 1;
 var STEP_RESIZE = 0.25;
 
 var MIN_ZOOM = 0.25;
@@ -264,22 +262,23 @@ enlargePictureBtn.addEventListener('click', setScale);
 reducePictureBtn.addEventListener('click', setScale);
 
 function zoomPicture(zoomValue) {
-  if (ZOOM_LIMIT < zoomValue && ZOOM_LIMIT >= MIN_ZOOM) {
-    return ZOOM_LIMIT += STEP_RESIZE;
+  if (currentZoomValue < zoomValue && currentZoomValue >= MIN_ZOOM) {
+    return currentZoomValue += STEP_RESIZE;
   }
-  if (ZOOM_LIMIT > zoomValue && ZOOM_LIMIT <= MAX_ZOOM) {
-    return ZOOM_LIMIT -= STEP_RESIZE;
+  if (currentZoomValue > zoomValue && currentZoomValue <= MAX_ZOOM) {
+    return currentZoomValue -= STEP_RESIZE;
   }
-  return ZOOM_LIMIT = zoomValue;
+  return currentZoomValue = zoomValue;
 }
 
 function setScale(evt) {
+  var valueZoom;
   if (evt.target.classList.contains('scale__control--smaller')) {
-    var valueZoom = zoomPicture(MIN_ZOOM);
+    valueZoom = zoomPicture(MIN_ZOOM);
   }
 
   if (evt.target.classList.contains('scale__control--bigger')) {
-    var valueZoom = zoomPicture(MAX_ZOOM);
+    valueZoom = zoomPicture(MAX_ZOOM);
   }
 
   pictureZoomingValue.value = valueZoom * 100 + '%';
