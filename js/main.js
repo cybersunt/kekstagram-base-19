@@ -187,21 +187,15 @@ function removeChilds(element) {
 // Для формы редактирования загруженной фотографии
 // Открываем и закрываем форму
 var editingWindow = document.querySelector('.img-upload');
-var editingWindowComment = editingWindow.querySelector('.text-description');
+var editingWindowComment = editingWindow.querySelector('.text__description');
 var fileUploadButton = editingWindow.querySelector('.img-upload__input');
 var previewWindow = editingWindow.querySelector('.img-upload__overlay');
+var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
 
 var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
 var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
 
 fileUploadButton.addEventListener('change', openEditingWindow);
-
-// Функция закрытия окна редактирования фото по клику на ESC
-function onEditingWindowKeyDown(evt) {
-  if (evt.keyCode === KEY_CODE.ESC && document.activeElement !== editingWindowComment) {
-    closeEditingWindow();
-  }
-}
 
 // Закрываем окно редактирования фотографий
 function closeEditingWindow() {
@@ -216,6 +210,14 @@ function closeEditingWindow() {
   // скрываем форму загрузки изображения
   fileUploadButton.addEventListener('change', openEditingWindow);
 }
+
+// Функция закрытия окна редактирования фото по клику на ESC
+function onEditingWindowKeyDown(evt) {
+  if (evt.keyCode === KEY_CODE.ESC && document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
+    closeEditingWindow();
+  }
+}
+
 var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
 var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
 var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
@@ -294,8 +296,6 @@ function setScale(evt) {
 
 // Валидация формы
 // Добавление обработчика валидации хэштегов
-var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
-
 previewPictureHashtags.addEventListener('input', getArrayHashtags);
 
 // если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
