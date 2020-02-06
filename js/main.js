@@ -250,8 +250,8 @@ function openEditingWindow() {
   fileUploadButton.removeEventListener('change', openEditingWindow);
 }
 
-showElement(previewWindow);
-showPreview();
+// showElement(previewWindow);
+// showPreview();
 
 // Работаем с изображениями на форме
 // Добавление фильтра к картинке по клику
@@ -296,17 +296,58 @@ function setScale(evt) {
 // Добавление обработчика валидации хэштегов
 var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
 
-previewPictureHashtags.addEventListener('input', getHashtags);
+previewPictureHashtags.addEventListener('input', getArrayHashtags);
+
+// если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 
 // Валидация хэштегов
-
 function splitString(stringToSplit) {
   return stringToSplit.split(' ');
 }
-function getHashtags(evt) {
-  var arrayHashtags = splitString(evt.target.value);
-  // for (var i = 0; i < arrayHashtags.length; i++) {
-  // }
+
+function removeExtraSpaces(string) {
+  return string.replace(/\s+/g,' ' ).trim();
+}
+
+function checkQuantitytyHashtags(array) {
+  if (array.length > 5) {
+    return false;
+  }
+}
+
+function checkHashtag(hashtag) {
+  var reg = /#([A-Za-z0-9]{2,19})$/;
+  if (!reg.test(hashtag)) return false;
+  return true;
+}
+
+function searchSimilarHashtags(array) {
+  for (i = 0; i < array.length; i++) {
+    if (array[i] == array[(i+1)]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function checkHashtagsList(evt) {
+  var arrayHashtags = getArrayHashtags(evt);
+
+  checkQuantitytyHashtags(arrayHashtags);
+  searchSimilarHashtags(arrayHashtags);
+
+  for (var i = 0; i < arrayHashtags.length; i++) {
+    checkHashtag(arrayHashtags[i]);
+  }
+}
+
+function getArrayHashtags(evt) {
+  var sortArray = [];
+  var hashtagsString = removeExtraSpaces(evt.target.value).toLowerCase();
+  var sortArray = splitString(hashtagsString).sort();
+  return sortArray;
+}
+
 
   // var element = evt.target;
   // console.log(element);
@@ -319,4 +360,4 @@ function getHashtags(evt) {
   // } else {
   //   element.setCustomValidity('');
   // }
-}
+
