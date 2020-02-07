@@ -273,8 +273,6 @@ function openEditingWindow() {
   submitPhotoBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по клавише ESC
   document.addEventListener('keydown', onEditingWindowKeyDown);
-  // скрываем форму загрузки изображения
-  fileUploadButton.removeEventListener('change', openEditingWindow);
 }
 
 // Работаем с изображениями на форме
