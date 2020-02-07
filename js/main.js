@@ -296,7 +296,7 @@ function setScale(evt) {
 
 // Валидация формы
 // Добавление обработчика валидации хэштегов
-previewPictureHashtags.addEventListener('input', getArrayHashtags);
+previewPictureHashtags.addEventListener('input', checkHashtagsList);
 
 // если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 
