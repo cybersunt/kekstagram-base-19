@@ -64,6 +64,7 @@ var listNotes = generateNotes();
 var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
 var galleryOverlay = document.querySelector('body');
+var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
 // var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
@@ -122,7 +123,7 @@ function renderMessagesList(array) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
-    fragment.appendChild(createMessage(array[i]));
+    fragment.appendChild(createMessage(array[i], i));
   }
 
   usersMessages.appendChild(fragment);
@@ -148,7 +149,18 @@ function renderPicturesList(arrayPictures) {
   for (var i = 0; i < arrayPictures.length; i++) {
     fragment.appendChild(renderPicture(arrayPictures[i], i));
   }
+  picturesList.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    var pictureNumber =  evt.target.dataset.id;
+    openBigPicture(arrayPictures, pictureNumber);
+  });
 
+  picturesList.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === KEY_CODE.ENTER) {
+      var pictureNumber = evt.target.querySelector('img').dataset.id;
+      openBigPicture(arrayPictures, pictureNumber);
+    }
+  });
   picturesList.appendChild(fragment);
 }
 
@@ -177,10 +189,23 @@ function openBigPicture(arrayPictures, pictureIndex) {
   renderPreviewPicture(arrayPictures, pictureIndex);
   showPreview();
   showElement(bigPicture);
+
+  // добавление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.addEventListener('click', onPictureCloseBtnClick);
 }
 
 function removeChilds(element) {
   element.innerHTML = '';
+}
+
+function onPictureCloseBtnClick() {
+  closeBigPicture();
+}
+
+function closeBigPicture() {
+  hideElement(bigPicture);
+  // удаление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
 }
 
 // editor.js
@@ -212,8 +237,8 @@ function closeEditingWindow() {
 }
 
 // Функция закрытия окна редактирования фото по клику на ESC
-function onEditingWindowKeyDown(evt) {
-  if (evt.keyCode === KEY_CODE.ESC && document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
+function onEditingWindowKeyDown() {
+  if (document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
     closeEditingWindow();
   }
 }
@@ -251,9 +276,6 @@ function openEditingWindow() {
   // скрываем форму загрузки изображения
   fileUploadButton.removeEventListener('change', openEditingWindow);
 }
-
-// showElement(previewWindow);
-// showPreview();
 
 // Работаем с изображениями на форме
 // Добавление фильтра к картинке по клику
