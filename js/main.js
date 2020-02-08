@@ -109,12 +109,6 @@ function hidePreview() {
   galleryOverlay.classList.remove('modal-open');
 }
 
-// Код клавиш для обработки событий
-var KEY_CODE = {
-  ENTER: 13,
-  ESC: 27
-};
-
 // Генерируем комментарии
 function renderMessagesList(array) {
   removeChilds(usersMessages);
@@ -211,7 +205,7 @@ function closeEditingWindow() {
 
 // Функция закрытия окна редактирования фото по клику на ESC
 function onEditingWindowKeyDown() {
-  if (document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
+  if (document.activeElement !== editingWindowHashtags && document.activeElement !== editingWindowComment) {
     closeEditingWindow();
   }
 }
@@ -224,7 +218,7 @@ var DataScale = {
   STEP_RESIZE: 0.25,
   MIN_ZOOM: 0.25,
   MAX_ZOOM: 1
-}
+};
 
 var currentZoomValue = 1;
 
@@ -233,7 +227,7 @@ var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img
 var filtersList = editingWindow.querySelector('.effects');
 
 function resetFilters() {
-  editingWindowComment.value = ''
+  editingWindowComment.value = '';
   editingWindowHashtags.value = '';
   editingWindowFilters.className = 'effects__preview--none';
   pictureZoomingValue.value = currentZoomValue * 100 + '%';
@@ -298,14 +292,12 @@ function splitString(stringToSplit) {
 }
 
 function removeExtraSpaces(string) {
-  return string.replace(/\s+/g,' ' ).trim();
+  return string.replace(/\s+/g, ' ').trim();
 }
 
 function getArrayHashtags(evt) {
-  var arrayStrings = [];
   var hashtagsString = removeExtraSpaces(evt.target.value).toLowerCase();
-  var arrayStrings = splitString(hashtagsString);
-  return arrayStrings;
+  return splitString(hashtagsString);
 }
 
 function checkQuantityHashtags(array) {
@@ -318,7 +310,9 @@ function checkQuantityHashtags(array) {
 
 function checkHashtag(hashtag) {
   var reg = /#([A-Za-z0-9]{2,19})$/;
-  if (!reg.test(hashtag)) return false;
+  if (!reg.test(hashtag)) {
+    return false;
+  }
   return true;
 }
 
@@ -335,7 +329,7 @@ var DataInvalidMessages = {
   QUATITY_HASHTAGS: 'Вы можете добавить максимум 5 хэш-тегов',
   SIMILAR_HASHTAGS: 'Хэш-теги должны быть уникальными, невзирая на регистр',
   HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел'
-}
+};
 
 function checkHashtagsList(evt) {
   var arrayHashtags = getArrayHashtags(evt);
@@ -360,7 +354,7 @@ function checkHashtagsList(evt) {
   return 'правильно';
 }
 
-editingWindowHashtags.addEventListener('input', function(evt) {
+editingWindowHashtags.addEventListener('input', function (evt) {
   // сбрасываем статус
   editingWindowHashtags.setCustomValidity('');
 
