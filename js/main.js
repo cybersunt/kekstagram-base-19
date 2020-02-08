@@ -190,7 +190,7 @@ var editingWindow = document.querySelector('.img-upload');
 var editingWindowComment = editingWindow.querySelector('.text__description');
 var fileUploadButton = editingWindow.querySelector('.img-upload__input');
 var previewWindow = editingWindow.querySelector('.img-upload__overlay');
-var previewPictureHashtags = editingWindow.querySelector('.text__hashtags');
+var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 
 var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
 var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
@@ -227,12 +227,13 @@ var MIN_ZOOM = 0.25;
 var MAX_ZOOM = 1;
 
 // Работаем с изображениями на форме
-var previewPictureFilters = editingWindow.querySelector('.img-upload__preview img');
+var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
 var filtersList = editingWindow.querySelector('.effects');
 
 function resetFilters() {
-  previewPictureHashtags.value = '';
-  previewPictureFilters.className = '';
+  editingWindowComment.value = ''
+  editingWindowHashtags.value = '';
+  editingWindowFilters.className = '';
   pictureZoomingValue.value = currentZoomValue * 100 + '%';
 }
 
@@ -256,7 +257,7 @@ filtersList.addEventListener('click', setFilter);
 
 function setFilter(evt) {
   if (evt.target.checked) {
-    previewPictureFilters.className = 'effects__preview--' + evt.target.value;
+    editingWindowFilters.className = 'effects__preview--' + evt.target.value;
   }
 }
 
@@ -285,7 +286,7 @@ function setScale(evt) {
   }
 
   pictureZoomingValue.value = valueZoom * 100 + '%';
-  previewPictureFilters.style.transform = 'scale(' + valueZoom + ')';
+  editingWindowFilters.style.transform = 'scale(' + valueZoom + ')';
 }
 
 // Валидация формы
@@ -305,7 +306,7 @@ function getArrayHashtags(evt) {
   return arrayStrings;
 }
 
-function checkQuantitytyHashtags(array) {
+function checkQuantityHashtags(array) {
   var MAX_COUNT_HASHTAGS = 5;
   if (array.length > MAX_COUNT_HASHTAGS) {
     return false;
@@ -328,38 +329,44 @@ function searchSimilarHashtags(array) {
   return true;
 }
 
+var DataInvalidMessages = {
+  QUATITY_HASHTAGS: 'Вы можете добавить максимум 5 хэш-тегов',
+  SIMILAR_HASHTAGS: 'Хэш-теги должны быть уникальными, невзирая на регистр',
+  HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел'
+}
+
 function checkHashtagsList(evt) {
   var arrayHashtags = getArrayHashtags(evt);
 
   // Проверяем количество хэштэгов
-  if (checkQuantitytyHashtags(arrayHashtags) === false) {
-    return 'Вы можете добавить максимум 5 хэш-тегов';
+  if (checkQuantityHashtags(arrayHashtags) === false) {
+    return DataInvalidMessages.QUATITY_HASHTAGS;
   }
 
   // проверяем есть ли повторяющиеся хэштэги
   if (searchSimilarHashtags(arrayHashtags) === false) {
-    return 'Хэш-теги должны быть уникальными, невзирая на регистр';
+    return DataInvalidMessages.SIMILAR_HASHTAGS;
   }
 
   // Проверяем правильно ли хэштэги написаны
   for (var i = 0; i < arrayHashtags.length; i++) {
     if (checkHashtag(arrayHashtags[i]) === false) {
-      return 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел';
+      return DataInvalidMessages.HASHTAG;
     }
   }
   // если всё ок
   return 'правильно';
 }
 
-previewPictureHashtags.addEventListener('input', function(evt) {
+editingWindowHashtags.addEventListener('input', function(evt) {
   // сбрасываем статус
-  previewPictureHashtags.setCustomValidity('');
+  editingWindowHashtags.setCustomValidity('');
 
   // записываем результат валидации
   var validMessage = checkHashtagsList(evt);
 
   if (validMessage !== 'правильно') {
     // Если не правильно - записываем статус
-    previewPictureHashtags.setCustomValidity(validMessage);
+    editingWindowHashtags.setCustomValidity(validMessage);
   }
 });
