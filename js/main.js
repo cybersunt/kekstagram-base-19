@@ -210,8 +210,8 @@ function closeEditingWindow() {
 }
 
 // Функция закрытия окна редактирования фото по клику на ESC
-function onEditingWindowKeyDown(evt) {
-  if (evt.keyCode === KEY_CODE.ESC && document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
+function onEditingWindowKeyDown() {
+  if (document.activeElement !== previewPictureHashtags && document.activeElement !== editingWindowComment) {
     closeEditingWindow();
   }
 }
@@ -231,27 +231,24 @@ var previewPictureFilters = editingWindow.querySelector('.img-upload__preview im
 var filtersList = editingWindow.querySelector('.effects');
 
 function resetFilters() {
-  previewPictureFilters.className = 'effects__preview--none';
+  previewPictureHashtags.value = '';
+  previewPictureFilters.className = '';
   pictureZoomingValue.value = currentZoomValue * 100 + '%';
 }
 
 // Открываем окно редактирования фотографий
-function openEditingWindow() {
+function openEditingWindow(evt) {
+  evt.stopPropagation();
   resetFilters();
   showElement(previewWindow);
   showPreview();
   // добавляем обработчик закрытия окна
   closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по кноаке отправить
-  submitPhotoBtn.addEventListener('click', closeEditingWindow);
+  submitPhotoBtn.addEventListener('submit', closeEditingWindow);
   // добавляем обработчик закрытия окна по клавише ESC
   document.addEventListener('keydown', onEditingWindowKeyDown);
-  // скрываем форму загрузки изображения
-  fileUploadButton.removeEventListener('change', openEditingWindow);
 }
-
-// showElement(previewWindow);
-// showPreview();
 
 // Работаем с изображениями на форме
 // Добавление фильтра к картинке по клику
@@ -264,7 +261,6 @@ function setFilter(evt) {
 }
 
 // Добавление зума
-
 enlargePictureBtn.addEventListener('click', setScale);
 reducePictureBtn.addEventListener('click', setScale);
 
@@ -293,11 +289,6 @@ function setScale(evt) {
 }
 
 // Валидация формы
-// Добавление обработчика валидации хэштегов
-previewPictureHashtags.addEventListener('input', checkHashtagsList);
-
-// если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-
 // Валидация хэштегов
 function splitString(stringToSplit) {
   return stringToSplit.split(' ');
@@ -307,10 +298,19 @@ function removeExtraSpaces(string) {
   return string.replace(/\s+/g,' ' ).trim();
 }
 
+function getArrayHashtags(evt) {
+  var arrayStrings = [];
+  var hashtagsString = removeExtraSpaces(evt.target.value).toLowerCase();
+  var arrayStrings = splitString(hashtagsString);
+  return arrayStrings;
+}
+
 function checkQuantitytyHashtags(array) {
-  if (array.length > 5) {
+  var MAX_COUNT_HASHTAGS = 5;
+  if (array.length > MAX_COUNT_HASHTAGS) {
     return false;
   }
+  return true;
 }
 
 function checkHashtag(hashtag) {
@@ -320,8 +320,8 @@ function checkHashtag(hashtag) {
 }
 
 function searchSimilarHashtags(array) {
-  for (i = 0; i < array.length; i++) {
-    if (array[i] == array[(i+1)]) {
+  for (var i = 0; i < array.length - 1; i++) {
+    if (array.indexOf(array[i]) !== array.lastIndexOf(array[i])) {
       return false;
     }
   }
@@ -331,31 +331,35 @@ function searchSimilarHashtags(array) {
 function checkHashtagsList(evt) {
   var arrayHashtags = getArrayHashtags(evt);
 
-  checkQuantitytyHashtags(arrayHashtags);
-  searchSimilarHashtags(arrayHashtags);
-
-  for (var i = 0; i < arrayHashtags.length; i++) {
-    checkHashtag(arrayHashtags[i]);
+  // Проверяем количество хэштэгов
+  if (checkQuantitytyHashtags(arrayHashtags) === false) {
+    return 'Вы можете добавить максимум 5 хэш-тегов';
   }
+
+  // проверяем есть ли повторяющиеся хэштэги
+  if (searchSimilarHashtags(arrayHashtags) === false) {
+    return 'Хэш-теги должны быть уникальными, невзирая на регистр';
+  }
+
+  // Проверяем правильно ли хэштэги написаны
+  for (var i = 0; i < arrayHashtags.length; i++) {
+    if (checkHashtag(arrayHashtags[i]) === false) {
+      return 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел';
+    }
+  }
+  // если всё ок
+  return 'правильно';
 }
 
-function getArrayHashtags(evt) {
-  var sortArray = [];
-  var hashtagsString = removeExtraSpaces(evt.target.value).toLowerCase();
-  var sortArray = splitString(hashtagsString).sort();
-  return sortArray;
-}
+previewPictureHashtags.addEventListener('input', function(evt) {
+  // сбрасываем статус
+  previewPictureHashtags.setCustomValidity('');
 
+  // записываем результат валидации
+  var validMessage = checkHashtagsList(evt);
 
-  // var element = evt.target;
-  // console.log(element);
-  // if (element.validity.tooShort) {
-  //   element.setCustomValidity('Комментарий должен быть не меньше 30-ти символов' );
-  // } else if (element.validity.tooLong) {
-  //   element.setCustomValidity('Комментарий не должен превышать 100 символов');
-  // } else if (element.validity.valueMissing) {
-  //   element.setCustomValidity('Введите, пожалуйста, комментарий. Это обязательно поле для заполнения');
-  // } else {
-  //   element.setCustomValidity('');
-  // }
-
+  if (validMessage !== 'правильно') {
+    // Если не правильно - записываем статус
+    previewPictureHashtags.setCustomValidity(validMessage);
+  }
+});
