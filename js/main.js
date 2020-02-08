@@ -220,11 +220,13 @@ var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
 var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
 var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
 
-var currentZoomValue = 1;
-var STEP_RESIZE = 0.25;
+var DataScale = {
+  STEP_RESIZE: 0.25,
+  MIN_ZOOM: 0.25,
+  MAX_ZOOM: 1
+}
 
-var MIN_ZOOM = 0.25;
-var MAX_ZOOM = 1;
+var currentZoomValue = 1;
 
 // Работаем с изображениями на форме
 var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
@@ -233,7 +235,7 @@ var filtersList = editingWindow.querySelector('.effects');
 function resetFilters() {
   editingWindowComment.value = ''
   editingWindowHashtags.value = '';
-  editingWindowFilters.className = '';
+  editingWindowFilters.className = 'effects__preview--none';
   pictureZoomingValue.value = currentZoomValue * 100 + '%';
 }
 
@@ -266,11 +268,11 @@ enlargePictureBtn.addEventListener('click', setScale);
 reducePictureBtn.addEventListener('click', setScale);
 
 function zoomPicture(zoomValue) {
-  if (currentZoomValue < zoomValue && currentZoomValue >= MIN_ZOOM) {
-    return currentZoomValue += STEP_RESIZE;
+  if (currentZoomValue < zoomValue && currentZoomValue >= DataScale.MIN_ZOOM) {
+    return currentZoomValue += DataScale.STEP_RESIZE;
   }
-  if (currentZoomValue > zoomValue && currentZoomValue <= MAX_ZOOM) {
-    return currentZoomValue -= STEP_RESIZE;
+  if (currentZoomValue > zoomValue && currentZoomValue <= DataScale.MAX_ZOOM) {
+    return currentZoomValue -= DataScale.STEP_RESIZE;
   }
   return currentZoomValue = zoomValue;
 }
@@ -278,11 +280,11 @@ function zoomPicture(zoomValue) {
 function setScale(evt) {
   var valueZoom;
   if (evt.target.classList.contains('scale__control--smaller')) {
-    valueZoom = zoomPicture(MIN_ZOOM);
+    valueZoom = zoomPicture(DataScale.MIN_ZOOM);
   }
 
   if (evt.target.classList.contains('scale__control--bigger')) {
-    valueZoom = zoomPicture(MAX_ZOOM);
+    valueZoom = zoomPicture(DataScale.MAX_ZOOM);
   }
 
   pictureZoomingValue.value = valueZoom * 100 + '%';
