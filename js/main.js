@@ -263,12 +263,12 @@ reducePictureBtn.addEventListener('click', setScale);
 
 function zoomPicture(zoomValue) {
   if (currentZoomValue < zoomValue && currentZoomValue >= DataScale.MIN_ZOOM) {
-    return currentZoomValue += DataScale.STEP_RESIZE;
+    currentZoomValue += DataScale.STEP_RESIZE;
   }
   if (currentZoomValue > zoomValue && currentZoomValue <= DataScale.MAX_ZOOM) {
-    return currentZoomValue -= DataScale.STEP_RESIZE;
+    currentZoomValue -= DataScale.STEP_RESIZE;
   }
-  return currentZoomValue = zoomValue;
+  return currentZoomValue;
 }
 
 function setScale(evt) {
