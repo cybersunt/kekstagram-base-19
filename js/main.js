@@ -309,7 +309,7 @@ function checkQuantityHashtags(array) {
 }
 
 function checkHashtag(hashtag) {
-  var reg = /#([A-Za-z0-9]{2,19})$/;
+  var reg = /#([A-Za-z0-9А-Яа-я]{2,19})$/;
   if (!reg.test(hashtag)) {
     return false;
   }
@@ -325,10 +325,11 @@ function searchSimilarHashtags(array) {
   return true;
 }
 
-var DataInvalidMessages = {
+var HashtagsValidationStatus = {
   QUATITY_HASHTAGS: 'Вы можете добавить максимум 5 хэш-тегов',
   SIMILAR_HASHTAGS: 'Хэш-теги должны быть уникальными, невзирая на регистр',
-  HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел'
+  HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел',
+  OK: 'правильно'
 };
 
 function checkHashtagsList(evt) {
@@ -336,33 +337,35 @@ function checkHashtagsList(evt) {
 
   // Проверяем количество хэштэгов
   if (checkQuantityHashtags(arrayHashtags) === false) {
-    return DataInvalidMessages.QUATITY_HASHTAGS;
+    return HashtagsValidationStatus.QUATITY_HASHTAGS;
   }
 
   // проверяем есть ли повторяющиеся хэштэги
   if (searchSimilarHashtags(arrayHashtags) === false) {
-    return DataInvalidMessages.SIMILAR_HASHTAGS;
+    return HashtagsValidationStatus.SIMILAR_HASHTAGS;
   }
 
   // Проверяем правильно ли хэштэги написаны
   for (var i = 0; i < arrayHashtags.length; i++) {
     if (checkHashtag(arrayHashtags[i]) === false) {
-      return DataInvalidMessages.HASHTAG;
+      return HashtagsValidationStatus.HASHTAG;
     }
   }
   // если всё ок
-  return 'правильно';
+  return HashtagsValidationStatus.OK;
 }
 
 editingWindowHashtags.addEventListener('input', function (evt) {
   // сбрасываем статус
   editingWindowHashtags.setCustomValidity('');
 
-  // записываем результат валидации
-  var validMessage = checkHashtagsList(evt);
+  if (evt.target.value !== '') {
+    // записываем результат валидации
+    var validMessage = checkHashtagsList(evt);
 
-  if (validMessage !== 'правильно') {
-    // Если не правильно - записываем статус
-    editingWindowHashtags.setCustomValidity(validMessage);
+    if (validMessage !== HashtagsValidationStatus.HASHTAG) {
+      // Если не правильно - записываем статус
+      editingWindowHashtags.setCustomValidity(validMessage);
+    }
   }
 });
