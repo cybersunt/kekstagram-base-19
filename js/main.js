@@ -173,6 +173,8 @@ function openBigPicture(arrayPictures, pictureIndex) {
   showElement(bigPicture);
 }
 
+openBigPicture(listNotes, 0);
+
 function removeChilds(element) {
   element.innerHTML = '';
 }
@@ -363,7 +365,7 @@ editingWindowHashtags.addEventListener('input', function (evt) {
     // записываем результат валидации
     var validMessage = checkHashtagsList(evt);
 
-    if (validMessage !== HashtagsValidationStatus.HASHTAG) {
+    if (validMessage !== HashtagsValidationStatus.OK) {
       // Если не правильно - записываем статус
       editingWindowHashtags.setCustomValidity(validMessage);
     }
