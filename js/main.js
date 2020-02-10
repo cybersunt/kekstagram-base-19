@@ -147,6 +147,7 @@ function renderPicturesList(arrayPictures) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arrayPictures.length; i++) {
     fragment.appendChild(renderPicture(arrayPictures[i], i));
+
   }
 
   picturesList.addEventListener('click', function(evt) {
@@ -236,11 +237,7 @@ var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
 var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
 
-fileUploadButton.addEventListener('change', function(evt) {
-  console.log(evt.target);
-  if (evt.target.classList.contains('img-upload__input')) {
-    openEditingWindow();
-  }});
+fileUploadButton.addEventListener('change', openEditingWindow);
 
 // Закрываем окно редактирования фотографий
 function closeEditingWindow() {
@@ -287,8 +284,8 @@ function resetFilters() {
 // Открываем окно редактирования фотографий
 function openEditingWindow() {
   resetFilters();
-  showElement(previewWindow);
   showPreview();
+  showElement(previewWindow);
   // добавляем обработчик закрытия окна
   closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по кнопке отправить
