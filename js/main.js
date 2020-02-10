@@ -61,11 +61,17 @@ function getRandomElement(array) {
 var listNotes = generateNotes();
 
 // preview.js
+// Код клавиш для обработки событий
+var KEY_CODE = {
+  ENTER: 13,
+  ESC: 27
+};
+
 var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
 var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
 var galleryOverlay = document.querySelector('body');
 
-// var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
+var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
 // Генерируем комментарий к фото
 function createMessage(comment) {
@@ -143,7 +149,31 @@ function renderPicturesList(arrayPictures) {
     fragment.appendChild(renderPicture(arrayPictures[i], i));
   }
 
+  picturesList.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    if (evt.target.classList.contains('picture__img')) {
+      var pictureNumber =  evt.target.dataset.id;
+      openBigPicture(arrayPictures, pictureNumber);
+    }
+  });
+
+  picturesList.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === KEY_CODE.ENTER && evt.target.classList.contains('picture')) {
+      var pictureNumber = evt.target.querySelector('img').dataset.id;
+      openBigPicture(arrayPictures, pictureNumber);
+    }
+  });
+
   picturesList.appendChild(fragment);
+}
+
+function closeBigPicture() {
+  hidePreview();
+  hideElement(bigPicture);
+  // удаление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
+  // удаление обработчика нажатия на enter по кнопке закрытия галереи
+  document.removeEventListener('keydown', onPictureCloseKeyDown);
 }
 
 renderPicturesList(listNotes);
@@ -171,12 +201,27 @@ function openBigPicture(arrayPictures, pictureIndex) {
   renderPreviewPicture(arrayPictures, pictureIndex);
   showPreview();
   showElement(bigPicture);
-}
 
-openBigPicture(listNotes, 0);
+  // добавление обработчика клика по кнопке закрытия галереи
+  closeBigPictureBtn.addEventListener('click', onPictureCloseBtnClick);
+  // добавление обработчика нажатия на enter по кнопке закрытия галереи
+  document.addEventListener('keydown', onPictureCloseKeyDown);
+}
 
 function removeChilds(element) {
   element.innerHTML = '';
+}
+
+//Клик на кнопке
+function onPictureCloseBtnClick() {
+  closeBigPicture();
+}
+
+//Нажатие на клавишу enter и esc
+function onPictureCloseKeyDown (evt) {
+  if (evt.keyCode === KEY_CODE.ESC) {
+    closeBigPicture();
+  }
 }
 
 // editor.js
@@ -191,7 +236,11 @@ var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
 var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
 
-fileUploadButton.addEventListener('change', openEditingWindow);
+fileUploadButton.addEventListener('change', function(evt) {
+  console.log(evt.target);
+  if (evt.target.classList.contains('img-upload__input')) {
+    openEditingWindow();
+  }});
 
 // Закрываем окно редактирования фотографий
 function closeEditingWindow() {
@@ -200,7 +249,7 @@ function closeEditingWindow() {
   // удаляем обработчик закрытия окна
   closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
   // удаляем обработчик закрытия окна по кноаке отправить
-  submitPhotoBtn.addEventListener('click', closeEditingWindow);
+  submitPhotoBtn.removeEventListener('submit', closeEditingWindow);
   // удаляем обработчик закрытия окна по клавише ESC
   document.removeEventListener('keydown', onEditingWindowKeyDown);
 }
@@ -236,14 +285,13 @@ function resetFilters() {
 }
 
 // Открываем окно редактирования фотографий
-function openEditingWindow(evt) {
-  evt.stopPropagation();
+function openEditingWindow() {
   resetFilters();
   showElement(previewWindow);
   showPreview();
   // добавляем обработчик закрытия окна
   closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
-  // добавляем обработчик закрытия окна по кноаке отправить
+  // добавляем обработчик закрытия окна по кнопке отправить
   submitPhotoBtn.addEventListener('submit', closeEditingWindow);
   // добавляем обработчик закрытия окна по клавише ESC
   document.addEventListener('keydown', onEditingWindowKeyDown);
