@@ -147,19 +147,18 @@ function renderPicturesList(arrayPictures) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arrayPictures.length; i++) {
     fragment.appendChild(renderPicture(arrayPictures[i], i));
-
   }
 
-  picturesList.addEventListener('click', function(evt) {
-    evt.preventDefault();
+  picturesList.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('picture__img')) {
-      var pictureNumber =  evt.target.dataset.id;
+      var pictureNumber = evt.target.dataset.id;
       openBigPicture(arrayPictures, pictureNumber);
     }
   });
 
-  picturesList.addEventListener('keydown', function(evt) {
+  picturesList.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_CODE.ENTER && evt.target.classList.contains('picture')) {
+      evt.preventDefault();
       var pictureNumber = evt.target.querySelector('img').dataset.id;
       openBigPicture(arrayPictures, pictureNumber);
     }
@@ -213,13 +212,13 @@ function removeChilds(element) {
   element.innerHTML = '';
 }
 
-//Клик на кнопке
+// Клик на кнопке
 function onPictureCloseBtnClick() {
   closeBigPicture();
 }
 
-//Нажатие на клавишу enter и esc
-function onPictureCloseKeyDown (evt) {
+// Нажатие на клавишу enter и esc
+function onPictureCloseKeyDown(evt) {
   if (evt.keyCode === KEY_CODE.ESC) {
     closeBigPicture();
   }
