@@ -8,6 +8,9 @@
     OK: 'правильно'
   };
 
+  var editingWindow = document.querySelector('.img-upload');
+  var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
+
   editingWindowHashtags.addEventListener('input', function (evt) {
     // сбрасываем статус
     editingWindowHashtags.setCustomValidity('');
