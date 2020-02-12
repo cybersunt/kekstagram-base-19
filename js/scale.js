@@ -11,7 +11,7 @@
   var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
   var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
 
-// Добавление зума
+  // Добавление зума
   enlargePictureBtn.addEventListener('click', setScale);
   reducePictureBtn.addEventListener('click', setScale);
 

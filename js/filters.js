@@ -6,8 +6,8 @@
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
 
-// Работаем с изображениями на форме
-// Добавление фильтра к картинке по клику
+  // Работаем с изображениями на форме
+  // Добавление фильтра к картинке по клику
   filtersList.addEventListener('click', setFilter);
 
   function setFilter(evt) {

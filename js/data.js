@@ -12,18 +12,18 @@ window.data = (function generateNotes() {
     USER_NAMES: ['Артем', 'Игорь', 'Марина', 'Динара', 'Вадим', 'Сергей']
   };
 
-    var notes = [];
-    for (var i = 1; i < DataPicture.COUNT_PHOTOS + 1; i++) {
-      notes.push({
-        url: 'photos/' + i + '.jpg',
-        likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
-        messages: generateMessages(),
-        description: getRandomElement(DataPicture.MESSAGES)
-      });
-    }
-    return notes;
+  var notes = [];
+  for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
+    notes.push({
+      url: 'photos/' + j + '.jpg',
+      likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
+      messages: generateMessages(),
+      description: getRandomElement(DataPicture.MESSAGES)
+    });
+  }
+  return notes;
 
-// Функция, возвращающаая массив объектов записей в блоге
+  // Функция, возвращающаая массив объектов записей в блоге
   function generateMessages() {
     var messages = [];
 
@@ -38,18 +38,18 @@ window.data = (function generateNotes() {
     }
     return messages;
   }
-// Функция, возвращающая url аватара
+  // Функция, возвращающая url аватара
   function generateSrcImage() {
     var numberImage = getRandomNumber(DataPicture.MIN_AVATAR_NUM, DataPicture.MAX_AVATAR_NUM);
     return 'img/avatar-' + numberImage + '.svg';
   }
 
-// Функция, возвращающая случайное число в диапазоне
+  // Функция, возвращающая случайное число в диапазоне
   function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-// Функция, возвращающая случайный элемемент массива
+  // Функция, возвращающая случайный элемемент массива
   function getRandomElement(array) {
     var randomIndex = getRandomNumber(0, array.length - 1);
     var randomElement = array[randomIndex];

@@ -50,7 +50,7 @@
     closeBigPicture();
   }
 
-// Нажатие на клавишу enter и esc
+  // Нажатие на клавишу enter и esc
   function onPictureCloseKeyDown(evt) {
     if (evt.keyCode === window.constants.KEYCODE_ESC) {
       closeBigPicture();
@@ -66,14 +66,14 @@
     document.removeEventListener('keydown', onPictureCloseKeyDown);
   }
 
-  function openBigPicture(arrayPictures, pictureIndex) {
+  function openBigPicture(arrayPicturesList, pictureIndex) {
     var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
     var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
 
     window.utils.addClassName(messagesCounter, 'hidden');
     window.utils.addClassName(messagesLoader, 'hidden');
 
-    renderPreviewPicture(arrayPictures, pictureIndex);
+    renderPreviewPicture(arrayPicturesList, pictureIndex);
 
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(bigPicture, 'hidden');
@@ -85,27 +85,27 @@
   }
 
   // Открываем первую фотографию
-  function renderPreviewPicture(arrayPictures, pictureIndex) {
+  function renderPreviewPicture(arrayPicturesList, pictureIndex) {
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
     var pictureMessagesCount = bigPicture.querySelector('.comments-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
-    renderMessagesList(arrayPictures[pictureIndex].messages);
-    pictureUrl.src = arrayPictures[pictureIndex].url;
-    pictureLikes.textContent = arrayPictures[pictureIndex].likes;
-    pictureMessagesCount.textContent = arrayPictures[pictureIndex].messages.length;
-    pictureDescription.textContent = arrayPictures[pictureIndex].description;
+    renderMessagesList(arrayPicturesList[pictureIndex].messages);
+    pictureUrl.src = arrayPicturesList[pictureIndex].url;
+    pictureLikes.textContent = arrayPicturesList[pictureIndex].likes;
+    pictureMessagesCount.textContent = arrayPicturesList[pictureIndex].messages.length;
+    pictureDescription.textContent = arrayPicturesList[pictureIndex].description;
   }
 
   // Генерируем комментарии
   function renderMessagesList(array) {
     removeChilds(usersMessages);
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(createMessage(array[i]));
+    var fragmentMessage = document.createDocumentFragment();
+    for (var j = 0; j < array.length; j) {
+      fragmentMessage.appendChild(createMessage(array[j]));
     }
-    usersMessages.appendChild(fragment);
+    usersMessages.appendChild(fragmentMessage);
   }
 
   // Генерируем комментарий к фото
@@ -137,7 +137,6 @@
   function removeChilds(element) {
     element.innerHTML = '';
   }
-
-  })(window.data);
+})(window.data);
 
 
