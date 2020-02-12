@@ -63,7 +63,7 @@
 
   function closeBigPicture() {
     window.utils.removeClassName(galleryOverlay, 'modal-open');
-    window.utils.removeClassName(bigPicture, 'hidden');
+    window.utils.addClassName(bigPicture, 'hidden');
     // удаление обработчика клика по кнопке закрытия галереи
     closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
     // удаление обработчика нажатия на enter по кнопке закрытия галереи
@@ -143,7 +143,5 @@
   }
 
   })(window.data);
-
-
 
 
