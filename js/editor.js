@@ -1,21 +1,5 @@
 'use strict';
 
-function hideElement(element) {
-  element.classList.add('hidden');
-}
-
-function showElement(element) {
-  element.classList.remove('hidden');
-}
-
-function showPreview() {
-  galleryOverlay.classList.add('modal-open');
-}
-
-function hidePreview() {
-  galleryOverlay.classList.remove('modal-open');
-}
-
 // Для формы редактирования загруженной фотографии
 // Открываем и закрываем форму
 var editingWindow = document.querySelector('.img-upload');
@@ -31,8 +15,8 @@ fileUploadButton.addEventListener('change', openEditingWindow);
 
 // Закрываем окно редактирования фотографий
 function closeEditingWindow() {
-  hideElement(previewWindow);
-  hidePreview();
+  window.utils.addClassName(previewWindow, 'hidden');
+  window.utils.removeClassName(galleryOverlay, 'modal-open');
   // удаляем обработчик закрытия окна
   closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
   // удаляем обработчик закрытия окна по кноаке отправить
@@ -74,8 +58,10 @@ function resetFilters() {
 // Открываем окно редактирования фотографий
 function openEditingWindow() {
   resetFilters();
-  showPreview();
-  showElement(previewWindow);
+
+  window.utils.addClassName(galleryOverlay, 'modal-open');
+  window.utils.removeClassName(previewWindow, 'hidden');
+
   // добавляем обработчик закрытия окна
   closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
   // добавляем обработчик закрытия окна по кнопке отправить

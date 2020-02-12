@@ -104,8 +104,8 @@ function renderPicturesList(arrayPictures) {
 }
 
 function closeBigPicture() {
-  hidePreview();
-  hideElement(bigPicture);
+  window.utils.removeClassName(galleryOverlay, 'modal-open');
+  window.utils.removeClassName(bigPicture, 'hidden');
   // удаление обработчика клика по кнопке закрытия галереи
   closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
   // удаление обработчика нажатия на enter по кнопке закрытия галереи
@@ -132,11 +132,13 @@ function openBigPicture(arrayPictures, pictureIndex) {
   var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
   var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
 
-  hideElement(messagesCounter);
-  hideElement(messagesLoader);
+  window.utils.addClassName(messagesCounter, 'hidden');
+  window.utils.addClassName(messagesLoader, 'hidden');
+
   renderPreviewPicture(arrayPictures, pictureIndex);
-  showPreview();
-  showElement(bigPicture);
+
+  window.utils.addClassName(galleryOverlay, 'modal-open');
+  window.utils.removeClassName(bigPicture, 'hidden');
 
   // добавление обработчика клика по кнопке закрытия галереи
   closeBigPictureBtn.addEventListener('click', onPictureCloseBtnClick);
