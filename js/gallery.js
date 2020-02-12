@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var listNotes = window.data;
 
 var KEY_CODE = {
@@ -36,22 +38,6 @@ function createDOMElement(tagName, className) {
   element.classList.add(className);
 
   return element;
-}
-
-function hideElement(element) {
-  element.classList.add('hidden');
-}
-
-function showElement(element) {
-  element.classList.remove('hidden');
-}
-
-function showPreview() {
-  galleryOverlay.classList.add('modal-open');
-}
-
-function hidePreview() {
-  galleryOverlay.classList.remove('modal-open');
 }
 
 // Генерируем комментарии
@@ -103,6 +89,20 @@ function renderPicturesList(arrayPictures) {
   picturesList.appendChild(fragment);
 }
 
+renderPicturesList(listNotes);
+
+// Клик на кнопке
+function onPictureCloseBtnClick() {
+  closeBigPicture();
+}
+
+// Нажатие на клавишу enter и esc
+function onPictureCloseKeyDown(evt) {
+  if (evt.keyCode === KEY_CODE.ESC) {
+    closeBigPicture();
+  }
+}
+
 function closeBigPicture() {
   window.utils.removeClassName(galleryOverlay, 'modal-open');
   window.utils.removeClassName(bigPicture, 'hidden');
@@ -110,22 +110,6 @@ function closeBigPicture() {
   closeBigPictureBtn.removeEventListener('click', onPictureCloseBtnClick);
   // удаление обработчика нажатия на enter по кнопке закрытия галереи
   document.removeEventListener('keydown', onPictureCloseKeyDown);
-}
-
-renderPicturesList(listNotes);
-
-// Открываем первую фотографию
-function renderPreviewPicture(arrayPictures, pictureIndex) {
-  var pictureUrl = bigPicture.querySelector('.big-picture__img img');
-  var pictureLikes = bigPicture.querySelector('.likes-count');
-  var pictureMessagesCount = bigPicture.querySelector('.comments-count');
-  var pictureDescription = bigPicture.querySelector('.social__caption');
-
-  renderMessagesList(arrayPictures[pictureIndex].messages);
-  pictureUrl.src = arrayPictures[pictureIndex].url;
-  pictureLikes.textContent = arrayPictures[pictureIndex].likes;
-  pictureMessagesCount.textContent = arrayPictures[pictureIndex].messages.length;
-  pictureDescription.textContent = arrayPictures[pictureIndex].description;
 }
 
 function openBigPicture(arrayPictures, pictureIndex) {
@@ -146,18 +130,20 @@ function openBigPicture(arrayPictures, pictureIndex) {
   document.addEventListener('keydown', onPictureCloseKeyDown);
 }
 
+// Открываем первую фотографию
+function renderPreviewPicture(arrayPictures, pictureIndex) {
+  var pictureUrl = bigPicture.querySelector('.big-picture__img img');
+  var pictureLikes = bigPicture.querySelector('.likes-count');
+  var pictureMessagesCount = bigPicture.querySelector('.comments-count');
+  var pictureDescription = bigPicture.querySelector('.social__caption');
+
+  renderMessagesList(arrayPictures[pictureIndex].messages);
+  pictureUrl.src = arrayPictures[pictureIndex].url;
+  pictureLikes.textContent = arrayPictures[pictureIndex].likes;
+  pictureMessagesCount.textContent = arrayPictures[pictureIndex].messages.length;
+  pictureDescription.textContent = arrayPictures[pictureIndex].description;
+}
+
 function removeChilds(element) {
   element.innerHTML = '';
-}
-
-// Клик на кнопке
-function onPictureCloseBtnClick() {
-  closeBigPicture();
-}
-
-// Нажатие на клавишу enter и esc
-function onPictureCloseKeyDown(evt) {
-  if (evt.keyCode === KEY_CODE.ESC) {
-    closeBigPicture();
-  }
 }
