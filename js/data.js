@@ -56,4 +56,3 @@ window.data = (function generateNotes() {
     return randomElement;
   }
 })();
-
