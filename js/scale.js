@@ -1,15 +1,11 @@
 'use strict';
 
 (function () {
-  var DataScale = {
-    STEP_RESIZE: 0.25,
-    MIN_ZOOM: 0.25,
-    MAX_ZOOM: 1
-  };
 
   var currentZoomValue = 1;
 
   var editingWindow = document.querySelector('.img-upload');
+  var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
 
   var enlargePictureBtn = editingWindow.querySelector('.scale__control--bigger');
   var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
@@ -20,11 +16,11 @@
   reducePictureBtn.addEventListener('click', setScale);
 
   function zoomPicture(zoomValue) {
-    if (currentZoomValue < zoomValue && currentZoomValue >= DataScale.MIN_ZOOM) {
-      currentZoomValue += DataScale.STEP_RESIZE;
+    if (currentZoomValue < zoomValue && currentZoomValue >= window.constants.SCALE_MIN_ZOOM) {
+      currentZoomValue += window.constants.SCALE_STEP_RESIZE;
     }
-    if (currentZoomValue > zoomValue && currentZoomValue <= DataScale.MAX_ZOOM) {
-      currentZoomValue -= DataScale.STEP_RESIZE;
+    if (currentZoomValue > zoomValue && currentZoomValue <= window.constants.SCALE_MAX_ZOOM) {
+      currentZoomValue -= window.constants.SCALE_STEP_RESIZE;
     }
     return currentZoomValue;
   }
@@ -32,14 +28,14 @@
   function setScale(evt) {
     var valueZoom;
     if (evt.target.classList.contains('scale__control--smaller')) {
-      valueZoom = zoomPicture(DataScale.MIN_ZOOM);
+      valueZoom = zoomPicture(window.constants.SCALE_MIN_ZOOM);
     }
 
     if (evt.target.classList.contains('scale__control--bigger')) {
-      valueZoom = zoomPicture(DataScale.MAX_ZOOM);
+      valueZoom = zoomPicture(window.constants.SCALE_MAX_ZOOM);
     }
 
-    pictureZoomingValue.value = valueZoom * 100 + '%';
+    pictureZoomingValue.value = valueZoom * window.constants.SCALE_PERCENTS + '%';
     editingWindowFilters.style.transform = 'scale(' + valueZoom + ')';
   }
 })();

@@ -38,7 +38,7 @@
     editingWindowComment.value = '';
     editingWindowHashtags.value = '';
     editingWindowFilters.className = 'effects__preview--none';
-    pictureZoomingValue.value = currentZoomValue * 100 + '%';
+    pictureZoomingValue.value = currentZoomValue * window.constants.SCALE_PERCENTS + '%';
   }
 
   // Функция закрытия окна редактирования фото по клику на ESC

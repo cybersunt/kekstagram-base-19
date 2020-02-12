@@ -1,13 +1,6 @@
 'use strict';
 
 (function () {
-  var HashtagsValidationStatus = {
-    QUATITY_HASHTAGS: 'Вы можете добавить максимум 5 хэш-тегов',
-    SIMILAR_HASHTAGS: 'Хэш-теги должны быть уникальными, невзирая на регистр',
-    HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел',
-    OK: 'правильно'
-  };
-
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 
@@ -19,7 +12,7 @@
       // записываем результат валидации
       var validMessage = checkHashtagsList(evt);
 
-      if (validMessage !== HashtagsValidationStatus.OK) {
+      if (validMessage !== window.constants.HASHTAGS_STATUS_OK) {
         // Если не правильно - записываем статус
         editingWindowHashtags.setCustomValidity(validMessage);
       }
@@ -31,22 +24,22 @@
 
     // Проверяем количество хэштэгов
     if (checkQuantityHashtags(arrayHashtags) === false) {
-      return HashtagsValidationStatus.QUATITY_HASHTAGS;
+      return window.constants.INVALID_QUATITY_HASHTAGS;
     }
 
     // проверяем есть ли повторяющиеся хэштэги
     if (searchSimilarHashtags(arrayHashtags) === false) {
-      return HashtagsValidationStatus.SIMILAR_HASHTAGS;
+      return window.constants.INVALID_SIMILAR_HASHTAGS;
     }
 
     // Проверяем правильно ли хэштэги написаны
     for (var i = 0; i < arrayHashtags.length; i++) {
       if (checkHashtag(arrayHashtags[i]) === false) {
-        return HashtagsValidationStatus.HASHTAG;
+        return window.constants.INVALID_HASHTAG;
       }
     }
     // если всё ок
-    return HashtagsValidationStatus.OK;
+    return window.constants.HASHTAGS_STATUS_OK;
   }
 
   function getArrayHashtags(evt) {
@@ -63,8 +56,7 @@
   }
 
   function checkQuantityHashtags(array) {
-    var MAX_COUNT_HASHTAGS = 5;
-    if (array.length > MAX_COUNT_HASHTAGS) {
+    if (array.length > window.constants.MAX_COUNT_HASHTAGS) {
       return false;
     }
     return true;

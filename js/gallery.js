@@ -1,10 +1,6 @@
 'use strict';
 
 (function (arrayPictures) {
-  var KEY_CODE = {
-    ENTER: 13,
-    ESC: 27
-  };
 
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
@@ -26,7 +22,7 @@
   });
 
   picturesList.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEY_CODE.ENTER && evt.target.classList.contains('picture')) {
+    if (evt.keyCode === window.constants.KEYCODE.ENTER && evt.target.classList.contains('picture')) {
       evt.preventDefault();
       var pictureNumber = evt.target.querySelector('img').dataset.id;
       openBigPicture(arrayPictures, pictureNumber);
@@ -56,7 +52,7 @@
 
 // Нажатие на клавишу enter и esc
   function onPictureCloseKeyDown(evt) {
-    if (evt.keyCode === KEY_CODE.ESC) {
+    if (evt.keyCode === window.constants.KEYCODE_ESC) {
       closeBigPicture();
     }
   }
