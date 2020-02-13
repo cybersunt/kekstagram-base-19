@@ -16,7 +16,7 @@
   }
 
   window.gallery = {
-    renderPictures: function (arrayPictures) {
+    generateMockPhotos: function (arrayPictures) {
 
       var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
       var fragment = document.createDocumentFragment();

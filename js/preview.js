@@ -7,25 +7,17 @@
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
-
-  function createDOMElement(tagName, className) {
-    var element = document.createElement(tagName);
-    element.classList.add(className);
-
-    return element;
-  }
-
   // Генерируем комментарий к фото
   function createMessage(comment) {
-    var userMessage = createDOMElement('li', 'social__comment');
-    var userMessageText = createDOMElement('p', 'social__text');
-    var userMessagePicture = createDOMElement('img', 'social__picture');
+    var userMessage = window.utils.createDOMElement('li', 'social__comment');
+    var userMessageText = window.utils.createDOMElement('p', 'social__text');
+    var userMessagePicture = window.utils.createDOMElement('img', 'social__picture');
 
     userMessageText.textContent = comment.message;
 
-    userMessagePicture.width = 35;
-    userMessagePicture.height = 35;
-    userMessagePicture.alt = 'Аватар автора фотографии';
+    userMessagePicture.width = window.constants.USER_AVATAR_SIZE;
+    userMessagePicture.height = window.constants.USER_AVATAR_SIZE;
+    userMessagePicture.alt = window.constants.USER_AVATAR_ALT;
     userMessagePicture.src = comment.avatar;
 
     userMessage.appendChild(userMessagePicture);
@@ -34,16 +26,12 @@
     return userMessage;
   }
 
-  function removeChilds(element) {
-    element.innerHTML = '';
-  }
-
   // Генерируем комментарии
   function renderMessagesList(array) {
-    removeChilds(usersMessages);
+    window.utils.removeChilds(usersMessages);
     var fragmentMessage = document.createDocumentFragment();
-    for (var j = 0; j < array.length; j++) {
-      fragmentMessage.appendChild(createMessage(array[j]));
+    for (var i = 0; i < array.length; i++) {
+      fragmentMessage.appendChild(createMessage(array[i]));
     }
     usersMessages.appendChild(fragmentMessage);
   }

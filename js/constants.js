@@ -14,7 +14,10 @@
     INVALID_SIMILAR_HASHTAGS: 'Хэш-теги должны быть уникальными, невзирая на регистр',
     INVALID_HASHTAG: 'Хэш-тэг должен начинаться с # и состоять только из букв и цифр. Между хэш-тегами должен быть пробел',
     HASHTAGS_STATUS_OK: 'правильно',
-    MAX_COUNT_HASHTAGS: 5
+    MAX_COUNT_HASHTAGS: 5,
+
+    USER_AVATAR_SIZE: 35,
+    USER_AVATAR_ALT: 'Аватар автора фотографии'
   };
 })();
 
