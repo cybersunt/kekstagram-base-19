@@ -1,6 +1,6 @@
 'use strict';
 
-(function (arrayPictures) {
+(function (arrayPicturesList) {
 
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
@@ -10,14 +10,14 @@
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < arrayPictures.length; i++) {
-    fragment.appendChild(renderPicture(arrayPictures[i], i));
+  for (var i = 0; i < arrayPicturesList.length; i++) {
+    fragment.appendChild(renderPicture(arrayPicturesList[i], i));
   }
 
   picturesList.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('picture__img')) {
       var pictureNumber = evt.target.dataset.id;
-      openBigPicture(arrayPictures, pictureNumber);
+      openBigPicture(arrayPicturesList, pictureNumber);
     }
   });
 
@@ -25,7 +25,7 @@
     if (evt.keyCode === window.constants.KEYCODE.ENTER && evt.target.classList.contains('picture')) {
       evt.preventDefault();
       var pictureNumber = evt.target.querySelector('img').dataset.id;
-      openBigPicture(arrayPictures, pictureNumber);
+      openBigPicture(arrayPicturesList, pictureNumber);
     }
   });
 
@@ -66,14 +66,14 @@
     document.removeEventListener('keydown', onPictureCloseKeyDown);
   }
 
-  function openBigPicture(arrayPicturesList, pictureIndex) {
+  function openBigPicture(arrayPictures, pictureIndex) {
     var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
     var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
 
     window.utils.addClassName(messagesCounter, 'hidden');
     window.utils.addClassName(messagesLoader, 'hidden');
 
-    renderPreviewPicture(arrayPicturesList, pictureIndex);
+    renderPreviewPicture(arrayPictures, pictureIndex);
 
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(bigPicture, 'hidden');
@@ -85,24 +85,24 @@
   }
 
   // Открываем первую фотографию
-  function renderPreviewPicture(arrayPicturesList, pictureIndex) {
+  function renderPreviewPicture(arrayPictures, pictureIndex) {
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
     var pictureMessagesCount = bigPicture.querySelector('.comments-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
-    renderMessagesList(arrayPicturesList[pictureIndex].messages);
-    pictureUrl.src = arrayPicturesList[pictureIndex].url;
-    pictureLikes.textContent = arrayPicturesList[pictureIndex].likes;
-    pictureMessagesCount.textContent = arrayPicturesList[pictureIndex].messages.length;
-    pictureDescription.textContent = arrayPicturesList[pictureIndex].description;
+    renderMessagesList(arrayPictures[pictureIndex].messages);
+    pictureUrl.src = arrayPictures[pictureIndex].url;
+    pictureLikes.textContent = arrayPictures[pictureIndex].likes;
+    pictureMessagesCount.textContent = arrayPictures[pictureIndex].messages.length;
+    pictureDescription.textContent = arrayPictures[pictureIndex].description;
   }
 
   // Генерируем комментарии
   function renderMessagesList(array) {
     removeChilds(usersMessages);
     var fragmentMessage = document.createDocumentFragment();
-    for (var j = 0; j < array.length; j) {
+    for (var j = 0; j < array.length; j++) {
       fragmentMessage.appendChild(createMessage(array[j]));
     }
     usersMessages.appendChild(fragmentMessage);
@@ -137,6 +137,5 @@
   function removeChilds(element) {
     element.innerHTML = '';
   }
+
 })(window.data);
-
-
