@@ -29,5 +29,5 @@
 
       picturesList.appendChild(fragment);
     }
-  }
+  };
 })();

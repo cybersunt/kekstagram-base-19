@@ -61,11 +61,11 @@
     document.addEventListener('keydown', onEditingWindowKeyDown);
   }
 
-  var uploadPhoto = function() {
+  var uploadPhoto = function () {
     fileUploadButton.addEventListener('change', openEditingWindow);
-  }
+  };
 
   window.editor = {
     uploadPhoto: uploadPhoto
-  }
+  };
 })();

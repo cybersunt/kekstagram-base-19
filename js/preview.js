@@ -74,7 +74,7 @@
     closeBigPicture();
   }
 
-// Нажатие на клавишу enter и esc
+  // Нажатие на клавишу enter и esc
   function onPictureCloseKeyDown(evt) {
     if (evt.keyCode === window.constants.KEYCODE_ESC) {
       closeBigPicture();
@@ -90,7 +90,7 @@
     document.removeEventListener('keydown', onPictureCloseKeyDown);
   }
 
-  var showPhoto = function() {
+  var showPhoto = function () {
     picturesList.addEventListener('click', function (evt) {
       if (evt.target.classList.contains('picture__img')) {
         var pictureNumber = evt.target.dataset.id;
@@ -105,15 +105,9 @@
         openBigPicture(pictureNumber);
       }
     });
-  }
+  };
 
   window.preview = {
     showPhoto: showPhoto
-  }
+  };
 })();
-
-
-
-
-
-

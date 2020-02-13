@@ -45,7 +45,7 @@
   }
 
   window.data = {
-    getCurrentData: function() {
+    getCurrentData: function () {
       var notes = [];
       for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
         notes.push({
@@ -57,5 +57,5 @@
       }
       return notes;
     }
-  }
+  };
 })();

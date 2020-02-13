@@ -12,11 +12,11 @@
     }
   }
 
-  var applyFilter = function() {
+  var applyFilter = function () {
     filtersList.addEventListener('click', setFilter);
-  }
+  };
 
   window.filters = {
     applyFilter: applyFilter
-  }
+  };
 })();

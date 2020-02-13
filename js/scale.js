@@ -35,15 +35,12 @@
     editingWindowFilters.style.transform = 'scale(' + valueZoom + ')';
   }
 
-  var zoomPhoto = function() {
+  var zoomPhoto = function () {
     enlargePictureBtn.addEventListener('click', setScale);
     reducePictureBtn.addEventListener('click', setScale);
-  }
+  };
 
   window.scale = {
     zoomPhoto: zoomPhoto
-  }
+  };
 })();
-
-
-
