@@ -11,10 +11,6 @@
   var reducePictureBtn = editingWindow.querySelector('.scale__control--smaller');
   var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
 
-  // Добавление зума
-  enlargePictureBtn.addEventListener('click', setScale);
-  reducePictureBtn.addEventListener('click', setScale);
-
   function zoomPicture(zoomValue) {
     if (currentZoomValue < zoomValue && currentZoomValue >= window.constants.SCALE_MIN_ZOOM) {
       currentZoomValue += window.constants.SCALE_STEP_RESIZE;
@@ -38,6 +34,16 @@
     pictureZoomingValue.value = valueZoom * window.constants.SCALE_PERCENTS + '%';
     editingWindowFilters.style.transform = 'scale(' + valueZoom + ')';
   }
+
+  var zoomPhoto = function() {
+    enlargePictureBtn.addEventListener('click', setScale);
+    reducePictureBtn.addEventListener('click', setScale);
+  }
+
+  window.scale = {
+    zoomPhoto: zoomPhoto
+  }
 })();
+
 
 

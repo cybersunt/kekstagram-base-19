@@ -4,21 +4,6 @@
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 
-  editingWindowHashtags.addEventListener('input', function (evt) {
-    // сбрасываем статус
-    editingWindowHashtags.setCustomValidity('');
-
-    if (evt.target.value !== '') {
-      // записываем результат валидации
-      var validMessage = checkHashtagsList(evt);
-
-      if (validMessage !== window.constants.HASHTAGS_STATUS_OK) {
-        // Если не правильно - записываем статус
-        editingWindowHashtags.setCustomValidity(validMessage);
-      }
-    }
-  });
-
   function checkHashtagsList(evt) {
     var arrayHashtags = getArrayHashtags(evt);
 
@@ -77,5 +62,25 @@
       return false;
     }
     return true;
+  }
+
+  var validate = function() {
+    editingWindowHashtags.addEventListener('input', function (evt) {
+      // сбрасываем статус
+      editingWindowHashtags.setCustomValidity('');
+
+      if (evt.target.value !== '') {
+        // записываем результат валидации
+        var validMessage = checkHashtagsList(evt);
+
+        if (validMessage !== window.constants.HASHTAGS_STATUS_OK) {
+          // Если не правильно - записываем статус
+          editingWindowHashtags.setCustomValidity(validMessage);
+        }
+      }
+    });
+  }
+  window.form = {
+    validate: validate
   }
 })();

@@ -1,7 +1,6 @@
 'use strict';
-
 (function () {
-  // Для формы редактирования загруженной фотографии
+
   var galleryOverlay = document.querySelector('body');
 
   var editingWindow = document.querySelector('.img-upload');
@@ -16,23 +15,6 @@
   var editingWindowComment = editingWindow.querySelector('.text__description');
 
   var currentZoomValue = 1;
-
-  fileUploadButton.addEventListener('change', openEditingWindow);
-
-  // Открываем окно редактирования фотографий
-  function openEditingWindow() {
-    resetFilters();
-
-    window.utils.addClassName(galleryOverlay, 'modal-open');
-    window.utils.removeClassName(previewWindow, 'hidden');
-
-    // добавляем обработчик закрытия окна
-    closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
-    // добавляем обработчик закрытия окна по кнопке отправить
-    submitPhotoBtn.addEventListener('submit', closeEditingWindow);
-    // добавляем обработчик закрытия окна по клавише ESC
-    document.addEventListener('keydown', onEditingWindowKeyDown);
-  }
 
   function resetFilters() {
     editingWindowComment.value = '';
@@ -59,5 +41,31 @@
     // удаляем обработчик закрытия окна по клавише ESC
     document.removeEventListener('keydown', onEditingWindowKeyDown);
   }
-})();
 
+  // Открываем окно редактирования фотографий
+  function openEditingWindow() {
+    resetFilters();
+
+    window.utils.addClassName(galleryOverlay, 'modal-open');
+    window.utils.removeClassName(previewWindow, 'hidden');
+
+    window.filters.applyFilter();
+    window.scale.zoomPhoto();
+    window.form.validate();
+
+    // добавляем обработчик закрытия окна
+    closePreviewWindowBtn.addEventListener('click', closeEditingWindow);
+    // добавляем обработчик закрытия окна по кнопке отправить
+    submitPhotoBtn.addEventListener('submit', closeEditingWindow);
+    // добавляем обработчик закрытия окна по клавише ESC
+    document.addEventListener('keydown', onEditingWindowKeyDown);
+  }
+
+  var uploadPhoto = function() {
+    fileUploadButton.addEventListener('change', openEditingWindow);
+  }
+
+  window.editor = {
+    uploadPhoto: uploadPhoto
+  }
+})();

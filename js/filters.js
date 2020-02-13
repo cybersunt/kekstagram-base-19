@@ -6,13 +6,17 @@
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
 
-  // Работаем с изображениями на форме
-  // Добавление фильтра к картинке по клику
-  filtersList.addEventListener('click', setFilter);
-
   function setFilter(evt) {
     if (evt.target.checked) {
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
     }
+  }
+
+  var applyFilter = function() {
+    filtersList.addEventListener('click', setFilter);
+  }
+
+  window.filters = {
+    applyFilter: applyFilter
   }
 })();
