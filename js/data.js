@@ -1,7 +1,6 @@
 'use strict';
 
-// Функция, возвращающаая массив объектов записей в блоге
-window.data = (function generateNotes() {
+(function () {
   var DataPicture = {
     COUNT_PHOTOS: 25,
     MIN_LIKES: 15,
@@ -11,17 +10,6 @@ window.data = (function generateNotes() {
     MESSAGES: ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'],
     USER_NAMES: ['Артем', 'Игорь', 'Марина', 'Динара', 'Вадим', 'Сергей']
   };
-
-  var notes = [];
-  for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
-    notes.push({
-      url: 'photos/' + j + '.jpg',
-      likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
-      messages: generateMessages(),
-      description: getRandomElement(DataPicture.MESSAGES)
-    });
-  }
-  return notes;
 
   // Функция, возвращающаая массив объектов записей в блоге
   function generateMessages() {
@@ -54,5 +42,20 @@ window.data = (function generateNotes() {
     var randomIndex = getRandomNumber(0, array.length - 1);
     var randomElement = array[randomIndex];
     return randomElement;
+  }
+
+  window.data = {
+    getCurrentData: function() {
+      var notes = [];
+      for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
+        notes.push({
+          url: 'photos/' + j + '.jpg',
+          likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
+          messages: generateMessages(),
+          description: getRandomElement(DataPicture.MESSAGES)
+        });
+      }
+      return notes;
+    }
   }
 })();
