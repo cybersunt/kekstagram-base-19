@@ -38,7 +38,7 @@
     CURRENT_SATURATION: 0.2
   };
 
-  function getFilterValue(filter) {
+  function getCurrentFilterValue(filter) {
     return (filter.MAX - filter.MIN) * SettingsEffects.CURRENT_SATURATION;
   }
 
@@ -46,29 +46,32 @@
     editingWindowFilters.removeAttribute('style');
   }
 
-  function setFilterSaturation() {
-   var filterName = filtersList.querySelector('input[checked]').value;
-
-   if (filterName === SettingsEffects.chrome.NAME) {
-     editingWindowFilters.style.filter = 'grayscale(' + getFilterValue(SettingsEffects.chrome) +')';
-   }
-   if (filterName === SettingsEffects.sepia.NAME) {
-     editingWindowFilters.style.filter = 'sepia(' + getFilterValue(SettingsEffects.chrome) +')';
-   }
-   if (filterName === SettingsEffects.marvin.NAME) {
-     editingWindowFilters.style.filter = 'invert(' + getFilterValue(SettingsEffects.chrome) * 100 +'%)';
-   }
-   if (filterName === SettingsEffects.phobos.NAME) {
-     editingWindowFilters.style.filter = 'blur(' + getFilterValue(SettingsEffects.chrome) +'px)';
-   }
-   if (filterName === SettingsEffects.heat.NAME) {
-     editingWindowFilters.style.filter = 'brightness(' + getFilterValue(SettingsEffects.chrome) +')';
-   }
-    if (filterName === SettingsEffects.RESET_FILTER) {
-      resetSaturation();
+  function checkUseFilter(filterName) {
+    switch (filterName) {
+      case SettingsEffects.chrome.NAME:
+        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome) +')';
+        break;
+      case SettingsEffects.sepia.NAME:
+        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia) +')';
+        break;
+      case SettingsEffects.marvin.NAME:
+        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin)+'%)';
+        break;
+      case SettingsEffects.phobos.NAME:
+        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos) +'px)';
+        break;
+      case SettingsEffects.heat.NAME:
+        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat) +')';
+        break;
+      default:
+        resetSaturation();
     }
   }
 
+  function setFilterSaturation() {
+   var filterName = filtersList.querySelector('input[checked]').value;
+   checkUseFilter(filterName);
+  }
 
   function setFilter(evt) {
     if (evt.target.checked) {
