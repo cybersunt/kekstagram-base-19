@@ -6,7 +6,10 @@
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
   var filtersButtons = editingWindow.querySelectorAll('.effects__radio');
+  var filterLevel= editingWindow.querySelector('.img-upload__effect-level  effect-level')
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
+  var sliderBar = editingWindow.querySelector('.effect-level__line');
+  var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
 
   var SettingsEffects = {
     chrome: {
@@ -84,8 +87,44 @@
     }
   }
 
+  function onMouseDown(evt) {
+    evt.preventDefault();
+
+    var SLIDER_WIDTH = toggleSlider.offsetWidth;
+
+    var LimitMovementX = {
+      min: sliderBar.offsetLeft,
+      max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
+    }
+
+    function onMouseMove(evt) {
+
+      var toggleSliderCoord = toggleSlider.offsetLeft + evt.movementX;
+
+      if (toggleSliderCoord < LimitMovementX.min) {
+        toggleSliderCoord = LimitMovementX.min;
+      } else if (toggleSliderCoord > LimitMovementX.max) {
+        toggleSliderCoord = LimitMovementX.max;
+      }
+
+      toggleSlider.style.left = toggleSliderCoord + 'px';
+      sliderBarFill.style.width = toggleSliderCoord + 'px'
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      toggleSlider.removeEventListener('mousemove', onMouseMove);
+      toggleSlider.removeEventListener('mouseup', onMouseUp);
+    };
+
+    toggleSlider.addEventListener('mousemove', onMouseMove);
+    toggleSlider.addEventListener('mouseup', onMouseUp);
+  }
+
   var applyFilter = function () {
     filtersList.addEventListener('click', setFilter);
+    toggleSlider.addEventListener('mousedown', onMouseDown);
     toggleSlider.addEventListener('mouseup', setFilterSaturation);
   };
 
