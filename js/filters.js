@@ -6,7 +6,6 @@
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
   var filtersButtons = editingWindow.querySelectorAll('.effects__radio');
-  var filterLevel= editingWindow.querySelector('.img-upload__effect-level  effect-level')
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
@@ -52,19 +51,19 @@
   function checkUseFilter(filterName) {
     switch (filterName) {
       case SettingsEffects.chrome.NAME:
-        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome) +')';
+        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome) + ')';
         break;
       case SettingsEffects.sepia.NAME:
-        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia) +')';
+        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia) + ')';
         break;
       case SettingsEffects.marvin.NAME:
-        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin)+'%)';
+        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin) + '%)';
         break;
       case SettingsEffects.phobos.NAME:
-        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos) +'px)';
+        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos) + 'px)';
         break;
       case SettingsEffects.heat.NAME:
-        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat) +')';
+        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat) + ')';
         break;
       default:
         resetSaturation();
@@ -72,8 +71,8 @@
   }
 
   function setFilterSaturation() {
-   var filterName = filtersList.querySelector('input[checked]').value;
-   checkUseFilter(filterName);
+    var filterName = filtersList.querySelector('input[checked]').value;
+    checkUseFilter(filterName);
   }
 
   function setFilter(evt) {
@@ -95,11 +94,11 @@
     var LimitMovementX = {
       min: sliderBar.offsetLeft,
       max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
-    }
+    };
 
-    function onMouseMove(evt) {
+    function onMouseMove(moveEvt) {
 
-      var toggleSliderCoord = toggleSlider.offsetLeft + evt.movementX;
+      var toggleSliderCoord = toggleSlider.offsetLeft + moveEvt.movementX;
 
       if (toggleSliderCoord < LimitMovementX.min) {
         toggleSliderCoord = LimitMovementX.min;
@@ -108,8 +107,8 @@
       }
 
       toggleSlider.style.left = toggleSliderCoord + 'px';
-      sliderBarFill.style.width = toggleSliderCoord + 'px'
-    };
+      sliderBarFill.style.width = toggleSliderCoord + 'px';
+    }
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
