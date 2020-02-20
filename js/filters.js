@@ -92,13 +92,20 @@
     var SLIDER_WIDTH = toggleSlider.offsetWidth;
 
     var LimitMovementX = {
-      min: sliderBar.offsetLeft,
+      min: sliderBar.offsetLeft - SLIDER_WIDTH ,
       max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
     };
 
-    function onMouseMove(moveEvt) {
+    var startCoordsX = evt.clientX;
 
-      var toggleSliderCoord = toggleSlider.offsetLeft + moveEvt.movementX;
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shiftSlider = startCoordsX - moveEvt.clientX
+
+      var toggleSliderCoord = toggleSlider.offsetLeft - shiftSlider;
+
+      startCoordsX = moveEvt.clientX;
 
       if (toggleSliderCoord < LimitMovementX.min) {
         toggleSliderCoord = LimitMovementX.min;
@@ -108,17 +115,18 @@
 
       toggleSlider.style.left = toggleSliderCoord + 'px';
       sliderBarFill.style.width = toggleSliderCoord + 'px';
-    }
+
+    };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      toggleSlider.removeEventListener('mousemove', onMouseMove);
-      toggleSlider.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
-    toggleSlider.addEventListener('mousemove', onMouseMove);
-    toggleSlider.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   }
 
   var applyFilter = function () {
