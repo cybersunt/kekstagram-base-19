@@ -92,7 +92,7 @@
     var SLIDER_WIDTH = toggleSlider.offsetWidth;
 
     var LimitMovementX = {
-      min: sliderBar.offsetLeft - SLIDER_WIDTH ,
+      min: sliderBar.offsetLeft - SLIDER_WIDTH,
       max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
     };
 
@@ -101,7 +101,7 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var shiftSlider = startCoordsX - moveEvt.clientX
+      var shiftSlider = startCoordsX - moveEvt.clientX;
 
       var toggleSliderCoord = toggleSlider.offsetLeft - shiftSlider;
 
