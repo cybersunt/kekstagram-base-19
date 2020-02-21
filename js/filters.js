@@ -98,8 +98,9 @@
 
     var startCoordsX = evt.clientX;
 
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove (moveEvt) {
       moveEvt.preventDefault();
+      setFilterSaturation();
 
       var shiftSlider = startCoordsX - moveEvt.clientX;
 
@@ -118,7 +119,7 @@
 
     };
 
-    var onMouseUp = function (upEvt) {
+    function onMouseUp (upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
@@ -132,7 +133,6 @@
   var applyFilter = function () {
     filtersList.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
-    toggleSlider.addEventListener('mouseup', setFilterSaturation);
   };
 
   window.filters = {
