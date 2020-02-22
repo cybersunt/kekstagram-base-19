@@ -5,10 +5,12 @@
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
-  var filtersButtons = editingWindow.querySelectorAll('.effects__radio');
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
+
+  var currentFilterValue = 0.2;
+  var currentFilter = 'none';
 
   var SettingsEffects = {
     chrome: {
@@ -35,55 +37,50 @@
       NAME: 'heat',
       MIN: 1,
       MAX: 3
-    },
-    RESET_FILTER: 'none',
-    CURRENT_SATURATION: 0.2
+    }
   };
 
-  function getCurrentFilterValue(filter) {
-    return (filter.MAX - filter.MIN) * SettingsEffects.CURRENT_SATURATION;
+  function getCurrentFilterValue(filter, filterValue) {
+    return (filter.MAX - filter.MIN) * filterValue;
   }
 
   function resetSaturation() {
     editingWindowFilters.removeAttribute('style');
   }
 
-  function checkUseFilter(filterName) {
+  function checkUseFilter(filterName, filterValue) {
     switch (filterName) {
       case SettingsEffects.chrome.NAME:
-        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome) + ')';
+        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome, filterValue) + ')';
         break;
       case SettingsEffects.sepia.NAME:
-        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia) + ')';
+        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia, filterValue) + ')';
         break;
       case SettingsEffects.marvin.NAME:
-        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin) + '%)';
+        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin, filterValue) + '%)';
         break;
       case SettingsEffects.phobos.NAME:
-        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos) + 'px)';
+        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos, filterValue) + 'px)';
         break;
       case SettingsEffects.heat.NAME:
-        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat) + ')';
+        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat, filterValue) + ')';
         break;
       default:
         resetSaturation();
     }
   }
 
-  function setFilterSaturation() {
-    var filterName = filtersList.querySelector('input[checked]').value;
-    checkUseFilter(filterName);
-  }
-
   function setFilter(evt) {
     if (evt.target.checked) {
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
       resetSaturation();
-      for (var i = 0; i < filtersButtons.length; i++) {
-        filtersButtons[i].removeAttribute('checked');
-      }
-      evt.target.setAttribute('checked', 'checked');
+      currentFilter = evt.target.value;
     }
+  }
+
+
+  function setFilterSaturation(filterValue) {
+    checkUseFilter(currentFilter, filterValue);
   }
 
   function onMouseDown(evt) {
@@ -98,9 +95,9 @@
 
     var startCoordsX = evt.clientX;
 
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-
+      setFilterSaturation(currentFilterValue);
       var shiftSlider = startCoordsX - moveEvt.clientX;
 
       var toggleSliderCoord = toggleSlider.offsetLeft - shiftSlider;
@@ -116,14 +113,16 @@
       toggleSlider.style.left = toggleSliderCoord + 'px';
       sliderBarFill.style.width = toggleSliderCoord + 'px';
 
-    };
+      currentFilterValue = toggleSliderCoord / (LimitMovementX.max - LimitMovementX.min);
+      setFilterSaturation(currentFilterValue);
+    }
 
-    var onMouseUp = function (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
@@ -132,7 +131,6 @@
   var applyFilter = function () {
     filtersList.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
-    toggleSlider.addEventListener('mouseup', setFilterSaturation);
   };
 
   window.filters = {
