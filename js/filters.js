@@ -5,7 +5,6 @@
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
-  var filtersButtons = editingWindow.querySelectorAll('.effects__radio');
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
@@ -41,30 +40,30 @@
     }
   };
 
-  function getCurrentFilterValue(filter, currentFilterValue) {
-    return (filter.MAX - filter.MIN) * currentFilterValue;
+  function getCurrentFilterValue(filter, filterValue) {
+    return (filter.MAX - filter.MIN) * filterValue;
   }
 
   function resetSaturation() {
     editingWindowFilters.removeAttribute('style');
   }
 
-  function checkUseFilter(filterName, currentFilterValue) {
+  function checkUseFilter(filterName, filterValue) {
     switch (filterName) {
       case SettingsEffects.chrome.NAME:
-        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome, currentFilterValue) + ')';
+        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome, filterValue) + ')';
         break;
       case SettingsEffects.sepia.NAME:
-        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia, currentFilterValue) + ')';
+        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia, filterValue) + ')';
         break;
       case SettingsEffects.marvin.NAME:
-        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin, currentFilterValue) + '%)';
+        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin, filterValue) + '%)';
         break;
       case SettingsEffects.phobos.NAME:
-        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos, currentFilterValue) + 'px)';
+        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos, filterValue) + 'px)';
         break;
       case SettingsEffects.heat.NAME:
-        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat, currentFilterValue) + ')';
+        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat, filterValue) + ')';
         break;
       default:
         resetSaturation();
@@ -80,8 +79,8 @@
   }
 
 
-  function setFilterSaturation(currentFilterValue) {
-    checkUseFilter(currentFilter, currentFilterValue);
+  function setFilterSaturation(filterValue) {
+    checkUseFilter(currentFilter, filterValue);
   }
 
   function onMouseDown(evt) {
@@ -96,8 +95,9 @@
 
     var startCoordsX = evt.clientX;
 
-    function onMouseMove (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
+      setFilterSaturation(currentFilterValue);
       var shiftSlider = startCoordsX - moveEvt.clientX;
 
       var toggleSliderCoord = toggleSlider.offsetLeft - shiftSlider;
@@ -113,16 +113,16 @@
       toggleSlider.style.left = toggleSliderCoord + 'px';
       sliderBarFill.style.width = toggleSliderCoord + 'px';
 
-      currentFilterValue = toggleSliderCoord/(LimitMovementX.max - LimitMovementX.min);
+      currentFilterValue = toggleSliderCoord / (LimitMovementX.max - LimitMovementX.min);
       setFilterSaturation(currentFilterValue);
-    };
+    }
 
-    function onMouseUp (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
