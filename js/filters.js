@@ -10,8 +10,6 @@
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
 
-  console.log(effectsLevel);
-
   var currentFilterValue = 0.2;
   var currentFilter = 'none';
 
