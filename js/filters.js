@@ -6,8 +6,11 @@
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
   var filtersList = editingWindow.querySelector('.effects');
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
+  var effectsLevel = editingWindow.querySelector('.effect-level');
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
+
+  console.log(effectsLevel);
 
   var currentFilterValue = 0.2;
   var currentFilter = 'none';
@@ -44,8 +47,9 @@
     return (filter.MAX - filter.MIN) * filterValue;
   }
 
-  function resetSaturation() {
+  function setDefaultSettings() {
     editingWindowFilters.removeAttribute('style');
+    window.utils.addClassName(effectsLevel, 'hidden');
   }
 
   function checkUseFilter(filterName, filterValue) {
@@ -66,15 +70,15 @@
         editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat, filterValue) + ')';
         break;
       default:
-        resetSaturation();
+        setDefaultSettings();
     }
   }
 
   function setFilter(evt) {
     if (evt.target.checked) {
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
-      resetSaturation();
       currentFilter = evt.target.value;
+      setFilterSaturation(currentFilterValue);
     }
   }
 
@@ -97,7 +101,6 @@
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-      setFilterSaturation(currentFilterValue);
       var shiftSlider = startCoordsX - moveEvt.clientX;
 
       var toggleSliderCoord = toggleSlider.offsetLeft - shiftSlider;
