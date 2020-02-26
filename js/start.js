@@ -12,7 +12,7 @@
     window.data.savePhotos(data);
     // Показываем фотки
     var photos = window.data.getCurrentData();
-    window.gallery.generateMockPhotos(photos);
+    window.gallery.generatePhotos(photos);
     window.editor.uploadPhoto();
   }
 
