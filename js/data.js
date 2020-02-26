@@ -44,18 +44,27 @@
     return randomElement;
   }
 
+  function generateArrayPhotos() {
+    var notes = [];
+    for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
+      notes.push({
+        url: 'photos/' + j + '.jpg',
+        likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
+        messages: generateMessages(),
+        description: getRandomElement(DataPicture.MESSAGES)
+      });
+    }
+    return notes;
+  }
+
+  var currentPhotos = null;
+
   window.data = {
-    getCurrentData: function () {
-      var notes = [];
-      for (var j = 1; j < DataPicture.COUNT_PHOTOS + 1; j++) {
-        notes.push({
-          url: 'photos/' + j + '.jpg',
-          likes: getRandomNumber(DataPicture.MIN_LIKES, DataPicture.MAX_LIKES),
-          messages: generateMessages(),
-          description: getRandomElement(DataPicture.MESSAGES)
-        });
-      }
-      return notes;
+    getCurrentData: function() {
+      return currentPhotos;
+    },
+    savePhotos: function(data) {
+      currentPhotos = data;
     }
   };
 })();
