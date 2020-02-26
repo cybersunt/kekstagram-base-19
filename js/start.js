@@ -1,19 +1,21 @@
 'use strict';
 
-// (function () {
-//   var photos = window.data.getCurrentData();
-//   window.gallery.generateMockPhotos(photos);
-//   window.editor.uploadPhoto();
-// })();
-
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL = 'https://js.dump.academy/kekstagram/data11';
 
-  var onError = function (message) {
-    console.error(message);
+  function onError (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  var onSuccess = function(data) {
+  function onSuccess(data) {
     // Сохранияем фотки
     window.data.savePhotos(data);
     // Показываем фотки
