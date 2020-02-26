@@ -74,6 +74,7 @@
 
   function setFilter(evt) {
     if (evt.target.checked) {
+      window.utils.removeClassName(effectsLevel, 'hidden');
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
       currentFilter = evt.target.value;
       setFilterSaturation(currentFilterValue);
