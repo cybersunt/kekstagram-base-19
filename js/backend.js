@@ -19,7 +19,7 @@
     504: 'Время ответа сервера истекло'
   };
 
-  function createXMLHttpRequest (url, onSuccess, onError) {
+  function createXMLHttpRequest(url, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -45,5 +45,5 @@
 
   window.load = function (url, onSuccess, onError) {
     createXMLHttpRequest(url, onSuccess, onError);
-  }
+  };
 })();

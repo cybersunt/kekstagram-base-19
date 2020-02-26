@@ -1,14 +1,13 @@
 'use strict';
 
 (function () {
-
   var currentPhotos = null;
 
   window.data = {
-    getCurrentData: function() {
+    getCurrentData: function () {
       return currentPhotos;
     },
-    savePhotos: function(data) {
+    savePhotos: function (data) {
       currentPhotos = data;
     }
   };

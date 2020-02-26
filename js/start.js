@@ -3,9 +3,9 @@
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
 
-  function onError (message) {
+  function onError(message) {
     window.utils.renderErrorMessage(message);
-  };
+  }
 
   function onSuccess(data) {
     // Сохранияем фотки
