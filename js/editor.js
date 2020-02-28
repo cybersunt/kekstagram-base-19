@@ -6,6 +6,7 @@
   var editingWindow = document.querySelector('.img-upload');
   var fileUploadButton = editingWindow.querySelector('.img-upload__input');
   var previewWindow = editingWindow.querySelector('.img-upload__overlay');
+  var effectsLevel = editingWindow.querySelector('.effect-level');
   var closePreviewWindowBtn = editingWindow.querySelector('.img-upload__cancel');
   var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
@@ -44,6 +45,7 @@
 
   // Открываем окно редактирования фотографий
   function openEditingWindow() {
+    window.utils.addClassName(effectsLevel, 'hidden');
     resetFilters();
 
     window.utils.addClassName(galleryOverlay, 'modal-open');
