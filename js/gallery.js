@@ -9,14 +9,14 @@
 
     picturesElement.querySelector('.picture__img').src = image.url;
     picturesElement.querySelector('.picture__likes').textContent = image.likes;
-    picturesElement.querySelector('.picture__comments').textContent = image.messages.length;
+    picturesElement.querySelector('.picture__comments').textContent = image.comments.length;
     picturesElement.querySelector('.picture img').setAttribute('data-id', pictureIndex);
 
     return picturesElement;
   }
 
   window.gallery = {
-    generateMockPhotos: function (arrayPictures) {
+    generatePhotos: function (arrayPictures) {
 
       var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
       var fragment = document.createDocumentFragment();
