@@ -19,11 +19,8 @@
     renderErrorMessage: function (message) {
       var overlay = document.querySelector('body');
       var errorTemplate = document.querySelector('#error').content;
-      var errrorText = errorTemplate.querySelector('.error__title');
-      var errorButton = errorTemplate.querySelector('.error__button');
-      var errorContent = errorTemplate.querySelector('.error__inner');
-      errrorText.textContent = message;
-      errorContent.removeChild(errorButton);
+      var errorText = errorTemplate.querySelector('.error__title');
+      errorText.textContent = message;
       overlay.appendChild(errorTemplate.cloneNode(true));
     }
   };

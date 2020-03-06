@@ -99,7 +99,7 @@
     });
 
     picturesList.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.constants.KEYCODE.ENTER && evt.target.classList.contains('picture')) {
+      if (evt.keyCode === window.constants.KEYCODE_ENTER && evt.target.classList.contains('picture')) {
         evt.preventDefault();
         var pictureNumber = evt.target.querySelector('img').dataset.id;
         openBigPicture(pictureNumber);

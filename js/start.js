@@ -2,7 +2,6 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
-
   function onError(message) {
     window.utils.renderErrorMessage(message);
   }
@@ -16,5 +15,5 @@
     window.editor.uploadPhoto();
   }
 
-  window.load(URL, onSuccess, onError);
+  window.backend.load(URL, 'GET', onSuccess, onError);
 })();
