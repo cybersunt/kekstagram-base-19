@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL = 'https://js.dump.academy/kekstagram/data1';
   function onError(message) {
-    window.utils.renderErrorMessage(message);
+    window.utils.renderInfoMessage('#error', '.error',message);
   }
 
   function onSuccess(data) {

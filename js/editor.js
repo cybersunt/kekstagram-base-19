@@ -40,11 +40,13 @@
   }
 
   function onSuccess() {
-    console.log('Данные отправлены успешно');
+    closeEditingWindow();
+    window.utils.renderInfoMessage('#success', '.success');
   }
 
   function onError() {
-    window.utils.renderErrorMessage(message);
+    closeEditingWindow();
+    window.utils.renderInfoMessage('#error', '.error', message);
   }
 
   // Закрываем окно редактирования фотографий

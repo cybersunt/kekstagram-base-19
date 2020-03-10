@@ -1,6 +1,16 @@
 'use strict';
 
 (function () {
+
+  function getTemplateClone(template, innerSelector) {
+    var templateElement = document.querySelector(template);
+    var elementToClone = templateElement.querySelector(innerSelector);
+    if ('content' in templateElement) {
+      elementToClone = templateElement.content.querySelector(innerSelector);
+    }
+    return elementToClone;
+  }
+
   window.utils = {
     addClassName: function (element, className) {
       element.classList.add(className);
@@ -16,12 +26,23 @@
       element.classList.add(className);
       return element;
     },
-    renderErrorMessage: function (message) {
+    renderInfoMessage: function(templateElement, innerSelector, message) {
       var overlay = document.querySelector('body');
-      var errorTemplate = document.querySelector('#error').content;
-      var errorText = errorTemplate.querySelector('.error__title');
-      errorText.textContent = message;
-      overlay.appendChild(errorTemplate.cloneNode(true));
+      var template = getTemplateClone(templateElement, innerSelector);
+      var templateMessage = template.cloneNode(true);
+      var templateBtn = templateMessage.querySelector((innerSelector + '__button'));
+      overlay.appendChild(templateMessage);
+
+      if (message != null) {
+        templateMessage.querySelector(innerSelector + '__title').textContent = message;
+      }
+
+      templateBtn.addEventListener('click', closeInfoMessage);
+
+      function closeInfoMessage() {
+        templateBtn.removeEventListener('click', closeInfoMessage);
+        overlay.removeChild(templateMessage);
+      }
     }
   };
 })();
