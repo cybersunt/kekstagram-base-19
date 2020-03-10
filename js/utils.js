@@ -33,7 +33,7 @@
       var templateBtn = templateMessage.querySelector((innerSelector + '__button'));
       overlay.appendChild(templateMessage);
 
-      if (message !== null) {
+      if (message !== undefined) {
         templateMessage.querySelector(innerSelector + '__title').textContent = message;
       }
 
