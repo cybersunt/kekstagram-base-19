@@ -79,7 +79,7 @@
         }
       }
     });
-  };
+  }
   window.form = {
     validate: validate,
   };

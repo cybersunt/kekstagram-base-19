@@ -26,14 +26,14 @@
       element.classList.add(className);
       return element;
     },
-    renderInfoMessage: function(templateElement, innerSelector, message) {
+    renderInfoMessage: function (templateElement, innerSelector, message) {
       var overlay = document.querySelector('body');
       var template = getTemplateClone(templateElement, innerSelector);
       var templateMessage = template.cloneNode(true);
       var templateBtn = templateMessage.querySelector((innerSelector + '__button'));
       overlay.appendChild(templateMessage);
 
-      if (message != null) {
+      if (message !== null) {
         templateMessage.querySelector(innerSelector + '__title').textContent = message;
       }
 

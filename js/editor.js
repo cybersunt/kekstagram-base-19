@@ -44,7 +44,7 @@
     window.utils.renderInfoMessage('#success', '.success');
   }
 
-  function onError() {
+  function onError(message) {
     closeEditingWindow();
     window.utils.renderInfoMessage('#error', '.error', message);
   }
