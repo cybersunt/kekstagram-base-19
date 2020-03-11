@@ -26,6 +26,16 @@
       element.classList.add(className);
       return element;
     },
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === window.constants.KEYCODE_ESC) {
+        action();
+      }
+    },
+    isEnterEvent: function (evt, action, array) {
+      if (evt.keyCode === window.constants.KEYCODE_ENTER) {
+        action(array);
+      }
+    },
     renderInfoMessage: function (templateElement, innerSelector, message) {
       var overlay = document.querySelector('body');
       var template = getTemplateClone(templateElement, innerSelector);
@@ -37,12 +47,15 @@
         templateMessage.querySelector(innerSelector + '__title').textContent = message;
       }
 
-      templateBtn.addEventListener('click', closeInfoMessage);
+      document.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === window.constants.KEYCODE_ESC) {
+          overlay.removeChild(templateMessage);
+        }
+      });
 
-      function closeInfoMessage() {
-        templateBtn.removeEventListener('click', closeInfoMessage);
+      templateBtn.addEventListener('click', function () {
         overlay.removeChild(templateMessage);
-      }
+      });
     }
   };
 })();

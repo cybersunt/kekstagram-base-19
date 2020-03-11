@@ -9,8 +9,8 @@
   function onSuccess(data) {
     // Сохранияем фотки
     window.data.savePhotos(data);
-    // Показываем фотки
     var photos = window.data.getCurrentData();
+    // Показываем фотки
     window.gallery.generatePhotos(photos);
     window.editor.uploadPhoto();
   }
