@@ -51,6 +51,7 @@
 
   // Закрываем окно редактирования фотографий
   function closeEditingWindow() {
+    fileUploadButton.value = '';
     window.utils.addClassName(previewWindow, 'hidden');
     window.utils.removeClassName(galleryOverlay, 'modal-open');
     // удаляем обработчик закрытия окна
