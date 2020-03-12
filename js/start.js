@@ -2,19 +2,18 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
-
   function onError(message) {
-    window.utils.renderErrorMessage(message);
+    window.utils.renderInfoMessage('#error', '.error', message);
   }
 
   function onSuccess(data) {
     // Сохранияем фотки
     window.data.savePhotos(data);
-    // Показываем фотки
     var photos = window.data.getCurrentData();
+    // Показываем фотки
     window.gallery.generatePhotos(photos);
     window.editor.uploadPhoto();
   }
 
-  window.load(URL, onSuccess, onError);
+  window.backend.load(URL, 'GET', onSuccess, onError);
 })();

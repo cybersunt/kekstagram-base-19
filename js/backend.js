@@ -19,7 +19,7 @@
     504: 'Время ответа сервера истекло'
   };
 
-  function createXMLHttpRequest(url, onSuccess, onError) {
+  function createXMLHttpRequest(method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -39,11 +39,19 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + TIMEOUT + 'мс');
     });
-    xhr.open('GET', url);
-    xhr.send();
+    return xhr;
   }
 
-  window.load = function (url, onSuccess, onError) {
-    createXMLHttpRequest(url, onSuccess, onError);
+  window.backend = {
+    load: function (data, method, onSuccess, onError) {
+      var xhr = createXMLHttpRequest(method, onSuccess, onError);
+      xhr.open(method, data);
+      xhr.send();
+    },
+    upload: function (data, url, method, onSuccess, onError) {
+      var xhr = createXMLHttpRequest(method, onSuccess, onError);
+      xhr.open(method, url);
+      xhr.send(data);
+    }
   };
 })();

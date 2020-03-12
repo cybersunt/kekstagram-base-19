@@ -64,7 +64,7 @@
     return true;
   }
 
-  var validate = function () {
+  function validate() {
     editingWindowHashtags.addEventListener('input', function (evt) {
       // сбрасываем статус
       editingWindowHashtags.setCustomValidity('');
@@ -79,8 +79,8 @@
         }
       }
     });
-  };
+  }
   window.form = {
-    validate: validate
+    validate: validate,
   };
 })();
