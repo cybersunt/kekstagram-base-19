@@ -24,7 +24,7 @@
     defaultPhotosButtonSort.addEventListener('click', function () {
       window.data.savePhotos(data);
       var photos = window.data.getCurrentData();
-      console.log(window.gallery.generatePhotos(photos));
+      console.log(photos);
     })
 
     discussedPhotosButtonSort.addEventListener('click', function () {
@@ -33,18 +33,29 @@
       });
 
       mapped.sort(function(a, b) {
-        if (a.value > b.value) {
-          return -1; }
-        if (a.value < b.value) {
-          return 1; }
-        return 0;
+        return b.value - a.value;
       });
 
-      var result = mapped.map(function(el) {
+      var discussedPhotos = mapped.map(function(el) {
         return photos[el.index];
       });
 
-      console.log(result);
+      console.log(discussedPhotos);
+    })
+
+    randomPhotosButtonSort.addEventListener('click', function () {
+      var randomPhotos = photos.map(function(elem,index) {
+        return [elem, Math.random()]
+      })
+        .sort(function(a,b){
+          return a[1] - b[1]
+        })
+        .map(function(elem){
+          return elem[0]
+        });
+      randomPhotos.length = window.constants.MAX_LENGTH_GALLERY;
+
+      console.log(randomPhotos);
     })
   }
 

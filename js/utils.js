@@ -11,7 +11,16 @@
     return elementToClone;
   }
 
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   window.utils = {
+    getRandomElement: function (array) {
+      var randomIndex = getRandomNumber(0, array.length - 1);
+      var randomElement = array[randomIndex];
+      return randomElement;
+    },
     addClassName: function (element, className) {
       element.classList.add(className);
     },

@@ -17,7 +17,9 @@
     MAX_COUNT_HASHTAGS: 5,
 
     USER_AVATAR_SIZE: 35,
-    USER_AVATAR_ALT: 'Аватар автора фотографии'
+    USER_AVATAR_ALT: 'Аватар автора фотографии',
+
+    MAX_LENGTH_GALLERY: 10
   };
 })();
 
