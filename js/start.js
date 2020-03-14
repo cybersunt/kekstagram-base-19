@@ -17,14 +17,13 @@
     window.data.savePhotos(data);
     var photos = window.data.getCurrentData();
     // Показываем фотки
-    window.gallery.generatePhotos(photos);
+    window.gallery.renderPhotos(photos);
     window.editor.uploadPhoto();
     window.utils.removeClassName(sortImages, 'img-filters--inactive');
 
     defaultPhotosButtonSort.addEventListener('click', function () {
-      window.data.savePhotos(data);
-      var photos = window.data.getCurrentData();
-      console.log(photos);
+      window.gallery.removePhotos();
+      window.gallery.renderPhotos(photos);
     })
 
     discussedPhotosButtonSort.addEventListener('click', function () {
@@ -40,7 +39,8 @@
         return photos[el.index];
       });
 
-      console.log(discussedPhotos);
+      window.gallery.removePhotos();
+      window.gallery.renderPhotos(discussedPhotos);
     })
 
     randomPhotosButtonSort.addEventListener('click', function () {
@@ -55,7 +55,8 @@
         });
       randomPhotos.length = window.constants.MAX_LENGTH_GALLERY;
 
-      console.log(randomPhotos);
+      window.gallery.removePhotos();
+      window.gallery.renderPhotos(randomPhotos);
     })
   }
 

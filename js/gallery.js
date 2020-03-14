@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
+
   // Клонируем фотографии
   // Генерируем наш шаблон в документ
   function renderPicture(image, pictureIndex) {
@@ -16,18 +18,23 @@
   }
 
   window.gallery = {
-    generatePhotos: function (arrayPictures) {
+    renderPhotos: function (arrayPictures) {
 
-      var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < arrayPictures.length; i++) {
         fragment.appendChild(renderPicture(arrayPictures[i], i));
       }
-
       window.preview.showPhoto(arrayPictures);
 
       picturesList.appendChild(fragment);
+    },
+    removePhotos: function () {
+      var picturesRenderList = picturesList.querySelectorAll('.picture');
+      for (var i = 0; i < picturesRenderList.length; i++) {
+        picturesRenderList[i].remove();
+      }
+
     }
   };
 })();
