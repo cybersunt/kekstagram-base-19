@@ -33,7 +33,7 @@
     for (var i = 0; i < array.length; i++) {
       fragmentMessage.appendChild(createMessage(array[i]));
     }
-    usersMessages.appendChild(fragmentMessage);
+    return fragmentMessage;
   }
 
   // Рендерим фотку, которую будем отркрывать
@@ -44,21 +44,28 @@
     var pictureMessagesCount = bigPicture.querySelector('.comments-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
-    renderMessagesList(arrayPictures[pictureIndex].comments);
     pictureUrl.src = arrayPictures[pictureIndex].url;
     pictureLikes.textContent = arrayPictures[pictureIndex].likes;
     pictureMessagesCount.textContent = arrayPictures[pictureIndex].comments.length;
     pictureDescription.textContent = arrayPictures[pictureIndex].description;
+
   }
 
-  function openBigPicture(pictureIndex) {
+  function showMessageList(pictureIndex) {
+    var arrayPictures = window.data.getCurrentData();
     var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
     var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
-
+    //
     window.utils.addClassName(messagesCounter, 'hidden');
     window.utils.addClassName(messagesLoader, 'hidden');
 
+    var messagesList = renderMessagesList(arrayPictures[pictureIndex].comments);
+    usersMessages.appendChild(messagesList);
+  }
+
+  function openBigPicture(pictureIndex) {
     renderPreviewPicture(pictureIndex);
+    showMessageList(pictureIndex);
 
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(bigPicture, 'hidden');
