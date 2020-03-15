@@ -5,6 +5,7 @@
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+  var countMessages = bigPicture.querySelector('.comments-count');
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
   // Генерируем комментарий к фото
@@ -30,6 +31,7 @@
   function renderMessagesList(array) {
     window.utils.removeChilds(usersMessages);
     var fragmentMessage = document.createDocumentFragment();
+
     for (var i = 0; i < array.length; i++) {
       fragmentMessage.appendChild(createMessage(array[i]));
     }
@@ -53,14 +55,19 @@
 
   function showMessageList(pictureIndex) {
     var arrayPictures = window.data.getCurrentData();
+    var messagesList = arrayPictures[pictureIndex].comments;
+
+    var fragment = renderMessagesList(messagesList);
+
     var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
     var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
-    //
-    window.utils.addClassName(messagesCounter, 'hidden');
-    window.utils.addClassName(messagesLoader, 'hidden');
 
-    var messagesList = renderMessagesList(arrayPictures[pictureIndex].comments);
-    usersMessages.appendChild(messagesList);
+    countMessages.textContent = messagesList.length;
+
+    // window.utils.addClassName(messagesCounter, 'hidden');
+    // window.utils.addClassName(messagesLoader, 'hidden');
+
+    usersMessages.append(fragment);
   }
 
   function openBigPicture(pictureIndex) {
