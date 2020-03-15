@@ -21,30 +21,47 @@
     window.editor.uploadPhoto();
     window.utils.removeClassName(sortImages, 'img-filters--inactive');
 
-    defaultPhotosButtonSort.addEventListener('click', function () {
+    defaultPhotosButtonSort.addEventListener('click', filterByDefault);
+
+    discussedPhotosButtonSort.addEventListener('click', filterByDiscussedPhotos);
+
+    randomPhotosButtonSort.addEventListener('click', filterByRandomPhotos);
+
+    function filterByDefault() {
       window.gallery.removePhotos();
       window.gallery.renderPhotos(photos);
-    })
+    }
 
-    discussedPhotosButtonSort.addEventListener('click', function () {
-      var mapped = photos.map(function(el, i) {
+    function filterByDiscussedPhotos() {
+      var discussedPhotos = getDiscussedPhotos(photos);
+      window.gallery.removePhotos();
+      window.gallery.renderPhotos(discussedPhotos);
+    }
+
+    function getDiscussedPhotos(array) {
+      var mappedArray = array.map(function(el, i) {
         return { index: i, value: el.comments.length };
       });
 
-      mapped.sort(function(a, b) {
+      mappedArray.sort(function(a, b) {
         return b.value - a.value;
       });
 
-      var discussedPhotos = mapped.map(function(el) {
-        return photos[el.index];
+      var discussedPictures = mappedArray.map(function(el) {
+        return array[el.index];
       });
 
-      window.gallery.removePhotos();
-      window.gallery.renderPhotos(discussedPhotos);
-    })
+      return discussedPictures;
+    }
 
-    randomPhotosButtonSort.addEventListener('click', function () {
-      var randomPhotos = photos.map(function(elem,index) {
+    function filterByRandomPhotos () {
+      var randomPhotos = getArrayGivenLength(photos, window.constants.MAX_LENGTH_GALLERY);
+      window.gallery.removePhotos();
+      window.gallery.renderPhotos(randomPhotos);
+    }
+
+    function getArrayGivenLength(array, length) {
+      var randomArray = array.map(function(elem,index) {
         return [elem, Math.random()]
       })
         .sort(function(a,b){
@@ -53,12 +70,12 @@
         .map(function(elem){
           return elem[0]
         });
-      randomPhotos.length = window.constants.MAX_LENGTH_GALLERY;
+      randomArray.length = length;
 
-      window.gallery.removePhotos();
-      window.gallery.renderPhotos(randomPhotos);
-    })
+      return randomArray;
+    }
   }
+
 
   window.backend.load(URL, 'GET', onSuccess, onError);
 })();
