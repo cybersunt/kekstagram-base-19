@@ -15,35 +15,34 @@
   function onSuccess(data) {
     window.data.savePhotos(data);
     var photos = window.data.getCurrentData();
-    updatePhotos();
 
     function sortByDefault() {
       window.gallery.removePhotos();
       window.gallery.renderPhotos(photos);
     }
 
-    function sortByDiscussedPhotos () {
+    function sortByDiscussedPhotos() {
       var discussedPhotos = getDiscussedPhotos();
       window.gallery.removePhotos();
       window.gallery.renderPhotos(discussedPhotos);
     }
 
-    function sortBySomeRandomPhotos () {
+    function sortBySomeRandomPhotos() {
       var randomPhotos = getSomeRandomPhotos();
       window.gallery.removePhotos();
       window.gallery.renderPhotos(randomPhotos);
     }
 
-    function getDiscussedPhotos () {
-      var mappedArray = photos.map(function(el, i) {
-        return { index: i, value: el.comments.length };
+    function getDiscussedPhotos() {
+      var mappedArray = photos.map(function (el, i) {
+        return {index: i, value: el.comments.length};
       });
 
-      mappedArray.sort(function(a, b) {
+      mappedArray.sort(function (a, b) {
         return b.value - a.value;
       });
 
-      var discussedPictures = mappedArray.map(function(el) {
+      var discussedPictures = mappedArray.map(function (el) {
         return photos[el.index];
       });
 
@@ -51,14 +50,14 @@
     }
 
     function getSomeRandomPhotos() {
-      var someRandomPhotos = photos.map(function(elem,index) {
-        return [elem, Math.random()]
+      var someRandomPhotos = photos.map(function (elem) {
+        return [elem, Math.random()];
       })
-        .sort(function(a,b){
-          return a[1] - b[1]
+        .sort(function (a, b) {
+          return a[1] - b[1];
         })
-        .map(function(elem){
-          return elem[0]
+        .map(function (elem) {
+          return elem[0];
         });
       someRandomPhotos.length = window.constants.MAX_LENGTH_GALLERY;
 
