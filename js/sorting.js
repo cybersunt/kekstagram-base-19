@@ -52,8 +52,8 @@
       })
       .map(function (elem) {
         return elem[0];
-      });
-    someRandomPhotos.length = window.constants.MAX_LENGTH_GALLERY;
+      })
+      .slice((photos.length - window.constants.MAX_LENGTH_GALLERY), photos.length);
 
     return someRandomPhotos;
   }
