@@ -64,8 +64,18 @@
 
     countMessages.textContent = messagesList.length;
 
+    var messages = messagesList.map(function (it) {
+      return it.message;
+    });
+
+    console.log(messages);
+
     // window.utils.addClassName(messagesCounter, 'hidden');
     // window.utils.addClassName(messagesLoader, 'hidden');
+
+    messagesLoader.addEventListener('click', function () {
+      console.log("загрузить еще комменатрии")
+    })
 
     usersMessages.append(fragment);
   }
