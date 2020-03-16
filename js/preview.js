@@ -5,6 +5,9 @@
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
+  var messagesCounter = bigPicture.querySelector('.social__comment-count').textContent; // Найдем счетчик всех комментариев к фото
+  var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+  var countMessages = bigPicture.querySelector('.comments-count');
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
   // Генерируем комментарий к фото
@@ -54,33 +57,28 @@
   }
 
   function showMessageList(pictureIndex) {
-    var messagesCounter = bigPicture.querySelector('.social__comment-count').textContent; // Найдем счетчик всех комментариев к фото
-    var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
-    var countMessages = bigPicture.querySelector('.comments-count');
-
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[pictureIndex].comments;
+    counterMessages(messages);
+  }
+
+  function counterMessages(messages) {
 
     var commentsCount = 5;
 
-    if (messages.length <= commentsCount) {
-      console.log(messagesCounter);
+    if (messages.length > commentsCount) {
+      var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
+      var fragment = renderMessagesList(messagesCropped);
+      usersMessages.append(fragment);
+      commentsCount = commentsCount + 5;
+
+      messagesLoader.addEventListener('click', counterMessages)
+
+    } else if (messages.length <= commentsCount) {
       countMessages.textContent = messages.length;
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
       usersMessages.append(fragment);
-    }
-
-    if (messages.length > commentsCount) {
-      console.log(messagesCounter);
-      commentsCount = commentsCount + 5;
-      messages.slice((messages.length - commentsCount), messages.length);
-      var fragment = renderMessagesList(messages);
-      usersMessages.append(fragment);
-
-      messagesLoader.addEventListener('click', function () {
-        console.log("загрузить еще комменатрии")
-      })
     }
   }
 
