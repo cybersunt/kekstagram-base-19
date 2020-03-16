@@ -63,8 +63,14 @@
   }
 
   function counterMessages(messages) {
+    var commentsCount =  window.constants.MIN_COMMENTS_COUNT;
 
-    var commentsCount = 5;
+    if (messages.length <= commentsCount) {
+      countMessages.textContent = messages.length;
+      window.utils.addClassName(messagesLoader, 'hidden');
+      var fragment = renderMessagesList(messages);
+      usersMessages.append(fragment);
+    }
 
     if (messages.length > commentsCount) {
       var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
@@ -72,14 +78,25 @@
       usersMessages.append(fragment);
       commentsCount = commentsCount + 5;
 
-      messagesLoader.addEventListener('click', counterMessages)
+      messagesLoader.addEventListener('click', function () {
 
-    } else if (messages.length <= commentsCount) {
-      countMessages.textContent = messages.length;
-      window.utils.addClassName(messagesLoader, 'hidden');
-      var fragment = renderMessagesList(messages);
-      usersMessages.append(fragment);
+        if (messages.length <= commentsCount) {
+          countMessages.textContent = messages.length;
+          window.utils.addClassName(messagesLoader, 'hidden');
+          var fragment = renderMessagesList(messages);
+          usersMessages.append(fragment);
+        }
+
+        if (messages.length > commentsCount)  {
+          var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
+          var fragment = renderMessagesList(messagesCropped);
+          usersMessages.append(fragment);
+          commentsCount = commentsCount + 5;
+         }
+      })
     }
+
+
   }
 
   function openBigPicture(pictureIndex) {
