@@ -9,6 +9,7 @@
 
   function sortByDefault(evt) {
     changeActiveButton(evt);
+
     var photos = window.data.getCurrentData();
 
     window.gallery.removePhotos();
@@ -17,7 +18,9 @@
 
   function sortByDiscussedPhotos(evt) {
     changeActiveButton(evt);
+
     var photos = window.data.getCurrentData();
+
     var discussedPhotos = getDiscussedPhotos(photos);
     window.gallery.removePhotos();
     window.gallery.renderPhotos(discussedPhotos);
@@ -25,7 +28,9 @@
 
   function sortBySomeRandomPhotos(evt) {
     changeActiveButton(evt);
+
     var photos = window.data.getCurrentData();
+
     var randomPhotos = getSomeRandomPhotos(photos);
     window.gallery.removePhotos();
     window.gallery.renderPhotos(randomPhotos);
@@ -33,8 +38,8 @@
 
   function changeActiveButton(evt) {
     sortButtons.forEach(function (element) {
-      window.utils.removeClassName(element,'img-filters__button--active')
-    })
+      window.utils.removeClassName(element, 'img-filters__button--active');
+    });
     window.utils.addClassName(evt.target, 'img-filters__button--active');
   }
 
