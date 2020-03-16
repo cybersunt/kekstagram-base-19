@@ -5,7 +5,6 @@
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
-  var countMessages = bigPicture.querySelector('.comments-count');
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
   // Генерируем комментарий к фото
@@ -29,12 +28,14 @@
 
   // Генерируем комментарии
   function renderMessagesList(array) {
-    window.utils.removeChilds(usersMessages);
-    var fragmentMessage = document.createDocumentFragment();
 
-    for (var i = 0; i < array.length; i++) {
-      fragmentMessage.appendChild(createMessage(array[i]));
-    }
+    window.utils.removeChilds(usersMessages);
+
+    var fragmentMessage = document.createDocumentFragment();
+    array.forEach(function (element) {
+      fragmentMessage.appendChild(createMessage(element));
+    })
+
     return fragmentMessage;
   }
 
@@ -50,34 +51,37 @@
     pictureLikes.textContent = arrayPictures[pictureIndex].likes;
     pictureMessagesCount.textContent = arrayPictures[pictureIndex].comments.length;
     pictureDescription.textContent = arrayPictures[pictureIndex].description;
-
   }
 
   function showMessageList(pictureIndex) {
-    var arrayPictures = window.data.getCurrentData();
-    var messagesList = arrayPictures[pictureIndex].comments;
-
-    var fragment = renderMessagesList(messagesList);
-
-    var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+    var messagesCounter = bigPicture.querySelector('.social__comment-count').textContent; // Найдем счетчик всех комментариев к фото
     var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
+    var countMessages = bigPicture.querySelector('.comments-count');
 
-    countMessages.textContent = messagesList.length;
+    var arrayPictures = window.data.getCurrentData();
+    var messages = arrayPictures[pictureIndex].comments;
 
-    var messages = messagesList.map(function (it) {
-      return it.message;
-    });
+    var commentsCount = 5;
 
-    console.log(messages);
+    if (messages.length <= commentsCount) {
+      console.log(messagesCounter);
+      countMessages.textContent = messages.length;
+      window.utils.addClassName(messagesLoader, 'hidden');
+      var fragment = renderMessagesList(messages);
+      usersMessages.append(fragment);
+    }
 
-    // window.utils.addClassName(messagesCounter, 'hidden');
-    // window.utils.addClassName(messagesLoader, 'hidden');
+    if (messages.length > commentsCount) {
+      console.log(messagesCounter);
+      commentsCount = commentsCount + 5;
+      messages.slice((messages.length - commentsCount), messages.length);
+      var fragment = renderMessagesList(messages);
+      usersMessages.append(fragment);
 
-    messagesLoader.addEventListener('click', function () {
-      console.log("загрузить еще комменатрии")
-    })
-
-    usersMessages.append(fragment);
+      messagesLoader.addEventListener('click', function () {
+        console.log("загрузить еще комменатрии")
+      })
+    }
   }
 
   function openBigPicture(pictureIndex) {
