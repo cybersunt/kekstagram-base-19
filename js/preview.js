@@ -5,12 +5,12 @@
   var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
-  var messagesCounter = bigPicture.querySelector('.social__comment-count').textContent; // Найдем счетчик всех комментариев к фото
+  var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
   var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
-  var countMessages = bigPicture.querySelector('.comments-count');
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
-  var commentsCount =  window.constants.MIN_COMMENTS_COUNT;
+  var currentPictureIndex;
+  var commentsCount;
 
   // Генерируем комментарий к фото
   function createMessage(comment) {
@@ -39,7 +39,7 @@
     var fragmentMessage = document.createDocumentFragment();
     array.forEach(function (element) {
       fragmentMessage.appendChild(createMessage(element));
-    })
+    });
 
     return fragmentMessage;
   }
@@ -60,38 +60,56 @@
   }
 
   function showMessageList(pictureIndex) {
+    currentPictureIndex = pictureIndex;
     var arrayPictures = window.data.getCurrentData();
-    var messages = arrayPictures[pictureIndex].comments;
-    counterMessages(pictureIndex);
+    var messages = arrayPictures[currentPictureIndex].comments;
+
+    commentsCount = window.constants.MIN_COMMENTS_COUNT;
 
     if (messages.length <= commentsCount) {
-      messagesLoader.removeEventListener('click', counterMessages);
-    }
-
-    if (messages.length > commentsCount) {
-      messagesLoader.addEventListener('click', counterMessages);
-    }
-  }
-
-  function counterMessages(pictureIndex) {
-    var arrayPictures = window.data.getCurrentData();
-    var messages = arrayPictures[pictureIndex].comments;
-
-    if (messages.length <= commentsCount) {
-      countMessages.textContent = messages.length;
+      messagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
       usersMessages.append(fragment);
+      commentsCount = undefined;
     }
 
     if (messages.length > commentsCount) {
+      messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
       var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
-      var fragment = renderMessagesList(messagesCropped);
+      fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
-      commentsCount = commentsCount + 5;
+      messagesLoader.addEventListener('click', countMessages);
     }
 
+    if (messages.length === commentsCount) {
+      messagesLoader.removeEventListener('click', countMessages);
+      commentsCount = undefined;
+    }
+  }
 
+  function countMessages() {
+
+    commentsCount = commentsCount + 5;
+
+    var arrayPictures = window.data.getCurrentData();
+    var messages = arrayPictures[currentPictureIndex].comments;
+
+    if (messages.length <= commentsCount) {
+      messagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
+      window.utils.addClassName(messagesLoader, 'hidden');
+      var fragment = renderMessagesList(messages);
+      usersMessages.append(fragment);
+      messagesLoader.removeEventListener('click', countMessages);
+      commentsCount = undefined;
+    }
+
+    if (messages.length > commentsCount) {
+      messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
+      var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
+      fragment = renderMessagesList(messagesCropped);
+      usersMessages.append(fragment);
+    }
   }
 
   function openBigPicture(pictureIndex) {
