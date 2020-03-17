@@ -38,9 +38,6 @@
 
   // Рендерим фотку, которую будем отркрывать
   function renderPreviewPicture(pictureIndex) {
-    var photos = window.data.getOriginalData();
-    window.data.savePhotos(photos);
-
     var arrayPictures = window.data.getCurrentData();
 
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');

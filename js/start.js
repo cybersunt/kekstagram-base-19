@@ -9,6 +9,7 @@
 
   function onSuccess(data) {
     // Сохранияем фотки
+    window.data.savePhotos(data);
     window.data.saveOriginalPhotos(data);
     var photos = window.data.getOriginalData();
     // Показываем фотки
