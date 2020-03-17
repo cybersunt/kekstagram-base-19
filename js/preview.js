@@ -47,6 +47,7 @@
   // Рендерим фотку, которую будем отркрывать
   function renderPreviewPicture(pictureIndex) {
     var arrayPictures = window.data.getCurrentData();
+
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
     var pictureMessagesCount = bigPicture.querySelector('.comments-count');

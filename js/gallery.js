@@ -12,19 +12,19 @@
     picturesElement.querySelector('.picture__img').src = image.url;
     picturesElement.querySelector('.picture__likes').textContent = image.likes;
     picturesElement.querySelector('.picture__comments').textContent = image.comments.length;
-    picturesElement.querySelector('.picture img').setAttribute('data-id', pictureIndex);
+    picturesElement.querySelector('.picture__img').setAttribute('data-id', pictureIndex);
 
     return picturesElement;
   }
 
   window.gallery = {
     renderPhotos: function (arrayPictures) {
-
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < arrayPictures.length; i++) {
         fragment.appendChild(renderPicture(arrayPictures[i], i));
       }
+
       window.preview.showPhoto(arrayPictures);
 
       picturesList.appendChild(fragment);
