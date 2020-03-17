@@ -81,11 +81,6 @@
       usersMessages.append(fragment);
       messagesLoader.addEventListener('click', countMessages);
     }
-
-    if (messages.length === commentsCount) {
-      messagesLoader.removeEventListener('click', countMessages);
-      commentsCount = undefined;
-    }
   }
 
   function countMessages() {
