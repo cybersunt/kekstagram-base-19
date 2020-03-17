@@ -38,13 +38,18 @@
 
   // Рендерим фотку, которую будем отркрывать
   function renderPreviewPicture(pictureIndex) {
+    var photos = window.data.getOriginalData();
+    window.data.savePhotos(photos);
+
     var arrayPictures = window.data.getCurrentData();
+
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
     var pictureMessagesCount = bigPicture.querySelector('.comments-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
     renderMessagesList(arrayPictures[pictureIndex].comments);
+
     pictureUrl.src = arrayPictures[pictureIndex].url;
     pictureLikes.textContent = arrayPictures[pictureIndex].likes;
     pictureMessagesCount.textContent = arrayPictures[pictureIndex].comments.length;
