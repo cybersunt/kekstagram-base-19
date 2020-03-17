@@ -71,7 +71,6 @@
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
       usersMessages.append(fragment);
-      commentsCount = undefined;
     }
 
     if (messages.length > commentsCount) {
@@ -84,8 +83,7 @@
   }
 
   function countMessages() {
-
-    commentsCount = commentsCount + 5;
+    commentsCount = commentsCount + window.constants.STEP_COMMENTS_COUNT;
 
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[currentPictureIndex].comments;
@@ -96,7 +94,6 @@
       var fragment = renderMessagesList(messages);
       usersMessages.append(fragment);
       messagesLoader.removeEventListener('click', countMessages);
-      commentsCount = undefined;
     }
 
     if (messages.length > commentsCount) {
@@ -131,6 +128,7 @@
   }
 
   function closeBigPicture() {
+    commentsCount = undefined;
     window.utils.removeClassName(galleryOverlay, 'modal-open');
     window.utils.addClassName(bigPicture, 'hidden');
     // удаление обработчика клика по кнопке закрытия галереи

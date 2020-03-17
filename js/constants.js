@@ -20,7 +20,8 @@
     USER_AVATAR_ALT: 'Аватар автора фотографии',
 
     MAX_LENGTH_GALLERY: 10,
-    MIN_COMMENTS_COUNT: 5
+    MIN_COMMENTS_COUNT: 5,
+    STEP_COMMENTS_COUNT: 5
   };
 })();
 
