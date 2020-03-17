@@ -10,6 +10,8 @@
   var countMessages = bigPicture.querySelector('.comments-count');
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
+  var commentsCount =  window.constants.MIN_COMMENTS_COUNT;
+
   // Генерируем комментарий к фото
   function createMessage(comment) {
     var userMessage = window.utils.createDOMElement('li', 'social__comment');
@@ -59,11 +61,20 @@
   function showMessageList(pictureIndex) {
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[pictureIndex].comments;
-    counterMessages(messages);
+    counterMessages(pictureIndex);
+
+    if (messages.length <= commentsCount) {
+      messagesLoader.removeEventListener('click', counterMessages);
+    }
+
+    if (messages.length > commentsCount) {
+      messagesLoader.addEventListener('click', counterMessages);
+    }
   }
 
-  function counterMessages(messages) {
-    var commentsCount =  window.constants.MIN_COMMENTS_COUNT;
+  function counterMessages(pictureIndex) {
+    var arrayPictures = window.data.getCurrentData();
+    var messages = arrayPictures[pictureIndex].comments;
 
     if (messages.length <= commentsCount) {
       countMessages.textContent = messages.length;
@@ -77,23 +88,6 @@
       var fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
       commentsCount = commentsCount + 5;
-
-      messagesLoader.addEventListener('click', function () {
-
-        if (messages.length <= commentsCount) {
-          countMessages.textContent = messages.length;
-          window.utils.addClassName(messagesLoader, 'hidden');
-          var fragment = renderMessagesList(messages);
-          usersMessages.append(fragment);
-        }
-
-        if (messages.length > commentsCount)  {
-          var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
-          var fragment = renderMessagesList(messagesCropped);
-          usersMessages.append(fragment);
-          commentsCount = commentsCount + 5;
-         }
-      })
     }
 
 
