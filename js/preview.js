@@ -148,7 +148,6 @@
 
     picturesList.addEventListener('keydown', function (evt) {
       if (evt.target.classList.contains('picture')) {
-        evt.preventDefault();
         var pictureNumber = evt.target.querySelector('img').dataset.id;
         window.utils.isEnterEvent(evt, openBigPicture, pictureNumber);
       }
