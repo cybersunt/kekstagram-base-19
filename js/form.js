@@ -41,27 +41,22 @@
   }
 
   function checkQuantityHashtags(array) {
-    if (array.length > window.constants.MAX_COUNT_HASHTAGS) {
-      return false;
+    if (array.length < window.constants.MAX_COUNT_HASHTAGS) {
+      return true;
     }
-    return true;
   }
 
   function searchSimilarHashtags(array) {
     for (var i = 0; i < array.length - 1; i++) {
-      if (array.indexOf(array[i]) !== array.lastIndexOf(array[i])) {
-        return false;
+      if (array.indexOf(array[i]) === array.lastIndexOf(array[i])) {
+        return true;
       }
     }
-    return true;
   }
 
   function checkHashtag(hashtag) {
     var reg = /#([A-Za-z0-9А-Яа-я]{2,19})$/;
-    if (!reg.test(hashtag)) {
-      return false;
-    }
-    return true;
+    return reg.test(hashtag);
   }
 
   function validate() {
