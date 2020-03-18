@@ -8,18 +8,18 @@
     var arrayHashtags = getArrayHashtags(evt);
 
     // Проверяем количество хэштэгов
-    if (checkQuantityHashtags(arrayHashtags) === false) {
+    if (!checkQuantityHashtags(arrayHashtags)) {
       return window.constants.INVALID_QUATITY_HASHTAGS;
     }
 
     // проверяем есть ли повторяющиеся хэштэги
-    if (searchSimilarHashtags(arrayHashtags) === false) {
+    if (!searchSimilarHashtags(arrayHashtags)) {
       return window.constants.INVALID_SIMILAR_HASHTAGS;
     }
 
     // Проверяем правильно ли хэштэги написаны
     for (var i = 0; i < arrayHashtags.length; i++) {
-      if (checkHashtag(arrayHashtags[i]) === false) {
+      if (!checkHashtag(arrayHashtags[i])) {
         return window.constants.INVALID_HASHTAG;
       }
     }
