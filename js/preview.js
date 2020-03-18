@@ -67,7 +67,7 @@
     commentsCounter = window.constants.MIN_COMMENTS_COUNT;
     messagesCounter.innerHTML = '';
 
-    checkQuantityComment(messages, commentsCounter);
+    checkQuantityComments(messages, commentsCounter);
 
     if (messages.length > commentsCounter) {
       messagesLoader.addEventListener('click', countMessages);
@@ -80,25 +80,25 @@
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[currentPictureIndex].comments;
 
-    checkQuantityComment(messages, commentsCounter)
+    checkQuantityComments(messages, commentsCounter);
 
     if (messages.length <= commentsCounter) {
       messagesLoader.removeEventListener('click', countMessages);
     }
   }
 
-  function checkQuantityComment(messages, commentsCounter) {
-    if (messages.length <= commentsCounter) {
+  function checkQuantityComments(messages, pictureCommentsCounter) {
+    if (messages.length <= pictureCommentsCounter) {
       pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
       messagesCounter.appendChild(pictureMessagesCounter);
       usersMessages.append(fragment);
     }
-    if (messages.length > commentsCounter) {
-      pictureMessagesCounter.textContent = commentsCounter + ' из ' + messages.length + ' комментариев';
+    if (messages.length > pictureCommentsCounter) {
+      pictureMessagesCounter.textContent = pictureCommentsCounter + ' из ' + messages.length + ' комментариев';
       window.utils.removeClassName(messagesLoader, 'hidden');
-      var messagesCropped = messages.slice((messages.length - commentsCounter), messages.length);
+      var messagesCropped = messages.slice((messages.length - pictureCommentsCounter), messages.length);
       messagesCounter.appendChild(pictureMessagesCounter);
       fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
