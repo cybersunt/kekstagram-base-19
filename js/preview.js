@@ -65,24 +65,11 @@
     var messages = arrayPictures[currentPictureIndex].comments;
 
     commentsCounter = window.constants.MIN_COMMENTS_COUNT;
-
     messagesCounter.innerHTML = '';
 
-    if (messages.length <= commentsCounter) {
-      pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
-      window.utils.addClassName(messagesLoader, 'hidden');
-      var fragment = renderMessagesList(messages);
-      messagesCounter.appendChild(pictureMessagesCounter);
-      usersMessages.append(fragment);
-    }
+    checkQuantityComment(messages, commentsCounter);
 
     if (messages.length > commentsCounter) {
-      pictureMessagesCounter.textContent = commentsCounter + ' из ' + messages.length + ' комментариев';
-      window.utils.removeClassName(messagesLoader, 'hidden');
-      var messagesCropped = messages.slice((messages.length - commentsCounter), messages.length);
-      fragment = renderMessagesList(messagesCropped);
-      messagesCounter.appendChild(pictureMessagesCounter);
-      usersMessages.append(fragment);
       messagesLoader.addEventListener('click', countMessages);
     }
   }
@@ -93,15 +80,21 @@
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[currentPictureIndex].comments;
 
+    checkQuantityComment(messages, commentsCounter)
+
+    if (messages.length <= commentsCounter) {
+      messagesLoader.removeEventListener('click', countMessages);
+    }
+  }
+
+  function checkQuantityComment(messages, commentsCounter) {
     if (messages.length <= commentsCounter) {
       pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
       messagesCounter.appendChild(pictureMessagesCounter);
       usersMessages.append(fragment);
-      messagesLoader.removeEventListener('click', countMessages);
     }
-
     if (messages.length > commentsCounter) {
       pictureMessagesCounter.textContent = commentsCounter + ' из ' + messages.length + ' комментариев';
       window.utils.removeClassName(messagesLoader, 'hidden');
