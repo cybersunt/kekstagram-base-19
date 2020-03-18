@@ -41,17 +41,19 @@
   }
 
   function checkQuantityHashtags(array) {
-    if (array.length < window.constants.MAX_COUNT_HASHTAGS) {
-      return true;
+    if (array.length > window.constants.MAX_COUNT_HASHTAGS) {
+      return false;
     }
+    return true;
   }
 
   function searchSimilarHashtags(array) {
     for (var i = 0; i < array.length - 1; i++) {
-      if (array.indexOf(array[i]) === array.lastIndexOf(array[i])) {
-        return true;
+      if (array.indexOf(array[i]) !== array.lastIndexOf(array[i])) {
+        return false;
       }
     }
+    return true;
   }
 
   function checkHashtag(hashtag) {
