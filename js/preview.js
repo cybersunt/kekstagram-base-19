@@ -6,11 +6,12 @@
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
   var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
+  var pictureMessagesCounter = bigPicture.querySelector('.comments-count'); // Найдем счетчик всех комментариев к фото
   var messagesLoader = bigPicture.querySelector('.comments-loader'); // Найдем счетчик всех комментариев к фото
   var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 
   var currentPictureIndex;
-  var commentsCount;
+  var commentsCounter;
 
   // Генерируем комментарий к фото
   function createMessage(comment) {
@@ -50,12 +51,11 @@
 
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
-    var pictureMessagesCount = bigPicture.querySelector('.comments-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
     pictureUrl.src = arrayPictures[pictureIndex].url;
     pictureLikes.textContent = arrayPictures[pictureIndex].likes;
-    pictureMessagesCount.textContent = arrayPictures[pictureIndex].comments.length;
+    pictureMessagesCounter.textContent = arrayPictures[pictureIndex].comments.length;
     pictureDescription.textContent = arrayPictures[pictureIndex].description;
   }
 
@@ -64,43 +64,49 @@
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[currentPictureIndex].comments;
 
-    commentsCount = window.constants.MIN_COMMENTS_COUNT;
+    commentsCounter = window.constants.MIN_COMMENTS_COUNT;
 
-    if (messages.length <= commentsCount) {
-      messagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
+    messagesCounter.innerHTML = '';
+
+    if (messages.length <= commentsCounter) {
+      pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
+      messagesCounter.appendChild(pictureMessagesCounter);
       usersMessages.append(fragment);
     }
 
-    if (messages.length > commentsCount) {
-      messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
+    if (messages.length > commentsCounter) {
+      pictureMessagesCounter.textContent = commentsCounter + ' из ' + messages.length + ' комментариев';
       window.utils.removeClassName(messagesLoader, 'hidden');
-      var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
+      var messagesCropped = messages.slice((messages.length - commentsCounter), messages.length);
       fragment = renderMessagesList(messagesCropped);
+      messagesCounter.appendChild(pictureMessagesCounter);
       usersMessages.append(fragment);
       messagesLoader.addEventListener('click', countMessages);
     }
   }
 
   function countMessages() {
-    commentsCount = commentsCount + window.constants.STEP_COMMENTS_COUNT;
+    commentsCounter = commentsCounter + window.constants.STEP_COMMENTS_COUNT;
 
     var arrayPictures = window.data.getCurrentData();
     var messages = arrayPictures[currentPictureIndex].comments;
 
-    if (messages.length <= commentsCount) {
-      messagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
+    if (messages.length <= commentsCounter) {
+      pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
       var fragment = renderMessagesList(messages);
+      messagesCounter.appendChild(pictureMessagesCounter);
       usersMessages.append(fragment);
       messagesLoader.removeEventListener('click', countMessages);
     }
 
-    if (messages.length > commentsCount) {
-      messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
+    if (messages.length > commentsCounter) {
+      pictureMessagesCounter.textContent = commentsCounter + ' из ' + messages.length + ' комментариев';
       window.utils.removeClassName(messagesLoader, 'hidden');
-      var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
+      var messagesCropped = messages.slice((messages.length - commentsCounter), messages.length);
+      messagesCounter.appendChild(pictureMessagesCounter);
       fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
     }
@@ -130,7 +136,7 @@
   }
 
   function closeBigPicture() {
-    commentsCount = undefined;
+    commentsCounter = undefined;
     window.utils.removeClassName(galleryOverlay, 'modal-open');
     window.utils.addClassName(bigPicture, 'hidden');
     // удаление обработчика клика по кнопке закрытия галереи
