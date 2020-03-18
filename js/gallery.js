@@ -21,9 +21,9 @@
     renderPhotos: function (arrayPictures) {
       var fragment = document.createDocumentFragment();
 
-      for (var i = 0; i < arrayPictures.length; i++) {
-        fragment.appendChild(renderPicture(arrayPictures[i], i));
-      }
+      arrayPictures.forEach(function (element, index) {
+        fragment.appendChild(renderPicture(element, index));
+      });
 
       window.preview.showPhoto(arrayPictures);
 
@@ -31,10 +31,10 @@
     },
     removePhotos: function () {
       var picturesRenderList = picturesList.querySelectorAll('.picture');
-      for (var i = 0; i < picturesRenderList.length; i++) {
-        picturesRenderList[i].remove();
-      }
 
+      picturesRenderList.forEach(function (element) {
+        element.remove();
+      });
     }
   };
 })();
