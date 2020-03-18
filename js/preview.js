@@ -75,6 +75,7 @@
 
     if (messages.length > commentsCount) {
       messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
+      window.utils.removeClassName(messagesLoader, 'hidden');
       var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
       fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
@@ -98,6 +99,7 @@
 
     if (messages.length > commentsCount) {
       messagesCounter.textContent = commentsCount + ' из ' + messages.length + ' комментариев';
+      window.utils.removeClassName(messagesLoader, 'hidden');
       var messagesCropped = messages.slice((messages.length - commentsCount), messages.length);
       fragment = renderMessagesList(messagesCropped);
       usersMessages.append(fragment);
