@@ -4,6 +4,7 @@
   // Работаем с изображениями на форме
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
+  var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
   var filters = editingWindow.querySelector('.effects');
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
   var effectsLevel = editingWindow.querySelector('.effect-level');
@@ -46,6 +47,7 @@
   }
 
   function setDefaultSettings() {
+    pictureZoomingValue.value = window.constants.SCALE_PERCENTS + '%';
     editingWindowFilters.removeAttribute('style');
     window.utils.addClassName(effectsLevel, 'hidden');
   }
