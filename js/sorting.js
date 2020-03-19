@@ -78,7 +78,7 @@
     return someRandomPhotos;
   }
 
-  var sortPhoto = function () {
+  function initSorting() {
     window.utils.removeClassName(sortImages, 'img-filters--inactive');
 
     defaultPhotosButtonSort.addEventListener('click', window.debounce(sortByDefault));
@@ -87,6 +87,6 @@
   };
 
   window.sorting = {
-    sortPhoto: sortPhoto
+    initSorting: initSorting
   };
 })();

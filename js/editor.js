@@ -71,6 +71,7 @@
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(previewWindow, 'hidden');
 
+    window.picture.uploadFile();
     window.filters.applyFilter();
     window.scale.zoomPhoto();
     window.form.validate();
@@ -86,7 +87,7 @@
     document.addEventListener('keydown', onEditingWindowKeyDown);
   }
 
-  var uploadPhoto = function () {
+ function uploadPhoto () {
     fileUploadButton.addEventListener('change', openEditingWindow);
   };
 
