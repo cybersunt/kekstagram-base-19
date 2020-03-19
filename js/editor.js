@@ -66,9 +66,8 @@
 
   // Открываем окно редактирования фотографий
   function openEditingWindow() {
-    window.utils.addClassName(effectsLevel, 'hidden');
     resetFilters();
-
+    window.utils.addClassName(effectsLevel, 'hidden');
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(previewWindow, 'hidden');
 
