@@ -5,21 +5,21 @@
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 
   function checkHashtagsList(evt) {
-    var arrayHashtags = getArrayHashtags(evt);
+    var hashtags = getArrayHashtags(evt);
 
     // Проверяем количество хэштэгов
-    if (!checkQuantityHashtags(arrayHashtags)) {
+    if (!checkQuantityHashtags(hashtags)) {
       return window.constants.INVALID_QUATITY_HASHTAGS;
     }
 
     // проверяем есть ли повторяющиеся хэштэги
-    if (!searchSimilarHashtags(arrayHashtags)) {
+    if (!searchSimilarHashtags(hashtags)) {
       return window.constants.INVALID_SIMILAR_HASHTAGS;
     }
 
     // Проверяем правильно ли хэштэги написаны
-    for (var i = 0; i < arrayHashtags.length; i++) {
-      if (!checkHashtag(arrayHashtags[i])) {
+    for (var i = 0; i < hashtags.length; i++) {
+      if (!checkHashtag(hashtags[i])) {
         return window.constants.INVALID_HASHTAG;
       }
     }

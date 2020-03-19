@@ -2,7 +2,7 @@
 
 (function () {
   var galleryOverlay = document.querySelector('body');
-  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
+  var pictures = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
   var bigPicture = document.querySelector('.big-picture'); // Найдем окно для просмотра фотографий
   var usersMessages = bigPicture.querySelector('.social__comments'); // Найдем список всех комментариев к фото
   var messagesCounter = bigPicture.querySelector('.social__comment-count'); // Найдем счетчик всех комментариев к фото
@@ -47,22 +47,22 @@
 
   // Рендерим фотку, которую будем отркрывать
   function renderPreviewPicture(pictureIndex) {
-    var arrayPictures = window.data.getCurrentData();
+    var photos = window.data.getCurrentData();
 
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
     var pictureDescription = bigPicture.querySelector('.social__caption');
 
-    pictureUrl.src = arrayPictures[pictureIndex].url;
-    pictureLikes.textContent = arrayPictures[pictureIndex].likes;
-    pictureMessagesCounter.textContent = arrayPictures[pictureIndex].comments.length;
-    pictureDescription.textContent = arrayPictures[pictureIndex].description;
+    pictureUrl.src = photos[pictureIndex].url;
+    pictureLikes.textContent = photos[pictureIndex].likes;
+    pictureMessagesCounter.textContent = photos[pictureIndex].comments.length;
+    pictureDescription.textContent = photos[pictureIndex].description;
   }
 
   function showMessageList(pictureIndex) {
     currentPictureIndex = pictureIndex;
-    var arrayPictures = window.data.getCurrentData();
-    var messages = arrayPictures[currentPictureIndex].comments;
+    var photos = window.data.getCurrentData();
+    var messages = photos[currentPictureIndex].comments;
 
     commentsCounter = window.constants.MIN_COMMENTS_COUNT;
     messagesCounter.innerHTML = '';
@@ -77,8 +77,8 @@
   function countMessages() {
     commentsCounter = commentsCounter + window.constants.STEP_COMMENTS_COUNT;
 
-    var arrayPictures = window.data.getCurrentData();
-    var messages = arrayPictures[currentPictureIndex].comments;
+    var photos = window.data.getCurrentData();
+    var messages = photos[currentPictureIndex].comments;
 
     checkQuantityComments(messages, commentsCounter);
 
@@ -139,14 +139,14 @@
   }
 
   var showPhoto = function () {
-    picturesList.addEventListener('click', function (evt) {
+    pictures.addEventListener('click', function (evt) {
       if (evt.target.classList.contains('picture__img')) {
         var pictureNumber = evt.target.dataset.id;
         openBigPicture(pictureNumber);
       }
     });
 
-    picturesList.addEventListener('keydown', function (evt) {
+    pictures.addEventListener('keydown', function (evt) {
       if (evt.target.classList.contains('picture')) {
         var pictureNumber = evt.target.querySelector('img').dataset.id;
         window.utils.isEnterEvent(evt, openBigPicture, pictureNumber);
