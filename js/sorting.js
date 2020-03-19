@@ -84,7 +84,7 @@
     defaultPhotosButtonSort.addEventListener('click', window.debounce(sortByDefault));
     discussedPhotosButtonSort.addEventListener('click', window.debounce(sortByDiscussedPhotos));
     randomPhotosButtonSort.addEventListener('click', window.debounce(sortBySomeRandomPhotos));
-  };
+  }
 
   window.sorting = {
     initSorting: initSorting

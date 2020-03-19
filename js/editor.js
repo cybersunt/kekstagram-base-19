@@ -87,9 +87,9 @@
     document.addEventListener('keydown', onEditingWindowKeyDown);
   }
 
- function uploadPhoto () {
+  function uploadPhoto() {
     fileUploadButton.addEventListener('change', openEditingWindow);
-  };
+  }
 
   window.editor = {
     uploadPhoto: uploadPhoto
