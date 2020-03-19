@@ -5,21 +5,21 @@
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
 
   function checkHashtagsList(evt) {
-    var arrayHashtags = getArrayHashtags(evt);
+    var hashtags = getArrayHashtags(evt);
 
     // Проверяем количество хэштэгов
-    if (checkQuantityHashtags(arrayHashtags) === false) {
+    if (!checkQuantityHashtags(hashtags)) {
       return window.constants.INVALID_QUATITY_HASHTAGS;
     }
 
     // проверяем есть ли повторяющиеся хэштэги
-    if (searchSimilarHashtags(arrayHashtags) === false) {
+    if (!searchSimilarHashtags(hashtags)) {
       return window.constants.INVALID_SIMILAR_HASHTAGS;
     }
 
     // Проверяем правильно ли хэштэги написаны
-    for (var i = 0; i < arrayHashtags.length; i++) {
-      if (checkHashtag(arrayHashtags[i]) === false) {
+    for (var i = 0; i < hashtags.length; i++) {
+      if (!checkHashtag(hashtags[i])) {
         return window.constants.INVALID_HASHTAG;
       }
     }
@@ -58,10 +58,7 @@
 
   function checkHashtag(hashtag) {
     var reg = /#([A-Za-z0-9А-Яа-я]{2,19})$/;
-    if (!reg.test(hashtag)) {
-      return false;
-    }
-    return true;
+    return reg.test(hashtag);
   }
 
   function validate() {

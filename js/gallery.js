@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var picturesList = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
+  var pictures = document.querySelector('.pictures'); // Найдем элемент в который мы будем вставлять наши изображения
 
   // Клонируем фотографии
   // Генерируем наш шаблон в документ
@@ -18,23 +18,23 @@
   }
 
   window.gallery = {
-    renderPhotos: function (arrayPictures) {
+    renderPhotos: function (photos) {
       var fragment = document.createDocumentFragment();
 
-      for (var i = 0; i < arrayPictures.length; i++) {
-        fragment.appendChild(renderPicture(arrayPictures[i], i));
-      }
+      photos.forEach(function (element, index) {
+        fragment.appendChild(renderPicture(element, index));
+      });
 
-      window.preview.showPhoto(arrayPictures);
+      window.preview.showPhoto(photos);
 
-      picturesList.appendChild(fragment);
+      pictures.appendChild(fragment);
     },
     removePhotos: function () {
-      var picturesRenderList = picturesList.querySelectorAll('.picture');
-      for (var i = 0; i < picturesRenderList.length; i++) {
-        picturesRenderList[i].remove();
-      }
+      var renderedPictures = pictures.querySelectorAll('.picture');
 
+      renderedPictures.forEach(function (element) {
+        element.remove();
+      });
     }
   };
 })();

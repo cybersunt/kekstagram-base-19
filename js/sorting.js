@@ -48,15 +48,15 @@
   }
 
   function getDiscussedPhotos(photos) {
-    var mappedArray = photos.map(function (el, i) {
+    var mappedPhotos = photos.map(function (el, i) {
       return {index: i, value: el.comments.length};
     });
 
-    mappedArray.sort(function (a, b) {
+    mappedPhotos.sort(function (a, b) {
       return b.value - a.value;
     });
 
-    var discussedPictures = mappedArray.map(function (el) {
+    var discussedPictures = mappedPhotos.map(function (el) {
       return photos[el.index];
     });
 

@@ -19,7 +19,9 @@
     USER_AVATAR_SIZE: 35,
     USER_AVATAR_ALT: 'Аватар автора фотографии',
 
-    MAX_LENGTH_GALLERY: 10
+    MAX_LENGTH_GALLERY: 10,
+    MIN_COMMENTS_COUNT: 5,
+    STEP_COMMENTS_COUNT: 5
   };
 })();
 

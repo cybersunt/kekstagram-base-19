@@ -4,7 +4,7 @@
   // Работаем с изображениями на форме
   var editingWindow = document.querySelector('.img-upload');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
-  var filtersList = editingWindow.querySelector('.effects');
+  var filters = editingWindow.querySelector('.effects');
   var toggleSlider = editingWindow.querySelector('.effect-level__pin');
   var effectsLevel = editingWindow.querySelector('.effect-level');
   var sliderBar = editingWindow.querySelector('.effect-level__line');
@@ -131,7 +131,7 @@
   }
 
   var applyFilter = function () {
-    filtersList.addEventListener('click', setFilter);
+    filters.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
   };
 
