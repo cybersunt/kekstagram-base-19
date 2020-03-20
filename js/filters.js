@@ -134,10 +134,10 @@
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  function applyEffect () {
+  function applyEffect() {
     filters.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
-  };
+  }
 
   window.filters = {
     applyEffect: applyEffect

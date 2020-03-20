@@ -41,7 +41,6 @@
   }
 
   function checkQuantityHashtags(array) {
-    console.log(array.length);
     if (array.length > window.constants.MAX_COUNT_HASHTAGS) {
       return false;
     }

@@ -47,7 +47,7 @@
   function onError(message) {
     closeEditingWindow();
     window.messages.showError(message);
-}
+  }
 
   // Закрываем окно редактирования фотографий
   function closeEditingWindow() {
