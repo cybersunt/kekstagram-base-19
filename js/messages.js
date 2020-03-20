@@ -3,20 +3,29 @@
 (function () {
   var overlay = document.querySelector('body');
 
-  function closeInfoMessage(className, evtKeydown) {
+  function closeInfoMessage(className, evtKeydown, evtMouse) {
     document.querySelector(className).remove();
     document.removeEventListener('keydown', evtKeydown);
+    document.removeEventListener('click', evtMouse);
+  }
+
+  function onSuccessMessageCloseClick() {
+    closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
+  }
+
+  function onErrorMessageCloseClick() {
+    closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
   }
 
   function onErrorMessageCloseKeyDown(evt) {
     if (evt.keyCode === window.constants.KEYCODE_ESC) {
-      closeInfoMessage('.error', onErrorMessageCloseKeyDown);
+      closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
     }
   }
 
   function onSuccessMessageCloseKeyDown(evt) {
     if (evt.keyCode === window.constants.KEYCODE_ESC) {
-      closeInfoMessage('.success', onSuccessMessageCloseKeyDown);
+      closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
     }
   }
 
@@ -38,10 +47,12 @@
   window.messages = {
     showError: function (message) {
       renderInfoMessage('#error', '.error', message);
+      document.addEventListener('click', onErrorMessageCloseClick);
       document.addEventListener('keydown', onErrorMessageCloseKeyDown);
     },
     showSuccess: function () {
       renderInfoMessage('#success', '.success');
+      document.addEventListener('click', onSuccessMessageCloseClick);
       document.addEventListener('keydown', onSuccessMessageCloseKeyDown);
     },
   };
