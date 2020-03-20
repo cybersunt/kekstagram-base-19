@@ -14,7 +14,7 @@
   var currentFilterValue = 0.2;
   var currentFilter = 'none';
 
-  var SettingsEffects = {
+  var settingsEffects = {
     chrome: {
       NAME: 'chrome',
       MIN: 0,
@@ -54,20 +54,20 @@
 
   function checkUseFilter(filterName, filterValue) {
     switch (filterName) {
-      case SettingsEffects.chrome.NAME:
-        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(SettingsEffects.chrome, filterValue) + ')';
+      case settingsEffects.chrome.NAME:
+        editingWindowFilters.style.filter = 'grayscale(' + getCurrentFilterValue(settingsEffects.chrome, filterValue) + ')';
         break;
-      case SettingsEffects.sepia.NAME:
-        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(SettingsEffects.sepia, filterValue) + ')';
+      case settingsEffects.sepia.NAME:
+        editingWindowFilters.style.filter = 'sepia(' + getCurrentFilterValue(settingsEffects.sepia, filterValue) + ')';
         break;
-      case SettingsEffects.marvin.NAME:
-        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(SettingsEffects.marvin, filterValue) + '%)';
+      case settingsEffects.marvin.NAME:
+        editingWindowFilters.style.filter = 'invert(' + getCurrentFilterValue(settingsEffects.marvin, filterValue) + '%)';
         break;
-      case SettingsEffects.phobos.NAME:
-        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(SettingsEffects.phobos, filterValue) + 'px)';
+      case settingsEffects.phobos.NAME:
+        editingWindowFilters.style.filter = 'blur(' + getCurrentFilterValue(settingsEffects.phobos, filterValue) + 'px)';
         break;
-      case SettingsEffects.heat.NAME:
-        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(SettingsEffects.heat, filterValue) + ')';
+      case settingsEffects.heat.NAME:
+        editingWindowFilters.style.filter = 'brightness(' + getCurrentFilterValue(settingsEffects.heat, filterValue) + ')';
         break;
       default:
         setDefaultSettings();
