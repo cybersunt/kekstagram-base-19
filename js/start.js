@@ -4,7 +4,7 @@
   var URL = 'https://js.dump.academy/kekstagram/data';
 
   function onError(message) {
-    window.utils.renderInfoMessage('#error', '.error', message);
+    window.messages.showError(message);
   }
 
   function onSuccess(data) {

@@ -41,12 +41,12 @@
 
   function onSuccess() {
     closeEditingWindow();
-    window.utils.renderInfoMessage('#success', '.success');
+    window.messages.showSuccess();
   }
 
   function onError(message) {
     closeEditingWindow();
-    window.utils.renderInfoMessage('#error', '.error', message);
+    window.messages.showError(message);
   }
 
   // Закрываем окно редактирования фотографий
