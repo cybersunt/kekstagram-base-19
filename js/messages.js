@@ -2,14 +2,12 @@
 
 (function () {
   var overlay = document.querySelector('body');
+  console.log(overlay.lastChild);
 
   function closeInfoMessage(className, evtKeydown, evtMouse) {
-    var templateMessage = document.querySelector(className);
-    if (templateMessage !== null) {
-      document.querySelector(className).remove();
-      document.removeEventListener('keydown', evtKeydown);
-      document.removeEventListener('click', evtMouse);
-    }
+    document.querySelector(className).remove();
+    document.removeEventListener('keydown', evtKeydown);
+    document.removeEventListener('click', evtMouse);
   }
 
   function onSuccessMessageCloseClick() {
