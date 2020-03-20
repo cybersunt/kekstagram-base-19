@@ -4,6 +4,8 @@
   var overlay = document.querySelector('body');
 
   function closeInfoMessage(className, evtKeydown, evtMouse) {
+    var templateMessage = document.querySelector(className);
+    console.log(templateMessage);
     document.querySelector(className).remove();
     document.removeEventListener('keydown', evtKeydown);
     document.removeEventListener('click', evtMouse);

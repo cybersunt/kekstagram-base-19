@@ -13,7 +13,6 @@
   var editingForm = editingWindow.querySelector('.img-upload__form');
   var submitPhotoBtn = editingWindow.querySelector('.img-upload__submit');
   var editingWindowFilters = editingWindow.querySelector('.img-upload__preview img');
-
   var pictureZoomingValue = editingWindow.querySelector('.scale__control--value');
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
   var editingWindowComment = editingWindow.querySelector('.text__description');
@@ -24,6 +23,7 @@
     editingWindowComment.value = '';
     editingWindowHashtags.value = '';
     editingWindowFilters.className = 'effects__preview--none';
+    editingWindowFilters.style = null;
     pictureZoomingValue.value = currentZoomValue * window.constants.SCALE_PERCENTS + '%';
   }
 
