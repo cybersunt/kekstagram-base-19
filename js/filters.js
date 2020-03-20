@@ -132,12 +132,12 @@
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  var applyFilter = function () {
+  function applyEffect () {
     filters.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
   };
 
   window.filters = {
-    applyFilter: applyFilter
+    applyEffect: applyEffect
   };
 })();

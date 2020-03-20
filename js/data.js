@@ -5,13 +5,13 @@
   var originalPhotos = null;
 
   window.data = {
-    getOriginalData: function () {
+    getOriginalPhotos: function () {
       return originalPhotos;
     },
     saveOriginalPhotos: function (data) {
       originalPhotos = data;
     },
-    getCurrentData: function () {
+    getCurrentPhotos: function () {
       return currentPhotos;
     },
     savePhotos: function (data) {

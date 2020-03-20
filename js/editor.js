@@ -72,7 +72,7 @@
     window.utils.removeClassName(previewWindow, 'hidden');
 
     window.picture.uploadFile();
-    window.filters.applyFilter();
+    window.filters.applyEffect();
     window.scale.zoomPhoto();
     window.form.validate();
 

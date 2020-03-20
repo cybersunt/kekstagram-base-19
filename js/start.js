@@ -15,7 +15,7 @@
     // Показываем фотки
     window.gallery.renderPhotos(photos);
     window.editor.uploadPhoto();
-    window.sorting.initSorting(photos);
+    window.sorting.init(photos);
   }
 
   window.backend.load(URL, 'GET', onSuccess, onError);
