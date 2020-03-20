@@ -2,7 +2,6 @@
 
 (function () {
   var overlay = document.querySelector('body');
-  console.log(overlay.lastChild);
 
   function closeInfoMessage(className, evtKeydown, evtMouse) {
     document.querySelector(className).remove();
