@@ -28,9 +28,9 @@
   }
 
   // Функция закрытия окна редактирования фото по клику на ESC
-  function onEditingWindowKeyDown() {
+  function onEditingWindowKeyDown(evt) {
     if (document.activeElement !== editingWindowHashtags && document.activeElement !== editingWindowComment) {
-      closeEditingWindow();
+      window.utils.isEscEvent(evt, closeEditingWindow);
     }
   }
 
@@ -47,7 +47,7 @@
   function onError(message) {
     closeEditingWindow();
     window.messages.showError(message);
-  }
+}
 
   // Закрываем окно редактирования фотографий
   function closeEditingWindow() {
