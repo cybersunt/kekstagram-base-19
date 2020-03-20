@@ -5,10 +5,11 @@
 
   function closeInfoMessage(className, evtKeydown, evtMouse) {
     var templateMessage = document.querySelector(className);
-    console.log(templateMessage);
-    document.querySelector(className).remove();
-    document.removeEventListener('keydown', evtKeydown);
-    document.removeEventListener('click', evtMouse);
+    if (templateMessage !== null) {
+      document.querySelector(className).remove();
+      document.removeEventListener('keydown', evtKeydown);
+      document.removeEventListener('click', evtMouse);
+    }
   }
 
   function onSuccessMessageCloseClick() {
