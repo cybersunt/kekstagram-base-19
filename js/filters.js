@@ -12,7 +12,6 @@
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
 
   var currentFilterValue = 1;
-  var currentEffectLevel = '100%';
   var currentFilter = 'none';
 
   var settingsEffects = {
@@ -80,9 +79,9 @@
       window.utils.removeClassName(effectsLevel, 'hidden');
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
       currentFilter = evt.target.value;
-      toggleSlider.style.left =  currentEffectLevel;
-      sliderBarFill.style.width =  currentEffectLevel;
-      setFilterSaturation(currentFilterValue);
+      toggleSlider.style.left = window.constants.DEFAULT_EFFECT_LEVEL;
+      sliderBarFill.style.width = window.constants.DEFAULT_EFFECT_LEVEL;
+      setFilterSaturation(window.constants.DEFAULT_FILTER_VALUE);
     }
   }
 
