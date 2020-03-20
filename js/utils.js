@@ -11,6 +11,12 @@
     return elementToClone;
   }
 
+  function onPopupCloseKeyDown(evt, element, childElement) {
+    if (evt.keyCode === window.constants.KEYCODE_ESC) {
+      element.removeChild(childElement);
+    }
+  }
+
   window.utils = {
     addClassName: function (element, className) {
       element.classList.add(className);
@@ -48,13 +54,12 @@
       }
 
       document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.constants.KEYCODE_ESC) {
-          overlay.removeChild(templateMessage);
-        }
+        onPopupCloseKeyDown(evt, overlay, templateMessage);
       });
 
       templateBtn.addEventListener('click', function () {
         overlay.removeChild(templateMessage);
+        document.removeEventListener('keydown', onPopupCloseKeyDown);
       });
     }
   };

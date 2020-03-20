@@ -11,7 +11,7 @@
     // Сохранияем фотки
     window.data.savePhotos(data);
     window.data.saveOriginalPhotos(data);
-    var photos = window.data.getOriginalData();
+    var photos = window.data.getOriginalPhotos();
     // Показываем фотки
     window.gallery.renderPhotos(photos);
     window.editor.uploadPhoto();

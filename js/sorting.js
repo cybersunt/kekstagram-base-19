@@ -10,7 +10,7 @@
   function sortByDefault(evt) {
     changeActiveButton(evt);
 
-    var photos = window.data.getOriginalData();
+    var photos = window.data.getOriginalPhotos();
 
     window.gallery.removePhotos();
     window.gallery.renderPhotos(photos);
@@ -19,7 +19,7 @@
   function sortByDiscussedPhotos(evt) {
     changeActiveButton(evt);
 
-    var photos = window.data.getOriginalData();
+    var photos = window.data.getOriginalPhotos();
 
     var discussedPhotos = getDiscussedPhotos(photos);
     window.data.savePhotos(discussedPhotos);
@@ -31,7 +31,7 @@
   function sortBySomeRandomPhotos(evt) {
     changeActiveButton(evt);
 
-    var photos = window.data.getOriginalData();
+    var photos = window.data.getOriginalPhotos();
 
     var randomPhotos = getSomeRandomPhotos(photos);
     window.data.savePhotos(randomPhotos);
