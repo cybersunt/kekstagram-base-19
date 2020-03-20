@@ -47,7 +47,7 @@
 
   // Рендерим фотку, которую будем отркрывать
   function renderPreviewPicture(pictureIndex) {
-    var photos = window.data.getCurrentData();
+    var photos = window.data.getCurrentPhotos();
 
     var pictureUrl = bigPicture.querySelector('.big-picture__img img');
     var pictureLikes = bigPicture.querySelector('.likes-count');
@@ -61,7 +61,7 @@
 
   function showMessageList(pictureIndex) {
     currentPictureIndex = pictureIndex;
-    var photos = window.data.getCurrentData();
+    var photos = window.data.getCurrentPhotos();
     var messages = photos[currentPictureIndex].comments;
 
     commentsCounter = window.constants.MIN_COMMENTS_COUNT;
@@ -77,7 +77,7 @@
   function countMessages() {
     commentsCounter = commentsCounter + window.constants.STEP_COMMENTS_COUNT;
 
-    var photos = window.data.getCurrentData();
+    var photos = window.data.getCurrentPhotos();
     var messages = photos[currentPictureIndex].comments;
 
     checkQuantityComments(messages, commentsCounter);
