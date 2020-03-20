@@ -11,7 +11,8 @@
   var sliderBar = editingWindow.querySelector('.effect-level__line');
   var sliderBarFill = editingWindow.querySelector('.effect-level__depth');
 
-  var currentFilterValue = 0.2;
+  var currentFilterValue = 1;
+  var currentEffectLevel = '100%';
   var currentFilter = 'none';
 
   var settingsEffects = {
@@ -79,6 +80,8 @@
       window.utils.removeClassName(effectsLevel, 'hidden');
       editingWindowFilters.className = 'effects__preview--' + evt.target.value;
       currentFilter = evt.target.value;
+      toggleSlider.style.left =  currentEffectLevel;
+      sliderBarFill.style.width =  currentEffectLevel;
       setFilterSaturation(currentFilterValue);
     }
   }
@@ -98,7 +101,7 @@
       max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
     };
 
-    var startCoordsX = evt.clientX;
+    var startCoordsX = LimitMovementX.max;
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
