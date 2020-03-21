@@ -9,12 +9,16 @@
     document.removeEventListener('click', evtMouse);
   }
 
-  function onSuccessMessageCloseClick() {
-    closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
+  function onSuccessMessageCloseClick(evt) {
+    if (evt.target === document.querySelector('.success')) {
+      closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
+    }
   }
 
-  function onErrorMessageCloseClick() {
-    closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
+  function onErrorMessageCloseClick(evt) {
+    if (evt.target === document.querySelector('.error')) {
+      closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
+    }
   }
 
   function onErrorMessageCloseKeyDown(evt) {
