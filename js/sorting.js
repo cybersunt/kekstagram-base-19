@@ -48,7 +48,7 @@
   }
 
   function getDiscussedPhotos(photos) {
-    var mappedPhotos = photos.map(function (el, i) {
+    var mappedPhotos = photos.map(function (element, i) {
       return {index: i, value: el.comments.length};
     });
 
@@ -56,22 +56,22 @@
       return b.value - a.value;
     });
 
-    var discussedPictures = mappedPhotos.map(function (el) {
-      return photos[el.index];
+    var discussedPictures = mappedPhotos.map(function (element) {
+      return photos[element.index];
     });
 
     return discussedPictures;
   }
 
   function getSomeRandomPhotos(photos) {
-    var someRandomPhotos = photos.map(function (elem) {
-      return [elem, Math.random()];
+    var someRandomPhotos = photos.map(function (element) {
+      return [element, Math.random()];
     })
       .sort(function (a, b) {
         return a[1] - b[1];
       })
-      .map(function (elem) {
-        return elem[0];
+      .map(function (element) {
+        return element[0];
       })
       .slice((photos.length - window.constants.MAX_LENGTH_GALLERY), photos.length);
 
