@@ -49,8 +49,8 @@
 
   function searchSimilarHashtags(array) {
     return !(array.some(function (element) {
-      return array.indexOf(element) !== array.lastIndexOf(element)
-    }))
+      return array.indexOf(element) !== array.lastIndexOf(element);
+    }));
   }
 
   function checkHashtag(hashtag) {

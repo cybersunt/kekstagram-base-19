@@ -49,7 +49,7 @@
 
   function getDiscussedPhotos(photos) {
     var mappedPhotos = photos.map(function (element, i) {
-      return {index: i, value: el.comments.length};
+      return {index: i, value: element.comments.length};
     });
 
     mappedPhotos.sort(function (a, b) {
