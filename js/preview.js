@@ -91,17 +91,15 @@
     if (messages.length <= pictureCommentsCounter) {
       pictureMessagesCounter.textContent = messages.length + ' из ' + messages.length + ' комментариев';
       window.utils.addClassName(messagesLoader, 'hidden');
-      var fragment = renderMessagesList(messages);
       messagesCounter.appendChild(pictureMessagesCounter);
-      usersMessages.append(fragment);
+      usersMessages.appendChild(renderMessagesList(messages));
     }
     if (messages.length > pictureCommentsCounter) {
       pictureMessagesCounter.textContent = pictureCommentsCounter + ' из ' + messages.length + ' комментариев';
       window.utils.removeClassName(messagesLoader, 'hidden');
-      var messagesCropped = messages.slice((messages.length - pictureCommentsCounter), messages.length);
+      var messagesCropped = messages.slice(0, pictureCommentsCounter);
       messagesCounter.appendChild(pictureMessagesCounter);
-      fragment = renderMessagesList(messagesCropped);
-      usersMessages.append(fragment);
+      usersMessages.appendChild(renderMessagesList(messagesCropped));
     }
   }
 
