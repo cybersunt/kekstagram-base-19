@@ -100,7 +100,7 @@
       max: sliderBar.offsetLeft + sliderBar.offsetWidth - SLIDER_WIDTH
     };
 
-    var startCoordsX = LimitMovementX.max;
+    var startCoordsX = evt.clientX;
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
