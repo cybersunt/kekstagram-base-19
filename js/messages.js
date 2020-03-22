@@ -22,13 +22,13 @@
   }
 
   function onErrorMessageCloseKeyDown(evt) {
-    if (evt.keyCode === window.constants.KEYCODE_ESC) {
+    if (evt.keyCode === window.constants.KEYCODE_ESC && evt.target === document.querySelector('.error')) {
       closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
     }
   }
 
   function onSuccessMessageCloseKeyDown(evt) {
-    if (evt.keyCode === window.constants.KEYCODE_ESC) {
+    if (evt.keyCode === window.constants.KEYCODE_ESC && evt.target === document.querySelector('.success')) {
       closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
     }
   }
