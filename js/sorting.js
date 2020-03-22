@@ -11,6 +11,7 @@
     changeActiveButton(evt);
 
     var photos = window.data.getOriginalPhotos();
+    window.data.savePhotos(photos);
 
     window.gallery.removePhotos();
     window.gallery.renderPhotos(photos);
