@@ -41,7 +41,7 @@
     }
   };
 
-  function setFilter (evt) {
+  function setFilter(evt) {
     if (evt.target.checked) {
       currentFilter = evt.target.value;
       editingWindowFilters.className = 'effects__preview--' + currentFilter;
@@ -52,14 +52,14 @@
     }
   }
 
-  function getCurrentFilterValue (filter) {
+  function getCurrentFilterValue(filter) {
     return filter.MIN + (filter.MAX - filter.MIN) * currentFilterValue;
   }
 
-  function setDefaultSettings () {
+  function setDefaultSettings() {
     pictureZoomingValue.value = window.window.constants.SCALE_PERCENTS + '%';
     editingWindowFilters.style = null;
-    utils.addClassName(effectsLevel, 'hidden');
+    window.utils.addClassName(effectsLevel, 'hidden');
   }
 
   function checkUseFilter(filterName) {
@@ -71,10 +71,14 @@
       'heat': 'brightness(' + getCurrentFilterValue(settingsEffects.heat) + ')'
     };
 
-    filterName !== window.constants.DEFAULT_FILTER_NAME ? editingWindowFilters.style.filter = switchFilters[filterName] : setDefaultSettings();
+    if (filterName !== window.constants.DEFAULT_FILTER_NAME) {
+      editingWindowFilters.style.filter = switchFilters[filterName];
+    } else {
+      setDefaultSettings();
+    }
   }
 
-  function onMouseDown (evt) {
+  function onMouseDown(evt) {
     evt.preventDefault();
 
     var SLIDER_WIDTH = toggleSlider.offsetWidth;
@@ -86,7 +90,7 @@
 
     var startCoordsX = evt.clientX;
 
-    function onMouseMove (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
       var shiftSlider = startCoordsX - moveEvt.clientX;
 
@@ -106,9 +110,9 @@
 
       currentFilterValue = toggleSliderCoord / (LimitMovementX.max - LimitMovementX.min);
       checkUseFilter(currentFilter);
-    };
+    }
 
-    function onMouseUp (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
@@ -119,12 +123,12 @@
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  var applyEffect = () => {
+  var applyEffect = function () {
     filters.addEventListener('click', setFilter);
     toggleSlider.addEventListener('mousedown', onMouseDown);
   };
 
-  var cancelEffect = () => {
+  var cancelEffect = function () {
     filters.removeEventListener('click', setFilter);
     toggleSlider.removeEventListener('mousedown', onMouseDown);
   };

@@ -19,12 +19,12 @@
   var editingWindowComment = editingWindow.querySelector('.text__description');
 
   function resetSettings() {
-    editingWindowComment.value = ``;
-    editingWindowHashtags.value = ``;
+    editingWindowComment.value = '';
+    editingWindowHashtags.value = '';
     editingWindowFilters.style = null;
-    editingWindowFilters.className = `effects__preview--none`;
-    pictureZoomingValue.value = window.constants.SCALE_PERCENTS + `%`;
-    window.utils.addClassName(effectsLevel, `hidden`);
+    editingWindowFilters.className = 'effects__preview--none';
+    pictureZoomingValue.value = window.constants.SCALE_PERCENTS + '%';
+    window.utils.addClassName(effectsLevel, 'hidden');
   }
 
   // Функция закрытия окна редактирования фото по клику на ESC

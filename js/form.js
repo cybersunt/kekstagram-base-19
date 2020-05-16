@@ -73,12 +73,12 @@
     }
   }
 
-  var initValidation = function() {
-    editingWindowHashtags.addEventListener(`input`, validateForm);
+  var initValidation = function () {
+    editingWindowHashtags.addEventListener('input', validateForm);
   };
 
-  var breakValidation = function() {
-    editingWindowHashtags.removeEventListener(`input`, validateForm);
+  var breakValidation = function () {
+    editingWindowHashtags.removeEventListener('input', validateForm);
   };
 
   window.form = {
@@ -86,6 +86,3 @@
     breakValidation: breakValidation
   };
 })();
-
-
-

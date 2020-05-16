@@ -3,35 +3,35 @@
 (function () {
   var overlay = document.querySelector('body');
 
-  function onErrorMessageBtnCloseClick () {
+  function onErrorMessageBtnCloseClick() {
     removeErrorMessage();
   }
 
-  function onSuccessMessageBtnCloseClick () {
+  function onSuccessMessageBtnCloseClick() {
     removeSuccessMessage();
   }
 
-  function onErrorMessageCloseClick (evt) {
+  function onErrorMessageCloseClick(evt) {
     if (evt.target === document.querySelector('.error')) {
       removeErrorMessage();
     }
   }
 
-  function onSuccessMessageCloseClick (evt) {
+  function onSuccessMessageCloseClick(evt) {
     if (evt.target === document.querySelector('.success')) {
       removeSuccessMessage();
     }
-  };
-
-  function onErrorMessageCloseKeyDown (evt) {
-    utils.isEscEvent(evt, removeErrorMessage);
   }
 
-  function onSuccessMessageCloseKeyDown (evt) {
+  function onErrorMessageCloseKeyDown(evt) {
+    window.utils.isEscEvent(evt, removeErrorMessage);
+  }
+
+  function onSuccessMessageCloseKeyDown(evt) {
     window.utils.isEscEvent(evt, removeSuccessMessage);
   }
 
-  function removeErrorMessage () {
+  function removeErrorMessage() {
     var message = document.querySelector('.error');
     var messageBtnClose = message.querySelector('.error__button');
     message.remove();
@@ -41,7 +41,7 @@
     document.removeEventListener('keydown', onErrorMessageCloseKeyDown);
   }
 
-  function removeSuccessMessage () {
+  function removeSuccessMessage() {
     var message = document.querySelector('.success');
     var messageBtnClose = message.querySelector('.success__button');
     message.remove();
@@ -51,8 +51,8 @@
     document.removeEventListener('keydown', onSuccessMessageCloseKeyDown);
   }
 
-  function renderErrorMessage (message) {
-    var template = utils.getTemplateClone('#error', '.error');
+  function renderErrorMessage(message) {
+    var template = window.utils.getTemplateClone('#error', '.error');
     var templateMessage = template.cloneNode(true);
     var templateBtn = templateMessage.querySelector('.error__button');
     templateMessage.querySelector('.error__title').textContent = message;
@@ -64,8 +64,8 @@
     overlay.appendChild(templateMessage);
   }
 
-  function renderSuccessMessage () {
-    var template = utils.getTemplateClone('#success', '.success');
+  function renderSuccessMessage() {
+    var template = window.utils.getTemplateClone('#success', '.success');
     var templateMessage = template.cloneNode(true);
     var templateBtn = templateMessage.querySelector('.success__button');
 
