@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
 
   var URL = 'https://javascript.pages.academy/kekstagram/';
@@ -17,14 +18,13 @@
   var editingWindowHashtags = editingWindow.querySelector('.text__hashtags');
   var editingWindowComment = editingWindow.querySelector('.text__description');
 
-  var currentZoomValue = 1;
-
-  function resetFilters() {
-    editingWindowComment.value = '';
-    editingWindowHashtags.value = '';
-    editingWindowFilters.className = 'effects__preview--none';
+  function resetSettings() {
+    editingWindowComment.value = ``;
+    editingWindowHashtags.value = ``;
     editingWindowFilters.style = null;
-    pictureZoomingValue.value = currentZoomValue * window.constants.SCALE_PERCENTS + '%';
+    editingWindowFilters.className = `effects__preview--none`;
+    pictureZoomingValue.value = window.constants.SCALE_PERCENTS + `%`;
+    window.utils.addClassName(effectsLevel, `hidden`);
   }
 
   // Функция закрытия окна редактирования фото по клику на ESC
@@ -54,6 +54,11 @@
     fileUploadButton.value = '';
     window.utils.addClassName(previewWindow, 'hidden');
     window.utils.removeClassName(galleryOverlay, 'modal-open');
+
+    window.form.breakValidation();
+    window.filters.cancelEffect();
+    window.scale.removeZoomPhoto();
+
     // удаляем обработчик закрытия окна
     closePreviewWindowBtn.removeEventListener('click', closeEditingWindow);
     // удаляем обработчик закрытия окна по кноаке отправить
@@ -66,15 +71,16 @@
 
   // Открываем окно редактирования фотографий
   function openEditingWindow() {
-    resetFilters();
+    resetSettings();
     window.utils.addClassName(effectsLevel, 'hidden');
     window.utils.addClassName(galleryOverlay, 'modal-open');
     window.utils.removeClassName(previewWindow, 'hidden');
 
     window.picture.uploadFile();
+
+    window.form.initValidation();
     window.filters.applyEffect();
-    window.scale.zoomPhoto();
-    window.form.validate();
+    window.scale.addZoomPhoto();
 
     // добавляем обработчик закрытия окна
     closePreviewWindowBtn.addEventListener('click', closeEditingWindow);

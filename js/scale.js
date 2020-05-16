@@ -35,12 +35,18 @@
     editingWindowFilters.style.transform = 'scale(' + valueZoom + ')';
   }
 
-  var zoomPhoto = function () {
+  var addZoomPhoto = function () {
     enlargePictureBtn.addEventListener('click', setScale);
     reducePictureBtn.addEventListener('click', setScale);
   };
 
+  var removeZoomPhoto = function () {
+    enlargePictureBtn.removeEventListener('click', setScale);
+    reducePictureBtn.removeEventListener('click', setScale);
+  };
+
   window.scale = {
-    zoomPhoto: zoomPhoto
+    addZoomPhoto: addZoomPhoto,
+    removeZoomPhoto: removeZoomPhoto
   };
 })();

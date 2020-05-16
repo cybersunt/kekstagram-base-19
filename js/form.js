@@ -58,23 +58,34 @@
     return reg.test(hashtag);
   }
 
-  function validate() {
-    editingWindowHashtags.addEventListener('input', function (evt) {
-      // сбрасываем статус
-      editingWindowHashtags.setCustomValidity('');
+  function validateForm(evt) {
+    // сбрасываем статус
+    editingWindowHashtags.setCustomValidity('');
 
-      if (evt.target.value !== '') {
-        // записываем результат валидации
-        var validMessage = checkHashtagsList(evt);
+    if (evt.target.value !== '') {
+      // записываем результат валидации
+      var validMessage = checkHashtagsList(evt);
 
-        if (validMessage !== window.constants.HASHTAGS_STATUS_OK) {
-          // Если не правильно - записываем статус
-          editingWindowHashtags.setCustomValidity(validMessage);
-        }
+      if (validMessage !== window.constants.HASHTAGS_STATUS_OK) {
+        // Если не правильно - записываем статус
+        editingWindowHashtags.setCustomValidity(validMessage);
       }
-    });
+    }
   }
+
+  var initValidation = function() {
+    editingWindowHashtags.addEventListener(`input`, validateForm);
+  };
+
+  var breakValidation = function() {
+    editingWindowHashtags.removeEventListener(`input`, validateForm);
+  };
+
   window.form = {
-    validate: validate,
+    initValidation: initValidation,
+    breakValidation: breakValidation
   };
 })();
+
+
+

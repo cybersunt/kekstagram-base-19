@@ -3,62 +3,89 @@
 (function () {
   var overlay = document.querySelector('body');
 
-  function closeInfoMessage(className, evtKeydown, evtMouse) {
-    document.querySelector(className).remove();
-    document.removeEventListener('keydown', evtKeydown);
-    document.removeEventListener('click', evtMouse);
+  function onErrorMessageBtnCloseClick () {
+    removeErrorMessage();
   }
 
-  function onSuccessMessageCloseClick(evt) {
-    if (evt.target === document.querySelector('.success')) {
-      closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
-    }
+  function onSuccessMessageBtnCloseClick () {
+    removeSuccessMessage();
   }
 
-  function onErrorMessageCloseClick(evt) {
+  function onErrorMessageCloseClick (evt) {
     if (evt.target === document.querySelector('.error')) {
-      closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
+      removeErrorMessage();
     }
   }
 
-  function onErrorMessageCloseKeyDown(evt) {
-    if (evt.keyCode === window.constants.KEYCODE_ESC && evt.target === document.querySelector('.error')) {
-      closeInfoMessage('.error', onErrorMessageCloseKeyDown, onErrorMessageCloseClick);
+  function onSuccessMessageCloseClick (evt) {
+    if (evt.target === document.querySelector('.success')) {
+      removeSuccessMessage();
     }
-  }
-
-  function onSuccessMessageCloseKeyDown(evt) {
-    if (evt.keyCode === window.constants.KEYCODE_ESC && evt.target === document.querySelector('.success')) {
-      closeInfoMessage('.success', onSuccessMessageCloseKeyDown, onSuccessMessageCloseClick);
-    }
-  }
-
-  function renderInfoMessage(templateElement, innerSelector, message) {
-    var template = window.utils.getTemplateClone(templateElement, innerSelector);
-    var templateMessage = template.cloneNode(true);
-    var templateBtn = templateMessage.querySelector((innerSelector + '__button'));
-    overlay.appendChild(templateMessage);
-
-    if (message !== undefined) {
-      templateMessage.querySelector(innerSelector + '__title').textContent = message;
-    }
-
-    templateBtn.addEventListener('click', function () {
-      overlay.removeChild(templateMessage);
-    });
-  }
-
-  window.messages = {
-    showError: function (message) {
-      renderInfoMessage('#error', '.error', message);
-      document.addEventListener('click', onErrorMessageCloseClick);
-      document.addEventListener('keydown', onErrorMessageCloseKeyDown);
-    },
-    showSuccess: function () {
-      renderInfoMessage('#success', '.success');
-      document.addEventListener('click', onSuccessMessageCloseClick);
-      document.addEventListener('keydown', onSuccessMessageCloseKeyDown);
-    },
   };
 
+  function onErrorMessageCloseKeyDown (evt) {
+    utils.isEscEvent(evt, removeErrorMessage);
+  }
+
+  function onSuccessMessageCloseKeyDown (evt) {
+    window.utils.isEscEvent(evt, removeSuccessMessage);
+  }
+
+  function removeErrorMessage () {
+    var message = document.querySelector('.error');
+    var messageBtnClose = message.querySelector('.error__button');
+    message.remove();
+
+    messageBtnClose.removeEventListener('click', onErrorMessageBtnCloseClick);
+    document.removeEventListener('click', onErrorMessageCloseClick);
+    document.removeEventListener('keydown', onErrorMessageCloseKeyDown);
+  }
+
+  function removeSuccessMessage () {
+    var message = document.querySelector('.success');
+    var messageBtnClose = message.querySelector('.success__button');
+    message.remove();
+
+    messageBtnClose.removeEventListener('click', onErrorMessageBtnCloseClick);
+    document.removeEventListener('click', onSuccessMessageCloseClick);
+    document.removeEventListener('keydown', onSuccessMessageCloseKeyDown);
+  }
+
+  function renderErrorMessage (message) {
+    var template = utils.getTemplateClone('#error', '.error');
+    var templateMessage = template.cloneNode(true);
+    var templateBtn = templateMessage.querySelector('.error__button');
+    templateMessage.querySelector('.error__title').textContent = message;
+
+    templateBtn.addEventListener('click', onErrorMessageBtnCloseClick);
+    document.addEventListener('click', onErrorMessageCloseClick);
+    document.addEventListener('keydown', onErrorMessageCloseKeyDown);
+
+    overlay.appendChild(templateMessage);
+  }
+
+  function renderSuccessMessage () {
+    var template = utils.getTemplateClone('#success', '.success');
+    var templateMessage = template.cloneNode(true);
+    var templateBtn = templateMessage.querySelector('.success__button');
+
+    templateBtn.addEventListener('click', onSuccessMessageBtnCloseClick);
+    document.addEventListener('click', onSuccessMessageCloseClick);
+    document.addEventListener('keydown', onSuccessMessageCloseKeyDown);
+
+    overlay.appendChild(templateMessage);
+  }
+
+  var showError = function (message) {
+    renderErrorMessage(message);
+  };
+
+  var showSuccess = function () {
+    renderSuccessMessage();
+  };
+
+  window.messages = {
+    showError: showError,
+    showSuccess: showSuccess
+  };
 })();
